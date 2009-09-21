@@ -1,0 +1,39 @@
+---+ Roles
+
+---++ Patient 
+---++ Doctor
+---++ Admin
+
+---+ Use Cases 
+
+---++ Patient Use Cases
+
+---+++ Register/Login/Logout
+---+++ Making visits reservations
+   * searching specialists at given time in given place
+---+++ Browsing last X reservations
+---+++ Browsing visits
+
+---++ Doctor Use Cases
+
+---+++ Login/Logout
+---+++ Commiting visits
+   * list of reservation for today (given day)
+   * creating visit from reservation 
+   * creating visit without reservation
+   * commiting visit   
+---+++ Registering medical referrals
+   * creating medical referrals conncted with visit 
+---+++ Registering medical examinations
+   * changing/choosing visit/referral for examination 
+
+---++ Admin Use Cases
+
+---+++ Managing of vocabularies (specialities, medical examination kinds)
+---+++ Managing of doctor accounts (schedule, absence, doctor speciality)
+
+
+---+ Future task
+
+
+
