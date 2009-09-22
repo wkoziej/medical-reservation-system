@@ -1,0 +1,4 @@
+# Configuration of email activation
+# Test of register/login/logof and access to site (if not authenticated then view another site)
+# Create in proper order all models (models-eclipse)
+# Implement uses cases (see requirements.txt)
