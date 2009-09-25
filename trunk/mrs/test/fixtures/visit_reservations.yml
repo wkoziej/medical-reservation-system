@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  since: 2009-09-25 14:08:13
+  until: 2009-09-25 14:08:13
+  status: MyText
+
+two:
+  since: 2009-09-25 14:08:13
+  until: 2009-09-25 14:08:13
+  status: MyText

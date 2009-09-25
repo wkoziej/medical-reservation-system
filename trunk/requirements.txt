@@ -6,9 +6,16 @@
 
 ---+ Use Cases 
 
+---++ Admin Use Cases
+
+---+++ Managing of vocabularies (specialities, medical examination kinds)
+---+++ Managing of doctor accounts (schedule, absence, doctor speciality)
+---+++ Managing of users (blocking accounts?)
+
 ---++ Patient Use Cases
 
 ---+++ Register/Login/Logout
+
 ---+++ Making visits reservations
    * searching specialists at given time in given place
 ---+++ Browsing last X reservations
@@ -27,10 +34,6 @@
 ---+++ Registering medical examinations
    * changing/choosing visit/referral for examination 
 
----++ Admin Use Cases
-
----+++ Managing of vocabularies (specialities, medical examination kinds)
----+++ Managing of doctor accounts (schedule, absence, doctor speciality)
 
 
 ---+ Future task

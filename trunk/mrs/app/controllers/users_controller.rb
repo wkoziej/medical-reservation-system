@@ -1,11 +1,9 @@
 class UsersController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
-  
+  layout "application"
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
-  
+
 
   # render new.rhtml
   def new
@@ -63,6 +61,42 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
   
+  def index
+    @users = User.find(:all)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
+    end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @user }
+    end
+  end
+  
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        flash[:notice] = 'User was successfully updated.'
+        format.html { redirect_to(@user) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   # There's no page here to update or destroy a user.  If you add those, be
   # smart -- make sure you check that the visitor is authorized to do so, that they
   # supply their old password along with a new one to update it, etc.

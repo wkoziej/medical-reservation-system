@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  since: 2009-09-25 14:36:50
+  until: 2009-09-25 14:36:50
+  doctor_id: 1
+
+two:
+  since: 2009-09-25 14:36:50
+  until: 2009-09-25 14:36:50
+  doctor_id: 1

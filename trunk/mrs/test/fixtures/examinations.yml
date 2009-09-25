@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  patient_id: 1
+  examination_kind_id: 1
+  doctor_id: 1
+  visit_id: 1
+
+two:
+  patient_id: 1
+  examination_kind_id: 1
+  doctor_id: 1
+  visit_id: 1
