@@ -17,7 +17,7 @@
     <ownedAttribute xmi:id="_WmdWm6eOEd6RhKxNJHlPVw" name="password" aggregation="composite"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_WmeksKeOEd6RhKxNJHlPVw" name="Doctor">
-    <generalization xmi:id="_vsV14KeOEd6RhKxNJHlPVw" general="_WmdWmaeOEd6RhKxNJHlPVw"/>
+    <generalization xmi:id="_xc-VwKnuEd6UqoQa-VnTyg" general="_WmdWmaeOEd6RhKxNJHlPVw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_WmeksaeOEd6RhKxNJHlPVw" name="Place">
     <ownedAttribute xmi:id="_blifsKeOEd6RhKxNJHlPVw" name="name" aggregation="composite"/>
@@ -268,4 +268,29 @@
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Dependency" xmi:id="_O5AAAKesEd6RhKxNJHlPVw" name="dependency1"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_M-kqkKnkEd6UqoQa-VnTyg" name="Admin">
+    <generalization xmi:id="_OOjEsKnkEd6UqoQa-VnTyg" general="_WmdWmaeOEd6RhKxNJHlPVw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_0TnLsKnuEd6UqoQa-VnTyg" name="UserRole"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4Zh4MKnuEd6UqoQa-VnTyg" name="Role"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_7y0vQKnuEd6UqoQa-VnTyg" memberEnd="_7y1WUKnuEd6UqoQa-VnTyg _7y19YanuEd6UqoQa-VnTyg">
+    <ownedEnd xmi:id="_7y1WUKnuEd6UqoQa-VnTyg" name="src" type="_0TnLsKnuEd6UqoQa-VnTyg" association="_7y0vQKnuEd6UqoQa-VnTyg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7y19YKnuEd6UqoQa-VnTyg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7y1WUanuEd6UqoQa-VnTyg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_7y19YanuEd6UqoQa-VnTyg" name="dst" type="_4Zh4MKnuEd6UqoQa-VnTyg" aggregation="composite" association="_7y0vQKnuEd6UqoQa-VnTyg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7y19Y6nuEd6UqoQa-VnTyg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7y19YqnuEd6UqoQa-VnTyg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8meZwKnuEd6UqoQa-VnTyg" memberEnd="_8meZwanuEd6UqoQa-VnTyg _8mfn4anuEd6UqoQa-VnTyg">
+    <ownedEnd xmi:id="_8meZwanuEd6UqoQa-VnTyg" name="src" type="_0TnLsKnuEd6UqoQa-VnTyg" association="_8meZwKnuEd6UqoQa-VnTyg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8mfn4KnuEd6UqoQa-VnTyg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8mfA0KnuEd6UqoQa-VnTyg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_8mfn4anuEd6UqoQa-VnTyg" name="dst" type="_WmdWmaeOEd6RhKxNJHlPVw" aggregation="composite" association="_8meZwKnuEd6UqoQa-VnTyg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8mgO8KnuEd6UqoQa-VnTyg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8mfn4qnuEd6UqoQa-VnTyg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
 </uml:Model>
