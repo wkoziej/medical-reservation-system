@@ -1,0 +1,11 @@
+<h1>Listing users</h1>
+
+<!-- Group filter -->
+<% form_tag '/user/filter', :id => 'user_filter_id' do -%>
+<%= render :partial => "user_role_select", :locals => {:roles => Role.find(:all) } %>
+<% end -%>
+<%= render :partial => "users", :locals => { :users => @users} %>
+
+<br />
+
+

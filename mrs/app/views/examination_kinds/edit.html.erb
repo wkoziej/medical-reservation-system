@@ -1,0 +1,16 @@
+<h1>Editing examination_kind</h1>
+
+<% form_for(@examination_kind) do |f| %>
+  <%= f.error_messages %>
+
+
+  <%= f.label :name, 'Name' %>:
+  <%= f.text_field :name %><br />
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @examination_kind %> |
+<%= link_to 'Back', examination_kinds_path %>

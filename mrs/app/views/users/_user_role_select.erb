@@ -1,0 +1,6 @@
+<div id="user_role_select">
+     
+<%= collection_select(:role, :id, roles, :id, :name, options = {:prompt => "== Choose role == "},
+{ :onChange => remote_function( :url => {:action => "user_role_changed"}, :with => "'user_role_id='+this.value")}) %>
+
+</div>

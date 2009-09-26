@@ -1,28 +1,21 @@
 class VisitReservationsController < ApplicationController
   layout "application"
+  require_role "patient"
 
   def index
+    @patient = current_user if current_user.has_role? ('patient')
   end
 
   def new
     @visit_reservation = VisitReservation 
     @places = Place.find(:all)
-    @doctors = User.find(:all)
+    @doctors = User.find_users_in_role('doctor')
     @specialities = Speciality.find(:all)
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @visit_reservatione}
+      format.xml  { render :xml => @visit_reservation}
     end
   end
-
-  def search
-    place = Place.find(params[:place][:id])
-    doctor = User.find_doctors(params[:doctor][:id])
-    speciality = Speciality.find(params[:speciality][:id])
-    # Look for visit which can we reserve
-    #### ... TODO
-  end
-
 
   def edit
   end

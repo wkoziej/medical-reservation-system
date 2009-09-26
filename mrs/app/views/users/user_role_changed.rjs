@@ -1,0 +1,4 @@
+user_role_id = params[:user_role_id]
+## page.alert "User role changed"
+users = User.find_users_in_role(user_role_id)
+page[:users].reload :locals => { :users => users }

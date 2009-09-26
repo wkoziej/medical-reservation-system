@@ -10,7 +10,9 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
 #  map.admin_user '/users/:user/roles', :controller => 'users', :action => 'edit', :user => nil
-  map.visit_reservation_search '/visit/reservation/search', :controller => 'visit_reservation', :action => 'search'
+#  map.visit_reservation_search '/visit/reservation/search', :controller => 'visit_reservation', :action => 'search'
+#  map.user_filter '/visit/reservation/search', :controller => 'user', :action => 'search'
+#  map.doctor_schedule '/users/:user_id/worktimes/', :controller => ''
 
   map.resource :session
   map.resource :speciality
@@ -20,10 +22,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :specialities
   map.resources :users
   map.resources :visit_reservations
+  map.resources :worktimes
+
 
   map.resources :users, :member => { :suspend   => :put,
     :unsuspend => :put,
-    :purge     => :delete }
+    :purge     => :delete }, :has_many => [ :worktimes ]
+
+  map.resources :patients, :has_many => [ :visit_reservations ]
+
   
   # The priority is based upon order of creation: first created -> highest priority.
 

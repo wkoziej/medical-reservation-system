@@ -1,0 +1,10 @@
+doctor = User.find_by_id (params[:doctor_id])
+speciality = Speciality.find_by_id (params[:speciality_id])
+doctor_speciality = DoctorSpeciality.new
+doctor_speciality.doctor = doctor
+doctor_speciality.speciality = speciality
+doctor_speciality.since = Date.today
+doctor_speciality.save
+
+page[:available_specialities].reload :locals => {:doctor => doctor}
+page[:doctor_specialities].reload :locals => {:doctor => doctor}

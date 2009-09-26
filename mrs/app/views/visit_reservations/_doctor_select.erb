@@ -1,0 +1,5 @@
+<div id="doctor_select">
+<%= collection_select(:doctor, :id, doctors, :id, :name, options ={:prompt => "== Choose doctor == "},
+{:onChange => remote_function( :url => {:action => "doctor_changed"}, :with => "'doctor_id='+this.value")}) %>
+
+</div>

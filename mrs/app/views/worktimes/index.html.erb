@@ -1,0 +1,42 @@
+<h1>Worktimes index</h1>
+
+<%= link_to 'New worktime', new_user_worktime_path(@user), :method => :get %>
+
+<table >
+<th>
+  <td>Period</td>
+
+  <td colspan="2">Hours</td>
+
+  <td>Day of week</td>
+  <td>Repetition</td>
+  <td>Place</td>
+  <td>Who</td>
+  <td>Action</td>
+
+</th>
+
+
+<% for worktime in @worktimes %>
+
+
+  <tr>
+
+    <td><%= worktime.since.strftime("%Y-%m-%d") %></td>
+    <td><%= worktime.until.strftime("%Y-%m-%d") %></td>
+
+    <td><%= worktime.since.strftime("%H:%M") %></td>
+    <td><%= worktime.until.strftime("%H:%M") %></td>
+
+    <td><%= worktime.day_of_week %></td>
+    <td><%= worktime.repetition %></td>
+    <td><%= worktime.place.name %></td>
+    <td><%= worktime.doctor.login %></td>
+    <td><%= link_to 'Destroy', worktime	, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+

@@ -1,0 +1,6 @@
+doctor = User.find_by_id (params[:doctor_id])
+doctor_speciality = DoctorSpeciality.find_by_doctor_id_and_speciality_id(params[:doctor_id], params[:speciality_id])
+doctor_speciality.delete
+
+page[:available_specialities].reload :locals => {:doctor => doctor}
+page[:doctor_specialities].reload :locals => {:doctor => doctor}

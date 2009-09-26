@@ -6,9 +6,20 @@ class CreateExaminationKinds < ActiveRecord::Migration
 
       t.timestamps
     end
+    create_examination_kind("Hemanalysis")
+    create_examination_kind("OB")
+    create_examination_kind("Urine test")
   end
 
   def self.down
     drop_table :examination_kinds
+  end
+
+private
+
+  def self.create_examination_kind(name)
+    kind = ExaminationKind.new
+    kind.name = name
+    kind.save
   end
 end
