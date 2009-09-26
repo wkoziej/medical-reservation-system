@@ -1,0 +1,24 @@
+<h1>Editing user</h1>
+
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+  
+  <%= f.label :name, 'Name' %>:
+  <%= f.text_field :name %>
+  <br />
+  <%= f.label :email, 'EMail' %>:
+  <%= f.text_field :email %>
+  <p>
+    <%= f.submit "Update" %>
+  </p>  
+<% end %>
+
+<% if @user.has_role? ('doctor') %>
+
+<%= render :partial => "doctor_specialities", :locals => { :doctor => @user } %>
+<%= render :partial => "available_specialities", :locals => { :doctor => @user } %>
+
+<% end %>
+
+
+

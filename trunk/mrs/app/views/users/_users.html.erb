@@ -1,0 +1,18 @@
+<div id="users">
+<table>
+  <tr>
+  </tr>
+
+<% for user in users %>
+  <tr>
+    <td><%= user.login %></td>
+    <td><%= link_to 'Show', user %></td>
+    <%if user.has_role? 'doctor' %>
+    <td><%= link_to 'Schedule', user_worktimes_path (user) %></td>
+    <%end%>
+  </tr>
+<% end %>
+
+</table>
+
+</div>

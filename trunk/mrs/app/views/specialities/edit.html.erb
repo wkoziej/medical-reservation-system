@@ -1,0 +1,16 @@
+<h1>Editing speciality</h1>
+
+<% form_for(@speciality) do |f| %>
+  <%= f.error_messages %>
+
+  <%= f.label :name, 'Name' %>:
+  <%= f.text_field :name %><br />
+
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @speciality %> |
+<%= link_to 'Back', specialities_path %>

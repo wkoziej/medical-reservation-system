@@ -1,0 +1,10 @@
+<div id="speciality_select">
+<%= collection_select(:speciality, :id, specialities, :id, :name, options ={:prompt => "== Choose speciality == "},
+{ :onChange => remote_function( :url => {:action => "speciality_changed"}, :with => "'speciality_id='+this.value")} 
+) %>
+
+<% if place %>
+   No of specialities in place <%= place.name %> equals <%= specialities.count %>
+<% end %>
+
+</div>

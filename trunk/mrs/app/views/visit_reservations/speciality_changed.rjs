@@ -1,0 +1,8 @@
+speciality_id = params[:speciality_id]
+doctors = doctors_with_speciality (speciality_id)
+#place_id = page[:place_select][:value]
+#doctors = doctors_from_place_with_speciality (place_id, speciality_id)    
+
+
+
+page[:doctor_select].reload :locals => { :doctors => doctors }

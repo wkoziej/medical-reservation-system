@@ -1,0 +1,21 @@
+
+<tr class="<%= cycle('odd', 'even') %>">
+
+  <td><%= link_to h(user.login), user_path(user) %></td>
+  <td><%=h user.name %></td>
+  <td><%=h user.email %></td>
+	<td><%= user.activated_at.blank? ? 'no' : 'yes' %>
+		<% if user.activated_at.blank? %>
+			<%= link_to('activate', admin_user_path(user), :method => :put) %>
+		<% end %>
+	</td> 
+  <td><%= user.enabled ? 'yes' : 'no' %>
+  </td>
+
+  <td><%= link_to 'edit', edit_user_path(user) %></td>
+
+
+</tr>
+
+
+

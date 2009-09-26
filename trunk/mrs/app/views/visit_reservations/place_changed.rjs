@@ -1,0 +1,27 @@
+place_id = params[:place_id]
+# page.alert "Place changed"
+
+# Update specialities in this place
+# !!!!!!!!!!!!!!!
+# select * 
+# from 
+#  places p, 
+#  worktimes w, 
+#  schedules s,  
+#  users u,  
+#  roles r,
+#  roles_users ru
+# where p.id = w.place_id
+#  and w.schedule_id = s.id
+#  and s.doctor_id = u.id
+#  and r.name = 'doctor'
+#  and ru.role_id = r.id
+#  and ru.user_id = u.id
+
+#specialities = Speciality.find(:all)
+specialities = specialities_in_place (place_id)
+place = Place.find_by_id(place_id)
+page[:speciality_select].reload :locals => { :specialities => specialities, :place => place }
+
+# Update doctors from place
+

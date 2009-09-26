@@ -1,0 +1,26 @@
+<h1>Visit Registration</h1>
+
+<!--
+We gives user posibility of choosing one or more of conditions
+   * place
+   * doctor
+   * speciality
+   * time
+-->
+
+<% form_tag '/visit/reservation/search', :id => 'visit_reservation_id' do -%>
+<%= render :partial => "place_select" %>
+<%= render :partial => "speciality_select", :locals => { :specialities => @specialities, :place => nil } %>
+<%= render :partial => "doctor_select", :locals => { :doctors => @doctors } %>
+<%= render :partial => "datetime_select", :locals => { :datetime => Date.today } %>
+
+<%= submit_tag ("Search") %>
+
+<% end -%>
+
+
+
+</div>
+
+
+

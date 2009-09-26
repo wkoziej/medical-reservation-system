@@ -1,0 +1,7 @@
+<div id="available_specialities">
+<b> Available specialities </b>
+<% for speciality in available_specialities (doctor.id) %>
+<%= link_to_remote speciality.name, :url => {:action => "available_speciality_clicked", :params => {:speciality_id => speciality.id, :doctor_id => doctor.id} }  %>
+<% end %>
+
+</div>

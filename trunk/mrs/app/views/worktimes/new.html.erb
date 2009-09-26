@@ -1,0 +1,17 @@
+
+<% form_for (@worktime) do |f| %>
+
+  <%= f.error_messages %>
+  <%= f.label :since, 'Since' %>:
+  <%= time_select ("worktime", "since") %>
+  <%= f.label :until, 'Until' %>:
+  <%= time_select ("worktime", "until") %>
+  <%= select("worktime", "day_of_week", Worktime::DAYS_OF_WEEK) %> 
+  <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 
+  <%= collection_select (:worktime, :place_id, @places, :id, :name) 
+  %>
+
+  <%= hidden_field_tag ('worktime[doctor_id]', @user.id)  %>
+
+  <%= f.submit "Add worktime to schedule" %>
+<% end %>
