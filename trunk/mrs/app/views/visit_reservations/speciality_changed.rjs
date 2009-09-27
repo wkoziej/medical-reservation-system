@@ -1,8 +1,11 @@
 speciality_id = params[:speciality_id]
-doctors = doctors_with_speciality (speciality_id)
-#place_id = page[:place_select][:value]
-#doctors = doctors_from_place_with_speciality (place_id, speciality_id)    
+if speciality_id and speciality_id.length > 0
+  doctors = doctors_with_speciality (speciality_id)
+  speciality = Speciality.find_by_id(speciality_id)
+  page[:doctor_select].reload :locals => { :doctors => doctors, :speciality => speciality, :place => nil }
+else
+  page[:doctor_select].reload :locals => { :doctors => users_in_role('doctor'), :speciality => nil, :place => nil }
+end
 
 
 
-page[:doctor_select].reload :locals => { :doctors => doctors }

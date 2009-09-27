@@ -1,27 +1,18 @@
 place_id = params[:place_id]
-# page.alert "Place changed"
 
-# Update specialities in this place
-# !!!!!!!!!!!!!!!
-# select * 
-# from 
-#  places p, 
-#  worktimes w, 
-#  schedules s,  
-#  users u,  
-#  roles r,
-#  roles_users ru
-# where p.id = w.place_id
-#  and w.schedule_id = s.id
-#  and s.doctor_id = u.id
-#  and r.name = 'doctor'
-#  and ru.role_id = r.id
-#  and ru.user_id = u.id
+if place_id != nil and place_id.length > 0
+  specialities = specialities_in_place(place_id)
+  place = Place.find_by_id(place_id)
+  doctors = users_in_role_in_place ('doctor', place_id)
 
-#specialities = Speciality.find(:all)
-specialities = specialities_in_place (place_id)
-place = Place.find_by_id(place_id)
-page[:speciality_select].reload :locals => { :specialities => specialities, :place => place }
+  page[:speciality_select].reload :locals => { :specialities => specialities, :place => place }
+  page[:doctor_select].reload :locals => { :doctors => doctors, :speciality => nil, :place => place }
+else
+  page[:speciality_select].reload :locals => { :specialities => Speciality.find(:all), :place => nil }
+  page[:doctor_select].reload :locals => { :doctors => users_in_role('doctor'), :speciality => nil, :place => nil }
+end
+
+
 
 # Update doctors from place
 

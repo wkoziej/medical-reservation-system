@@ -2,10 +2,18 @@
 <% form_for (@worktime) do |f| %>
 
   <%= f.error_messages %>
+
   <%= f.label :since, 'Since' %>:
-  <%= time_select ("worktime", "since") %>
+  <%= date_select ("worktime", "since") %>
   <%= f.label :until, 'Until' %>:
+  <%= date_select ("worktime", "until") %>
+<br />
+  <%= f.label :since, 'Start at' %>:
+  <%= time_select ("worktime", "since") %>
+  <%= f.label :until, 'End at' %>:
   <%= time_select ("worktime", "until") %>
+
+  
   <%= select("worktime", "day_of_week", Worktime::DAYS_OF_WEEK) %> 
   <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 
   <%= collection_select (:worktime, :place_id, @places, :id, :name) 
