@@ -6,10 +6,11 @@
 <% for user in users %>
   <tr>
     <td><%= user.login %></td>
-    <td><%= link_to 'Show', user %></td>
-    <%if user.has_role? 'doctor' %>
-    <td><%= link_to 'Schedule', user_worktimes_path (user) %></td>
+    <td><%= link_to 'show', user %></td>
+    <%if user.has_role? 'doctor' and !user.has_role? 'admin' %>
+    <td><%= link_to 'schedule', user_worktimes_path (user) %></td>
     <%end%>
+    <td><%= link_to 'edit', edit_user_path(user) %></td>
   </tr>
 <% end %>
 

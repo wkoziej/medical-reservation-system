@@ -5,3 +5,5 @@
 # Do will_pagination in some models
 # User.doctors (conditions  ) or maybe better (simpler) Roles.doctors (conditions)
 # SMS/mail remainders about visit
+# Validation of overlaping in worktimes
+# Test of looking for available worktimes

@@ -1,0 +1,2 @@
+
+page[:datetime_select].reload :locals => { :datetime => Date.today, :show => params["value"] == "take" } 

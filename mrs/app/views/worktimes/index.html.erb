@@ -3,10 +3,10 @@
 <%= link_to 'New worktime', new_user_worktime_path(@user), :method => :get %>
 
 <table >
-<th>
-  <td>Period</td>
+<thead>
+  <td colspan="2">Period</td>
 
-  <td colspan="2">Hours</td>
+  <td>Hours</td>
 
   <td>Day of week</td>
   <td>Repetition</td>
@@ -14,19 +14,17 @@
   <td>Who</td>
   <td>Action</td>
 
-</th>
+</thead>
 
 
 <% for worktime in @worktimes %>
-
 
   <tr>
 
     <td><%= worktime.since.strftime("%Y-%m-%d") %></td>
     <td><%= worktime.until.strftime("%Y-%m-%d") %></td>
 
-    <td><%= worktime.since.strftime("%H:%M") %></td>
-    <td><%= worktime.until.strftime("%H:%M") %></td>
+    <td><%= worktime.formated_time_period %></td>
 
     <td><%= worktime.day_of_week %></td>
     <td><%= worktime.repetition %></td>

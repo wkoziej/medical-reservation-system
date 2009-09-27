@@ -5,7 +5,7 @@ class CreateWorktimes < ActiveRecord::Migration
       t.datetime :until,                       :null => false
       t.integer :doctor_id,                    :null => false
       t.integer :place_id,                     :null => false
-      t.string  :day_of_week,                  :null => false,  :limit => 3
+      t.integer  :day_of_week,                 :null => false, 
       t.string  :repetition,                   :null => false,  :limit => 3
       t.timestamps
     end

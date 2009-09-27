@@ -67,10 +67,6 @@ class User < ActiveRecord::Base
   def enabled
     deleted_at == nil
   end
-  
-  def self.find_users_in_role (role_name)
-    User.find_by_sql ["select u.* from users u, roles r, roles_users ru where u.id = ru.user_id and r.id = ru.role_id and r.name = ?", role_name] 
-  end
 
   protected
     

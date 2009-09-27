@@ -7,14 +7,17 @@ class VisitReservationsController < ApplicationController
   end
 
   def new
-    @visit_reservation = VisitReservation 
     @places = Place.find(:all)
-    @doctors = User.find_users_in_role('doctor')
     @specialities = Speciality.find(:all)
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @visit_reservation}
     end
+  end
+
+  #
+  #
+  def search
   end
 
   def edit

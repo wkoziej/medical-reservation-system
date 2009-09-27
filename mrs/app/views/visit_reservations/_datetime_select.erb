@@ -1,3 +1,6 @@
-<div id="datetime_select">
-<%= select_datetime datetime, :prefix => :start_date %> 
+<div id="datetime_select">     
+  <% if show %>
+  <%= date_select "datetime", "start_date" %> 
+  <%= time_select "datetime", "start_date" %> 
+  <% end %>
 </div>

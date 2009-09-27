@@ -1,0 +1,30 @@
+<table border="1">
+<thead>
+<tr>
+<% for day in @days %>
+<td> <%= day.day %> </td>
+<% end %>
+
+</tr>
+</thead>
+
+<tr>
+
+<% for day in @days %>
+<td> 
+<!-- Worktimes for -->
+  <% for worktime in @worktimes %>
+
+    <%= worktime.doctor.name %> 
+
+    <% for w in worktime.not_reserved_hours(day) %>
+    <% end %>
+
+  <% end %>
+
+</td>
+<% end %>
+
+</tr>
+
+</table>
