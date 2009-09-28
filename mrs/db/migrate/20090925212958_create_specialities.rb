@@ -5,7 +5,7 @@ class CreateSpecialities < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index "name", :unique => true
+    add_index :specialities, :name, :unique => true
     create_speciality ("Surgeon");
     create_speciality ("Paedatrican");
     create_speciality ("Dentist");

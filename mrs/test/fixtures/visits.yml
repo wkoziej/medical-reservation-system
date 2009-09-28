@@ -4,8 +4,12 @@ one:
   since: 2009-09-25 14:08:55
   until: 2009-09-25 14:08:55
   note: MyText
+  patient_id: 1
+  doctor_id: 1
 
 two:
   since: 2009-09-25 14:08:55
   until: 2009-09-25 14:08:55
   note: MyText
+  patient_id: 1
+  doctor_id: 1

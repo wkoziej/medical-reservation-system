@@ -5,9 +5,11 @@ one:
   examination_kind_id: 1
   doctor_id: 1
   visit_id: 1
+  execution_date: 2009-09-25 14:32:49
 
 two:
   patient_id: 1
   examination_kind_id: 1
   doctor_id: 1
   visit_id: 1
+  execution_date: 2009-09-25 14:32:49

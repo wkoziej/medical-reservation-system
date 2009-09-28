@@ -3,7 +3,7 @@ class VisitReservationsController < ApplicationController
   require_role "patient"
 
   def index
-    @patient = current_user if current_user.has_role? ('patient')
+    @patient = current_user if current_user.has_role? 'patient'
   end
 
   def new

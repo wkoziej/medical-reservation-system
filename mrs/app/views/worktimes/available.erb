@@ -18,6 +18,8 @@
     <%= worktime.doctor.name %> 
 
     <% for w in worktime.not_reserved_hours(day) %>
+        ...
+        <%= w %> 
     <% end %>
 
   <% end %>

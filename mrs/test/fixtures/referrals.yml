@@ -4,8 +4,9 @@ one:
   patient_id: 1
   doctor_id: 1
   visit_id: 1
-
+  expire: 2009-09-25 14:32:49
 two:
   patient_id: 1
   doctor_id: 1
   visit_id: 1
+  expire: 2009-09-25 14:32:49
