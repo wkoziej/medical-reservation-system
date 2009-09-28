@@ -34,16 +34,20 @@ class WorktimesController < ApplicationController
     place_id = extract_id(params[:place][:id])
     speciality_id = extract_id(params[:speciality][:id])
     doctor_id = extract_id(params[:doctor][:id])
-    start_date = nil
     if params[:take_time_into_account]
-      start_date = params[:start_date]
+#      d = params[:date]
+      start = Date.new(params[:datetime])
+#      start = d[:year] + "-" + d[:month] + "-" + d[:day] + " " +d[:hour]+":"+d[:minute]
+      logger.info "   ------------>       " +  start
+    else
+      start = Date.today
     end
+
     # query about worktimes minus absences and reservations
-    start = start_date ? start_date : Date.today
-    @worktimes = ApplicationHelper::available_worktimes (place_id, speciality_id, doctor_id, start)    
-    @days = [ start ]
+    @worktimes = ApplicationHelper::available_worktimes(place_id, speciality_id, doctor_id, start.to_date)    
+    @days = [ start.to_date ]
     for i in [1,2,3,4,5,6]     
-      @days << start + i.day
+      @days << start.to_date + i.day
     end
     respond_to do |format|
       format.html { render :template => "worktimes/available" }

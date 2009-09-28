@@ -6,7 +6,7 @@ class CreatePlaces < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :name, :unique => true
+    add_index :places, :name, :unique => true
 
     create_place("Lublin", "Batorego 11")
     create_place("Krakow", "Sieczki 33")

@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
     t.datetime "since",         :null => false
   end
 
+  add_index "doctor_specialities", ["doctor_id", "speciality_id"], :name => "index_doctor_specialities_on_speciality_id_and_doctor_id", :unique => true
   add_index "doctor_specialities", ["doctor_id"], :name => "index_doctor_specialities_on_doctor_id"
   add_index "doctor_specialities", ["speciality_id"], :name => "index_doctor_specialities_on_speciality_id"
 
@@ -56,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "places", ["name"], :name => "index_places_on_name", :unique => true
 
   create_table "referral_examination_kinds", :force => true do |t|
     t.integer  "referral_id",         :null => false
@@ -89,11 +92,21 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
+  create_table "schedules", :force => true do |t|
+    t.datetime "since"
+    t.datetime "until"
+    t.integer  "doctor_id",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "specialities", :force => true do |t|
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "specialities", ["name"], :name => "index_specialities_on_name", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
@@ -139,12 +152,12 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
   end
 
   create_table "worktimes", :force => true do |t|
-    t.datetime "since",                    :null => false
-    t.datetime "until",                    :null => false
-    t.integer  "doctor_id",                :null => false
-    t.integer  "place_id",                 :null => false
-    t.string   "day_of_week", :limit => 3, :null => false
-    t.string   "repetition",  :limit => 3, :null => false
+    t.datetime "since",       :null => false
+    t.datetime "until",       :null => false
+    t.integer  "doctor_id",   :null => false
+    t.integer  "place_id",    :null => false
+    t.integer  "day_of_week", :null => false
+    t.integer  "repetition",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

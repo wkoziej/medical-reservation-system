@@ -3,9 +3,14 @@
 one:
   since: 2009-09-25 14:08:13
   until: 2009-09-25 14:08:13
-  status: MyText
+  status: N
+  patient_id: 1
+  doctor_id: 1
 
 two:
   since: 2009-09-25 14:08:13
   until: 2009-09-25 14:08:13
-  status: MyText
+  status: A
+  patient_id: 1
+  doctor_id: 1
+

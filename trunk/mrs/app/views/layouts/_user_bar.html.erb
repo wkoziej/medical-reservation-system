@@ -9,7 +9,7 @@
   <% end -%>
 
   <% if current_user.has_role? 'patient' %>
-  <div id="user-bar-action"  >(<%= link_to "Visits Reservations", patient_visit_reservations_path (current_user), { :title => "Patient Visits Reservations" }    %>)</div>
+  <div id="user-bar-action"  >(<%= link_to "Visits Reservations", patient_visit_reservations_path(current_user), { :title => "Patient Visits Reservations" }    %>)</div>
   <% end %>
 
   <% if current_user.has_role? 'doctor' %>

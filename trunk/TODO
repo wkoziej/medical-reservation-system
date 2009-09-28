@@ -7,3 +7,4 @@
 # SMS/mail remainders about visit
 # Validation of overlaping in worktimes
 # Test of looking for available worktimes
+# Change model -> worktime (since, until) => (start_date, end_date) (since_time, until_time)
