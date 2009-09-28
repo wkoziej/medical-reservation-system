@@ -6,7 +6,7 @@
 <thead>
   <td colspan="2">Period</td>
 
-  <td>Hours</td>
+  <td colspan="2">Hours</td>
 
   <td>Day of week</td>
   <td>Repetition</td>
@@ -21,10 +21,11 @@
 
   <tr>
 
-    <td><%= worktime.since.strftime("%Y-%m-%d") %></td>
-    <td><%= worktime.until.strftime("%Y-%m-%d") %></td>
+    <td><%= worktime.start_date %></td>
+    <td><%= worktime.end_date %></td>
 
-    <td><%= worktime.formated_time_period %></td>
+    <td><%= worktime.formate_since %></td>
+    <td><%= worktime.formate_until %></td>
 
     <td><%= worktime.day_of_week %></td>
     <td><%= worktime.repetition %></td>

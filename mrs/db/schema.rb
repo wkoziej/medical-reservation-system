@@ -152,8 +152,10 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
   end
 
   create_table "worktimes", :force => true do |t|
-    t.datetime "since",       :null => false
-    t.datetime "until",       :null => false
+    t.date     "start_date",  :null => false
+    t.date     "end_date",    :null => false
+    t.time     "since",       :null => false
+    t.time     "until",       :null => false
     t.integer  "doctor_id",   :null => false
     t.integer  "place_id",    :null => false
     t.integer  "day_of_week", :null => false

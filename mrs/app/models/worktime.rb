@@ -18,7 +18,7 @@ class Worktime < ActiveRecord::Base
                  ]
 
   def validate
-    if since > self.until 
+    if since > self.until or start_date > end_date
         errors.add("since_or_until", "since has to be less then until") 
 #      errors.add("until", "until has to be greater then since") 
     end
@@ -38,15 +38,7 @@ class Worktime < ActiveRecord::Base
   
   def validate_on_update  
   end
-  
-  def date_from 
-    since.to_date
-  end
-
-  def date_to
-    self.until.to_date
-  end
-  
+    
   def time_period_in_minutes
     t = (self.until.hour - since.hour) * 60 + (self.until.min - since.min)
     if t < 0 
@@ -58,6 +50,14 @@ class Worktime < ActiveRecord::Base
   def formated_time_period
     t = time_period_in_minutes
     (t / 60).to_s + ":" + (t % 60).to_s
+  end
+
+  def formate_since
+    t = since.hour.to_s + ":" + since.min.to_s
+  end
+
+  def formate_until
+    t = self.until.hour.to_s + ":" + self.until.min.to_s
   end
 
   #  Example of evaluation:
