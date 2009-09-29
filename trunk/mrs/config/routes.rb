@@ -14,6 +14,9 @@ ActionController::Routing::Routes.draw do |map|
 #  map.user_filter '/visit/reservation/search', :controller => 'user', :action => 'search'
 #  map.doctor_schedule '/users/:user_id/worktimes/', :controller => ''
 
+  map.search_available_worktimes '/patients/:patient_id/visit_reservations/search_form', :controller => 'visit_reservations', :action => "search_form"
+  map.show_available_worktimes '/patients/:patient_id/visit_reservations/available_worktimes', :controller => 'visit_reservations', :action => "available_worktimes"
+
   map.resource :session
   map.resource :speciality
   map.resource :admin
@@ -28,6 +31,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => { :suspend   => :put,
     :unsuspend => :put,
     :purge     => :delete }, :has_many => [ :worktimes ]
+
 
   map.resources :patients, :has_many => [ :visit_reservations ]
 

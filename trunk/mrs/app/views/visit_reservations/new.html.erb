@@ -1,32 +1,22 @@
-<h1>Visit Registration</h1>
+<h1>New visit reservation </h1>
 
-<!--
-We gives user posibility of choosing one or more of conditions
-   * place
-   * doctor
-   * speciality
-   * time
--->
+<% form_for(@visit_reservation) do |f| %>
 
-<% form_tag '/worktimes/available', :id => 'worktimes_search_id' do -%>
-
-<%= render :partial => "place_select", :locals => { :places => @places } %>
-<%= render :partial => "speciality_select", :locals => { :specialities => @specialities, :place => nil }  %>
-<%= render :partial => "doctor_select", :locals => { :doctors => users_in_role('doctor'), :speciality => nil, :place => nil } %>
-
-<br />
-
-<%= check_box_tag("take_time_into_account", value = "take", checked = false, options = {}) 
-%> Take time into account <%= observe_field("take_time_into_account", :url => { :action => :take_time_into_account_changed}, :with => 'value' )     %>
-<%= render :partial => "datetime_select", :locals => { :datetime => Date.today, :show => false } %>
-
-<br />
-<%= submit_tag ("Show not reserved worktimes") %>
+  <%= f.error_messages %>
 
 
+  <%= select_tag(:since_minutes, options_for_select(@hours)) %> 
 
-<% end -%>
+  <%= f.hidden_field :since %>
+  <%= f.hidden_field :doctor_id %>
+  <%= f.hidden_field :patient_id %>
 
+  <p>
+    <%= f.submit "Make reservation" %>
+  </p>
+
+
+<% end %>
 
 
 </div>

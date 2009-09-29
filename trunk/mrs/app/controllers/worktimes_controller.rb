@@ -1,5 +1,11 @@
 class WorktimesController < ApplicationController
 
+  def new
+    @worktime = Worktime.new
+    @places = Place.find(:all)
+    @user = User.find_by_id(params[:user_id])
+  end
+
   def index
     user_id = params[:user_id]
     @user = User.find_by_id(user_id)
@@ -16,44 +22,6 @@ class WorktimesController < ApplicationController
       end
     end
   end
-
-  def new 
-    @worktime = Worktime.new    
-    @places = Place.find(:all)
-    @user = User.find_by_id(params[:user_id])
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @worktime }
-    end
-  end
-
-
-  # Available worktimes. We can give some conditions eg.:
-  # place, doctor, speciality
-  def available
-    place_id = extract_id(params[:place][:id])
-    speciality_id = extract_id(params[:speciality][:id])
-    doctor_id = extract_id(params[:doctor][:id])
-    if params[:take_time_into_account]
-#      d = params[:date]
-      start = Date.new(params[:datetime])
-#      start = d[:year] + "-" + d[:month] + "-" + d[:day] + " " +d[:hour]+":"+d[:minute]
-      logger.info "   ------------>       " +  start
-    else
-      start = Date.today
-    end
-
-    # query about worktimes minus absences and reservations
-    @worktimes = ApplicationHelper::available_worktimes(place_id, speciality_id, doctor_id, start.to_date)    
-    @days = [ start.to_date ]
-    for i in [1,2,3,4,5,6]     
-      @days << start.to_date + i.day
-    end
-    respond_to do |format|
-      format.html { render :template => "worktimes/available" }
-    end
-  end
-
 
   def destroy
     @worktime = Worktime.find(params[:id])
@@ -82,10 +50,6 @@ class WorktimesController < ApplicationController
       end
     end
 
-  end
-private
-  def extract_id(object)
-    object and object.to_s.length > 0 ? object : nil
   end
 
 end

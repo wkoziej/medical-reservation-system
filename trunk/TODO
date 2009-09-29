@@ -6,5 +6,6 @@
 # User.doctors (conditions  ) or maybe better (simpler) Roles.doctors (conditions)
 # SMS/mail remainders about visit
 # Validation of overlaping in worktimes
-# Test of looking for available worktimes
-# Change model -> worktime (since, until) => (start_date, end_date) (since_time, until_time)
+# Adding reservations
+# Subsets of minutes 0,15,30,45
+# Date validatetions/another helpers (2001-02-30!!)

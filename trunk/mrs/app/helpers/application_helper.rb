@@ -47,7 +47,7 @@ module ApplicationHelper
     end
 
     if start_date 
-      conditions <<  " ? between w.since and w.until "
+      conditions <<  " ? between w.start_date and w.end_date "
       parameters << start_date
     end
     

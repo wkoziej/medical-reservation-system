@@ -1,10 +1,8 @@
 <div id="datetime_select">     
   <% if show %>
 
+  <%= date_select "date_time", "start_date" %> 
+  <%= time_select "date_time", "since" %> 
 
-
-
-  <%= date_select "datetime", "start_date" %> 
-  <%= time_select "datetime", "start_date" %> 
   <% end %>
 </div>

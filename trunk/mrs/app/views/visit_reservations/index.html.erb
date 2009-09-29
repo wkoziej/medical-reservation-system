@@ -1,4 +1,21 @@
 <h1>VisitReservations#index</h1>
 <p>Find me in app/views/visit_reservations/index.html.erb</p>
 
-<%= link_to "New visit reservation", new_patient_visit_reservation_path(@patient) %>
+
+
+<%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
+<table>
+<% for visit in @reservations %>
+  <tr>
+    <td><%= visit.since %></td>
+    <td><%= link_to 'Destroy', visit	, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+
+
+
+
