@@ -89,19 +89,19 @@ class Worktime < ActiveRecord::Base
     reservations = VisitReservation.reservations_at_day(doctor.id, day)    
     # make array [[start, stop], ...]
     # from abcenses ...    
-    exclusions = absences.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                          b.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+    exclusions = absences.collect { |a| [ a.start_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
+                                          a.end_date.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
                                         ] }
     logger.info " ================ EXCLUSIONS 1 ===== "
     logger.info exclusions
     # ... and from reservations
-    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                                   b.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+    exclusions.concat reservations.collect { |a| [ a.start_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
+                                                   a.end_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
                                                  ] }
     logger.info " ================ EXCLUSIONS 2 ===== "
     logger.info exclusions
     logger.info " ================ DAY, SINCE, UNTIL ===== "
-    logger.info day.to_date.to_s + " " + self.since.to_date.to_s + " " + self.until.to_date.to_s + " " + self.repetition.to_s
+    logger.info day.to_date.to_s + " " + self.since.hour.to_s + " " + self.until.hour.to_s + " " + self.repetition.to_s
     
     if day_in_repetition?(day)
       logger.info " ================ DAY IN REPETITION ===== "
@@ -114,7 +114,7 @@ class Worktime < ActiveRecord::Base
   # Return true if day is one of worktime repetition
   def day_in_repetition?(day)
     logger.info ">>>>>>>>>>>>>>>>>>> day_in_repetition? " + self.repetition.to_s + " " + Worktime::EVERY_WEEK.to_s
-    if day.to_date < self.since.to_date or day.to_date > self.until.to_date
+    if day.to_date < self.start_date or day.to_date > self.end_date
       logger.info " ===== RANGE !!! ===== "
       false
     else
@@ -124,11 +124,11 @@ class Worktime < ActiveRecord::Base
       elsif self.repetition == Worktime::EVERY_WEEK 
         logger.info " ===== EVERY_WEEK ===== "
         day.to_date.wday == self.since.to_date.wday 
-      elsif self.repetition == EVERY_2_WEEKS 
+      elsif self.repetition == Worktime::EVERY_2_WEEKS 
         (day.to_date.yday - self.since.to_date.yday) % 14 == 0
-      elsif self.repetition == EVERY_MONTH_DAY
+      elsif self.repetition == Worktime::EVERY_MONTH_DAY
         day.to_date.mday == self.since.to_date.mday 
-      elsif self.repetition == EVERY_DAY_OF_WEEK_IN_MONTH
+      elsif self.repetition == Worktime::EVERY_DAY_OF_WEEK_IN_MONTH
         # E.g. every second friday in month 
         wday = self.since.to_date.wday
         mday = self.since.to_date.mday
@@ -177,4 +177,9 @@ class Worktime < ActiveRecord::Base
     date.to_time.hour * 60 + date.to_time.min
   end
 
+  def format_day_minutes_range(minutes_range)
+    s = minutes_range [0]
+    e = minutes_range [1]
+    (s / 60).to_s + ":" + (s % 60).to_s + ".." + (e / 60).to_s + ":" + (e % 60).to_s
+  end
 end

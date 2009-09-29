@@ -1,5 +1,5 @@
 <div id="place_select">
-<%= collection_select (:place, :id, places, :id, :name, 
+<%= collection_select(:place, :id, places, :id, :name, 
     options = {:prompt => "== Choose place == "}, 
 { :onChange => remote_function( :url => {:action => "place_changed"}, :with => "'place_id='+this.value")} ) 
 %>

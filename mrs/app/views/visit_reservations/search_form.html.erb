@@ -1,0 +1,36 @@
+<h1>Visit Reservations for <%= @patient.name %> </h1>
+
+<!--
+We gives user posibility of choosing one or more of conditions
+   * place
+   * doctor
+   * speciality
+   * time
+-->
+
+
+<% form_tag show_available_worktimes_path(@patient), :id => 'worktimes_search_id' do -%>
+
+<%= render :partial => "place_select", :locals => { :places => @places } %>
+<%= render :partial => "speciality_select", :locals => { :specialities => @specialities, :place => nil }  %>
+<%= render :partial => "doctor_select", :locals => { :doctors => users_in_role('doctor'), :speciality => nil, :place => nil } %>
+
+<br />
+
+<%= check_box_tag("take_time_into_account", value = "take", checked = false, options = {}) 
+%> Take time into account <%= observe_field("take_time_into_account", :url => { :action => :take_time_into_account_changed}, :with => 'value' )     %>
+<%= render :partial => "datetime_select", :locals => { :show => false } %>
+
+<br />
+<%= submit_tag ("Show not reserved worktimes") %>
+
+
+
+<% end -%>
+
+
+
+</div>
+
+
+

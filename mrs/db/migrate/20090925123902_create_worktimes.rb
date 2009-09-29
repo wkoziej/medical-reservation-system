@@ -11,6 +11,8 @@ class CreateWorktimes < ActiveRecord::Migration
       t.integer  :repetition,                  :null => false
       t.timestamps
     end
+
+    
   end
 
   def self.down

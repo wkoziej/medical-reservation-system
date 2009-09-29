@@ -1,0 +1,46 @@
+<div id="infoAvailable">
+Available worktimes in <%= @place ? @place.name : " all places "%> <br />
+Specialists : [ <%= @speciality ? @speciality.name : " all specialities"  %> ] <br />
+Doctors : [ <%= @doctor ? @doctor.name : " not choosen " %> ] <br />
+
+<%= link_to "Search for new visit", search_available_worktimes_path(@patient) %>
+
+</div>
+
+<table id="tableAvailabe">
+<thead>
+<tr>
+<% for day in @days %>
+<td id="tdAvailable"> <%= day %> </td>
+<% end %>
+
+</tr>
+</thead>
+
+<tr>
+
+<% for day in @days %>
+<td id="tdAvailable"> 
+<!-- Worktimes for -->
+  <% for worktime in @worktimes %>
+
+    <table> 	  
+    <% for w in worktime.not_reserved_hours(day) %>          
+        <tr><td>
+        <%= link_to worktime.doctor.name + " - " + worktime.format_day_minutes_range(w), 
+	            new_patient_visit_reservation_path(@patient, :params => {:doctor_id => worktime.doctor_id, 
+		    						 	     :date => day.to_date,
+									     :since_minute => w[0],
+									     :until_minute => w[1]}) %>
+	</td></tr>  
+    <% end %>
+    </table>
+
+  <% end %>
+
+</td>
+<% end %>
+
+</tr>
+
+</table>

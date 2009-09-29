@@ -15,10 +15,10 @@ class CreateRoles < ActiveRecord::Migration
     create_role("patient")
     create_role("doctor")
 
-    create_user_in_role ("admin", "admin@localhost", "password", "admin")  
-    create_user_in_role ("pacjent", "pacjent@localhost", "pacjent", "patient")  
-    create_user_in_role ("doctor", "doctor@localhost", "doctor", "doctor")  
-
+    create_user_in_role ("admin", "admin@localhost.com", "password", "admin", "Adam")  
+    create_user_in_role ("pacjent", "pacjent@localhost.com", "pacjent", "patient", "Pat")  
+    create_user_in_role ("doctor1", "doctor@localhost.com", "doctor1", "doctor", "Dr Doc")  
+    create_user_in_role ("doctor2", "doctor@localhost.com", "doctor2", "doctor", "Jakyll")  
 
   end
 
