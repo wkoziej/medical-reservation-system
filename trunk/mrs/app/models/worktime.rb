@@ -87,16 +87,19 @@ class Worktime < ActiveRecord::Base
 
     absences = Absence.absences_at_day(doctor.id, day)
     reservations = VisitReservation.reservations_at_day(doctor.id, day)    
+
+    logger.info "   >>>>   " 
+    logger.info reservations.class
     # make array [[start, stop], ...]
     # from abcenses ...    
-    exclusions = absences.collect { |a| [ a.start_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                          a.end_date.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+    exclusions = absences.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
+                                          a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
                                         ] }
     logger.info " ================ EXCLUSIONS 1 ===== "
-    logger.info exclusions
+    logger.info exclusions.class
     # ... and from reservations
-    exclusions.concat reservations.collect { |a| [ a.start_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                                   a.end_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
+                                                   a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
                                                  ] }
     logger.info " ================ EXCLUSIONS 2 ===== "
     logger.info exclusions
