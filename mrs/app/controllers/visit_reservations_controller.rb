@@ -67,21 +67,33 @@ class VisitReservationsController < ApplicationController
     end
   end
 
-
   def create
     @visit_reservation = VisitReservation.new(params[:visit_reservation])
+    @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
+#    @visit_reservation.until = @visit_reservation.since + 15.minutes
     respond_to do |format|
       if @visit_reservation.save
         flash[:notice] = 'Visit_Reservation was successfully created.'
         format.html { redirect_to patient_visit_reservations_path(@visit_reservation.doctor)  }
         format.xml  { render :xml => @visit_reservation, :status => :created, :location => @visit_reservation }
       else
+        # !!!!!!!!!!!!!!!!!!!!!!!!111
+        # !!!!!!!!!!!!!!!!!!!!!!!!
         flash[:notice] = 'Problems with saving visit_reservation.'
-        format.html { render :template => "visit_reservations/new" }
+        format.html { redirect_to new_patient_visit_reservation_path(@patient, 
+                                                                     :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date} ) ) }
         format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
       end
     end
+  end
 
+  def destroy
+    @visit_reservation = VisitReservation.find_by_id(params[:id])
+    @visit_reservation.destroy
+    respond_to do |format|
+      format.html { redirect_to patient_visit_reservations_path(@visit_reservation.doctor) }
+      format.xml  { head :ok }
+    end
   end
 
 private
