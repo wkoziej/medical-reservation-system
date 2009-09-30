@@ -11,6 +11,9 @@
   <%= f.hidden_field :doctor_id %>
   <%= f.hidden_field :patient_id %>
 
+  <%= hidden_field_tag "until_minute", params[:until_minute] %>
+
+
   <p>
     <%= f.submit "Make reservation" %>
   </p>

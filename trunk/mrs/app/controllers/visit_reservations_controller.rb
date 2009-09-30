@@ -70,7 +70,7 @@ class VisitReservationsController < ApplicationController
   def create
     @visit_reservation = VisitReservation.new(params[:visit_reservation])
     @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
-#    @visit_reservation.until = @visit_reservation.since + 15.minutes
+    @visit_reservation.until = @visit_reservation.since + 15.minutes
     respond_to do |format|
       if @visit_reservation.save
         flash[:notice] = 'Visit_Reservation was successfully created.'
@@ -80,8 +80,10 @@ class VisitReservationsController < ApplicationController
         # !!!!!!!!!!!!!!!!!!!!!!!!111
         # !!!!!!!!!!!!!!!!!!!!!!!!
         flash[:notice] = 'Problems with saving visit_reservation.'
+
+#        format.html { render :template => "visit_reservations/new" }
         format.html { redirect_to new_patient_visit_reservation_path(@patient, 
-                                                                     :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date} ) ) }
+                                                                     :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date, :since_minute => params[:since_minutes], :until_minute => params[:until_minute], :aaaa=>111} ) ) }
         format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
       end
     end
