@@ -25,7 +25,6 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_ZWhDYKeOEd6RhKxNJHlPVw" name="Worktime">
     <generalization xmi:id="_kX824KeWEd6RhKxNJHlPVw" general="_V8FqQKeWEd6RhKxNJHlPVw"/>
-    <ownedAttribute xmi:id="_RODSAKePEd6RhKxNJHlPVw" name="weekDay" aggregation="composite"/>
     <ownedAttribute xmi:id="_R9_hMKePEd6RhKxNJHlPVw" name="repetition" aggregation="composite"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_aEvbUKeOEd6RhKxNJHlPVw" name="Absence">

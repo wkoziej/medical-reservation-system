@@ -7,7 +7,6 @@ class CreateWorktimes < ActiveRecord::Migration
       t.time :until,                        :null => false # in minutes
       t.integer :doctor_id,                    :null => false
       t.integer :place_id,                     :null => false
-      t.integer  :day_of_week,                 :null => false 
       t.integer  :repetition,                  :null => false
       t.timestamps
     end

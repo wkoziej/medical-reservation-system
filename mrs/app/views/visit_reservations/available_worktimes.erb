@@ -22,8 +22,7 @@ Doctors : [ <%= @doctor ? @doctor.name : " not choosen " %> ] <br />
 <% for day in @days %>
 <td id="tdAvailable"> 
 <!-- Worktimes for -->
-  <% for worktime in @worktimes %>
-
+  <% for worktime in ApplicationHelper::available_worktimes(@place ? @place.id : nil, @speciality ? @speciality.id : nil, @doctor ? @doctor.id : nil, day) %>
     <table> 	  
     <% for w in worktime.not_reserved_hours(day) %>          
         <tr><td>

@@ -2,15 +2,19 @@
 
 one:
   since: 2009-09-25 14:39:02
-  until: 2009-09-25 14:39:02
+  until: 2009-09-25 14:30:02
+  start_date: 2009-09-25 14:39:02
+  end_date: 2009-09-25 14:39:02
   place_id: 1
   day_of_week: 1
   repetition: 1
   doctor_id: 1
 
 two:
-  since: 2009-09-25 14:39:02
+  since: 2009-09-25 14:30:02
   until: 2009-09-25 14:39:02
+  start_date: 2009-09-25 14:39:02
+  end_date: 2009-09-25 14:39:02
   place_id: 1
   day_of_week: 1
   repetition: 1

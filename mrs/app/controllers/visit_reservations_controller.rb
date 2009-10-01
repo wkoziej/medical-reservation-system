@@ -26,11 +26,11 @@ class VisitReservationsController < ApplicationController
   # Available worktimes. We can give some conditions eg.:
   # place, doctor, speciality
   def available_worktimes
-    place_id = extract_id(params[:place][:id])
+    place_id = extract_id(params, :place)
     @place = Place.find_by_id(place_id)
-    speciality_id = extract_id(params[:speciality][:id])
+    speciality_id = extract_id(params, :speciality)
     @speciality = Speciality.find_by_id(speciality_id)
-    doctor_id = extract_id(params[:doctor][:id])
+    doctor_id = extract_id(params, :doctor)
     @doctor = User.find_by_id(doctor_id)
     @patient = User.find_by_id(params[:patient_id])
     if params[:take_time_into_account]
@@ -39,9 +39,6 @@ class VisitReservationsController < ApplicationController
     else
       start = Date.today.to_date
     end
-
-    # query about worktimes minus absences and reservations
-    @worktimes = ApplicationHelper::available_worktimes(place_id, speciality_id, doctor_id, start)
     @days = [ start.to_date ]
     for i in [1,2,3,4,5,6]     
       @days << start.to_date + i.day
@@ -53,12 +50,27 @@ class VisitReservationsController < ApplicationController
 
   def new
     @visit_reservation = VisitReservation.new
-    @visit_reservation.doctor_id = params[:doctor_id]
-    @visit_reservation.patient_id = params[:patient_id]
-    @visit_reservation.since = params[:date].to_date ###  + (params[:since_minute]).to_i.minutes
+    @visit_reservation.patient_id = params[:patient_id] 
+    if params[:doctor_id]
+      @visit_reservation.doctor_id = params[:doctor_id]
+    else
+      # We have to show doctors
+      @doctors = ApplicationHelper::users_in_role ('doctor')
+    end
+    if params[:date] 
+      @visit_reservation.since = params[:date].to_date ###  + (params[:since_minute]).to_i.minutes
+    else
+      @visit_reservation.since = Date.new
+    end
+
     @hours = []
-    since_m = params[:since_minute].to_i
-    until_m = params[:until_minute].to_i
+    if params[:since_minute] and params[:until_minute]
+      since_m = params[:since_minute].to_i
+      until_m = params[:until_minute].to_i
+    else
+      since_m = 8*60
+      until_m = 16*60
+    end
     posibilities = (until_m - since_m) / 15
     i = since_m
     while i < until_m
@@ -66,6 +78,7 @@ class VisitReservationsController < ApplicationController
       i = i + 15
     end
   end
+
 
   def create
     @visit_reservation = VisitReservation.new(params[:visit_reservation])
@@ -99,8 +112,8 @@ class VisitReservationsController < ApplicationController
   end
 
 private
-  def extract_id(object)
-    object and object.to_s.length > 0 ? object : nil
+  def extract_id(params, object)
+    return params[object][:id] if params and params[object] and params[object][:id] and params[object][:id].length > 0
   end
 
   def format_hour_from_minutes(i)

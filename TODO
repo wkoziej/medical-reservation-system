@@ -9,3 +9,11 @@
 # Adding reservations
 # Subsets of minutes 0,15,30,45
 # Date validatetions/another helpers (2001-02-30!!)
+# Doctors have to have specialisation !?
+  if haven't and 
+   - if you don't choose speciality they are shown in the available_worktimes
+   - if you choose speciality the available_worktimes are empty
+
+# >> NEXT days, PREV days in availabe_form + ajax form to choose place/speciality/doctor?
+   
+   

@@ -14,7 +14,6 @@
   <%= time_select ("worktime", "until") %>
 
   
-  <%= select("worktime", "day_of_week", Worktime::DAYS_OF_WEEK) %> 
   <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 
   <%= collection_select (:worktime, :place_id, @places, :id, :name) 
   %>

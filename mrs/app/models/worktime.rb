@@ -8,7 +8,8 @@ class Worktime < ActiveRecord::Base
   EVERY_MONTH_DAY = 3
   EVERY_DAY_OF_WEEK_IN_MONTH = 4
 
-  DAYS_OF_WEEK = [["Mon", 0], ["Tue", 1], ["Wed", 2], ["Thu", 3], ["Fri", 4], ["Sat", 5], ["Sun", 0]]
+#  DAYS_OF_WEEK = [["Mon", 0], ["Tue", 1], ["Wed", 2], ["Thu", 3], ["Fri", 4], ["Sat", 5], ["Sun", 0]]
+
   REPETITIONS  = [
                   ["No repetition", ONCE], 
                   ["Every week", EVERY_WEEK], 
@@ -84,34 +85,29 @@ class Worktime < ActiveRecord::Base
   # [ [8*60+30, 10*60+20], [11*60+30, 12*60+45], [13*60, 16*60]]
   # see worktime_test.rb
   def not_reserved_hours(day)
+    return [] unless day_in_repetition?(day)
 
     absences = Absence.absences_at_day(doctor.id, day)
     reservations = VisitReservation.reservations_at_day(doctor.id, day)    
 
-    logger.info "   >>>>   " 
     logger.info reservations.class
     # make array [[start, stop], ...]
     # from abcenses ...    
     exclusions = absences.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
                                           a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
                                         ] }
-    logger.info " ================ EXCLUSIONS 1 ===== "
     logger.info exclusions.class
     # ... and from reservations
-    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                                   a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
-                                                 ] }
-    logger.info " ================ EXCLUSIONS 2 ===== "
-    logger.info exclusions
-    logger.info " ================ DAY, SINCE, UNTIL ===== "
-    logger.info day.to_date.to_s + " " + self.since.hour.to_s + " " + self.until.hour.to_s + " " + self.repetition.to_s
+    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ] }
+    logger.info " ================ EXCLUSIONS ===== "
+    logger.info exclusions.to_s
+    #logger.info " ================ DAY, SINCE, UNTIL ===== "
+    #logger.info day.to_date.to_s + " " + self.since.hour.to_s + " " + self.until.hour.to_s + " " + self.repetition.to_s
     
-    if day_in_repetition?(day)
-      logger.info " ================ DAY IN REPETITION ===== "
-      available_periods( day_minutes(self.since.to_time), day_minutes(self.until), exclusions)      
-    else
-      []
-    end    
+    a = available_periods( day_minutes(self.since.to_time), day_minutes(self.until), exclusions)      
+    logger.info "================ AVAILALBE ======"
+    logger.info a
+    a
   end
   
   # Return true if day is one of worktime repetition
@@ -122,19 +118,17 @@ class Worktime < ActiveRecord::Base
       false
     else
       if self.repetition == Worktime::ONCE then
-        logger.info " ===== ONCE ===== "
-        day.to_date == self.since.to_date
+        day.to_date == self.start_date
       elsif self.repetition == Worktime::EVERY_WEEK 
-        logger.info " ===== EVERY_WEEK ===== "
-        day.to_date.wday == self.since.to_date.wday 
+        day.to_date.wday == self.start_date.wday
       elsif self.repetition == Worktime::EVERY_2_WEEKS 
-        (day.to_date.yday - self.since.to_date.yday) % 14 == 0
+        (day.to_date.yday - self.start_date.to_date.yday) % 14 == 0
       elsif self.repetition == Worktime::EVERY_MONTH_DAY
-        day.to_date.mday == self.since.to_date.mday 
+        day.to_date.mday == self.start_date.mday 
       elsif self.repetition == Worktime::EVERY_DAY_OF_WEEK_IN_MONTH
         # E.g. every second friday in month 
-        wday = self.since.to_date.wday
-        mday = self.since.to_date.mday
+        wday = self.start_date.wday
+        mday = self.start_date.mday
         which = mday / 7
         day.to_date.wday == wday and day.to_date.mday / 7 == which
       else
@@ -165,10 +159,16 @@ class Worktime < ActiveRecord::Base
           start = e[1] < start ? start : e[1]
           i = i + 1
         else
-          a << [start, e[0]]
-          start = e[1] > stop ? stop : e[1]
+          a << [start, e[0] > stop ? stop : e[0]]
+          if e[1] > stop 
+            start = stop # To prevent last array enlarging (*)
+            break
+          else
+            start = e[1]
+          end
         end
       end
+      # (*)
       if start != stop
         a << [start, stop]
       end

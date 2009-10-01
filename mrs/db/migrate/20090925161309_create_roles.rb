@@ -46,20 +46,19 @@ private
     role.save
   end
 
-  def self.create_user_in_role (login, email, password, role_name)
+  def self.create_user_in_role (login, email, password, role_name, name)
 
     user = User.new
     user.login = login
     user.email = email
     user.password = password
     user.password_confirmation = password
-#    user.make_activation_code
+    user.name = name
     user.save(false)
     
     
     user = User.find_by_login(login)
     role = Role.find_by_name(role_name)
-#    user.activated_at = Time.now.utc
     user.activate!
 
     user.roles << role

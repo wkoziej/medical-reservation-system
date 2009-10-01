@@ -24,13 +24,15 @@ class WorktimeTest < ActiveSupport::TestCase
     assert_equal [ [9, 10], [11, 12], [13, 16]], w.available_periods(start, stop, exclusions)
     assert_equal [], w.available_periods(12, 13, exclusions)
     assert_equal [], w.available_periods(12, 12, exclusions)
+
+
+    assert_equal [[12,13]], w.available_periods(12, 14, [[13,15]])
+    assert_equal [[1,3]], w.available_periods(1, 3, [[5,8]])
     
   end
 
   test "worktime repetitions" do
-    w = Worktime.new
-    w.since = '2009-01-01'
-    w.until = '2010-01-01'
+    w = Worktime.new({:start_date => '2009-01-01', :end_date => '2010-01-01', :since => '2009-01-01 09:10', :until => '2010-01-01 09:50'})
     w.repetition = Worktime::ONCE
 
     assert !w.day_in_repetition?('2000-01-01')
@@ -70,7 +72,7 @@ class WorktimeTest < ActiveSupport::TestCase
     assert !w.day_in_repetition?('2009-01-02')
     assert !w.day_in_repetition?('2009-01-03')
 
-    w.since = '2009-01-11'
+    w.start_date = '2009-01-11'
 
     assert w.day_in_repetition?('2009-01-11')
     assert w.day_in_repetition?('2009-02-8')
@@ -78,10 +80,61 @@ class WorktimeTest < ActiveSupport::TestCase
     assert !w.day_in_repetition?('2009-01-02')
     assert !w.day_in_repetition?('2009-01-03')
 
+    ## 
+    w.start_date = '2009-01-05'
+    w.repetition = Worktime::ONCE
+    assert !w.day_in_repetition?('2000-01-01')
+    assert !w.day_in_repetition?('2009-01-01')
+    assert w.day_in_repetition?('2009-01-05')
+    assert !w.day_in_repetition?('2009-02-01')
 
+    w.repetition = Worktime::EVERY_WEEK
+
+    assert w.day_in_repetition?('2009-01-05')
+    assert w.day_in_repetition?('2009-01-12')
+    assert !w.day_in_repetition?('2009-02-05')
+    assert w.day_in_repetition?('2009-02-02')
+
+    w.repetition = Worktime::EVERY_2_WEEKS
+
+    assert !w.day_in_repetition?('2009-01-01')
+    assert w.day_in_repetition?('2009-01-05')
+    assert w.day_in_repetition?('2009-01-19')
+    assert w.day_in_repetition?('2009-02-02')
+    assert !w.day_in_repetition?('2009-01-08')
+    assert !w.day_in_repetition?('2009-01-09')
+
+
+    w.repetition = Worktime::EVERY_MONTH_DAY
+
+    assert !w.day_in_repetition?('2009-01-01')
+    assert !w.day_in_repetition?('2009-02-01')
+    assert w.day_in_repetition?('2009-05-05')
+    assert !w.day_in_repetition?('2009-01-02')
+    assert !w.day_in_repetition?('2009-01-03')
+
+
+    w.repetition = Worktime::EVERY_DAY_OF_WEEK_IN_MONTH
+
+    assert w.day_in_repetition?('2009-01-05')
+    assert w.day_in_repetition?('2009-02-02')
+    assert w.day_in_repetition?('2009-03-02')
+    assert w.day_in_repetition?('2009-04-06')
+    assert !w.day_in_repetition?('2009-01-02')
+    assert !w.day_in_repetition?('2009-01-03')
+
+    w.start_date = '2009-01-11'
+
+    assert w.day_in_repetition?('2009-01-11')
+    assert w.day_in_repetition?('2009-02-08')
+    assert w.day_in_repetition?('2009-03-08')
+    assert !w.day_in_repetition?('2009-01-02')
+    assert !w.day_in_repetition?('2009-01-03')
+
+    ## 
      
-    w.since = '2009-09-28'
-    w.until = '2010-09-28'
+    w.start_date = '2009-09-28'
+    w.end_date = '2010-09-28'
     w.repetition = Worktime::EVERY_WEEK
     assert w.day_in_repetition?('2009-10-05')
     

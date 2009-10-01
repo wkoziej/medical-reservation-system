@@ -162,10 +162,6 @@
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_ZW420aeOEd6RhKxNJHlPVw" type="5019"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_ZW420qeOEd6RhKxNJHlPVw" type="7001">
-      <children xmi:type="notation:Node" xmi:id="_ROU-0KePEd6RhKxNJHlPVw" type="3001">
-        <element xmi:type="uml:Property" href="registration.uml#_RODSAKePEd6RhKxNJHlPVw"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_ROU-0aePEd6RhKxNJHlPVw"/>
-      </children>
       <children xmi:type="notation:Node" xmi:id="_R-TDMKePEd6RhKxNJHlPVw" type="3001">
         <element xmi:type="uml:Property" href="registration.uml#_R9_hMKePEd6RhKxNJHlPVw"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_R-TDMaePEd6RhKxNJHlPVw"/>
