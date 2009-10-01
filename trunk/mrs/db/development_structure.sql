@@ -282,6 +282,39 @@ CREATE TABLE roles_users (
 
 
 --
+-- Name: schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE schedules (
+    id integer NOT NULL,
+    since timestamp without time zone,
+    until timestamp without time zone,
+    doctor_id integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE schedules_id_seq OWNED BY schedules.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -382,7 +415,6 @@ CREATE TABLE visit_reservations (
 --
 
 CREATE SEQUENCE visit_reservations_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -438,12 +470,14 @@ ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
 
 CREATE TABLE worktimes (
     id integer NOT NULL,
-    since timestamp without time zone NOT NULL,
-    until timestamp without time zone NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    since time without time zone NOT NULL,
+    until time without time zone NOT NULL,
     doctor_id integer NOT NULL,
     place_id integer NOT NULL,
-    day_of_week character varying(3) NOT NULL,
-    repetition character varying(3) NOT NULL,
+    day_of_week integer NOT NULL,
+    repetition integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -521,6 +555,13 @@ ALTER TABLE referrals ALTER COLUMN id SET DEFAULT nextval('referrals_id_seq'::re
 --
 
 ALTER TABLE roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE schedules ALTER COLUMN id SET DEFAULT nextval('schedules_id_seq'::regclass);
 
 
 --
@@ -623,6 +664,14 @@ ALTER TABLE ONLY roles
 
 
 --
+-- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT schedules_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: specialities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -684,6 +733,20 @@ CREATE INDEX index_doctor_specialities_on_speciality_id ON doctor_specialities U
 
 
 --
+-- Name: index_doctor_specialities_on_speciality_id_and_doctor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_doctor_specialities_on_speciality_id_and_doctor_id ON doctor_specialities USING btree (speciality_id, doctor_id);
+
+
+--
+-- Name: index_places_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_places_on_name ON places USING btree (name);
+
+
+--
 -- Name: index_referrals_on_doctor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -716,6 +779,13 @@ CREATE INDEX index_roles_users_on_role_id ON roles_users USING btree (role_id);
 --
 
 CREATE INDEX index_roles_users_on_user_id ON roles_users USING btree (user_id);
+
+
+--
+-- Name: index_specialities_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_specialities_on_name ON specialities USING btree (name);
 
 
 --
@@ -769,6 +839,8 @@ INSERT INTO schema_migrations (version) VALUES ('20090925122438');
 INSERT INTO schema_migrations (version) VALUES ('20090925122856');
 
 INSERT INTO schema_migrations (version) VALUES ('20090925123249');
+
+INSERT INTO schema_migrations (version) VALUES ('20090925123650');
 
 INSERT INTO schema_migrations (version) VALUES ('20090925123902');
 

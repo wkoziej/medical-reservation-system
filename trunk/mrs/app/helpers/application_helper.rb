@@ -21,8 +21,13 @@ module ApplicationHelper
     Speciality.find_by_sql ["select distinct s.* from specialities s where s.id not in (select ds.speciality_id from doctor_specialities ds where ds.doctor_id = ? )", doctor_id]    
   end
 
-  def users_in_role (role_name)
+  def self.users_in_role (role_name)
     User.find_by_sql ["select distinct u.* from users u, roles r, roles_users ru where u.id = ru.user_id and r.id = ru.role_id and r.name = ?", role_name] 
+  end
+
+
+  def self.users_in_role_with_id (role_id)
+    User.find_by_sql ["select distinct u.* from users u, roles_users ru where u.id = ru.user_id and ru.role_id  = ?", role_id] 
   end
 
   def users_in_role_in_place (role_name, place_id)

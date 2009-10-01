@@ -13,7 +13,7 @@ We gives user posibility of choosing one or more of conditions
 
 <%= render :partial => "place_select", :locals => { :places => @places } %>
 <%= render :partial => "speciality_select", :locals => { :specialities => @specialities, :place => nil }  %>
-<%= render :partial => "doctor_select", :locals => { :doctors => users_in_role('doctor'), :speciality => nil, :place => nil } %>
+<%= render :partial => "doctor_select", :locals => { :doctors => ApplicationHelper::users_in_role('doctor'), :speciality => nil, :place => nil } %>
 
 <br />
 
