@@ -1,19 +1,18 @@
 # Configuration of email activation 
 # Test of register/login/logof and access to site (if not authenticated then view another site)
-# Create in proper order all models (models-eclipse)
 # Implement uses cases (see requirements.txt)
 # Do will_pagination in some models
 # User.doctors (conditions  ) or maybe better (simpler) Roles.doctors (conditions)
-# SMS/mail remainders about visit
+# !!! SMS/mail remainders about visit
 # Validation of overlaping in worktimes
-# Adding reservations
 # Subsets of minutes 0,15,30,45
 # Date validatetions/another helpers (2001-02-30!!)
 # Doctors have to have specialisation !?
   if haven't and 
    - if you don't choose speciality they are shown in the available_worktimes
    - if you choose speciality the available_worktimes are empty
-
 # >> NEXT days, PREV days in availabe_form + ajax form to choose place/speciality/doctor?
+# LAYOUT/CSS
+# Absences
    
    

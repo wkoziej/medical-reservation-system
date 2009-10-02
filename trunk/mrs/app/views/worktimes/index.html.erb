@@ -1,22 +1,18 @@
 <h1>Worktimes index</h1>
-
+<div id="newRecordLink">
 <%= link_to 'New worktime', new_user_worktime_path(@user), :method => :get %>
-
-<table id="worktimesTable">
+</div>
+<table class="dictionaryTable">
 
 <thead>
   <td id="tdWorktimes" colspan="2">Period</td>
-
   <td id="tdWorktimes" colspan="2">Hours</td>
-
   <td id="tdWorktimes">Repetition</td>
   <td id="tdWorktimes">Place</td>
   <td id="tdWorktimes">Who</td>
   <td id="tdWorktimes">Action</td>
-
 </thead>
-
-
+<tbody>
 <% for worktime in @worktimes %>
 
   <tr>
@@ -33,6 +29,7 @@
     <td><%= link_to 'Destroy', worktime	, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+</tbody>
 </table>
 
 

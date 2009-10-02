@@ -1,19 +1,25 @@
-<h1>Listing places</h1>
+<h1>Places</h1>
+<div id="newRecordLink">
+<%= link_to 'New place', new_place_path %>
+</div>
 
-<table>
+<table class="dictionaryTable">
+  <thead>
   <tr>
+    <td> Name </td>
+    <td> Address </td>
+    <td colspan="3"> Actions </td>     
   </tr>
-
+  </thead>
+  <tbody>
 <% for place in @places %>
   <tr>
     <td><%= place.name %></td>
+    <td><%= place.address %></td>
     <td><%= link_to 'Show', place %></td>
     <td><%= link_to 'Edit', edit_place_path(place) %></td>
     <td><%= link_to 'Destroy', place, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New place', new_place_path %>

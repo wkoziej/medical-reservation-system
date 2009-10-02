@@ -5,20 +5,19 @@
 
   <%= f.label :since, 'Since' %>:
   <%= date_select ("worktime", "start_date") %>
+  <br />
   <%= f.label :until, 'Until' %>:
   <%= date_select ("worktime", "end_date") %>
-<br />
+  <br />
   <%= f.label :since, 'Start at' %>:
   <%= time_select ("worktime", "since") %>
+  <br />
   <%= f.label :until, 'End at' %>:
   <%= time_select ("worktime", "until") %>
-
-  
+  <br />
   <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 
-  <%= collection_select (:worktime, :place_id, @places, :id, :name) 
-  %>
-
+  <%= collection_select (:worktime, :place_id, @places, :id, :name) %>  
   <%= hidden_field_tag ('worktime[doctor_id]', @user.id)  %>
-
+  <br />
   <%= f.submit "Add worktime to schedule" %>
 <% end %>

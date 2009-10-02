@@ -1,21 +1,19 @@
 <% if logged_in? -%>
   <div id="user-bar-greeting">Logged in as <%= link_to_current_user :content_method => :login %></div>
-  <div id="user-bar-action"  >(<%= link_to "Log out", logout_path, { :title => "Log out" }    %>)</div>
+  <div id="user-bar-action"  ><%= link_to "Log out", logout_path, { :title => "Log out" }    %></div>
   <% if current_user.has_role?("admin")%>
-  <div id="user-bar-action"  >(<%= link_to "Users", users_path, { :title => "Users" }    %>)</div>
-  <div id="user-bar-action"  >(<%= link_to "Examination Kinds", examination_kinds_path, { :title => "Examination Kinds" }    %>)</div>
-  <div id="user-bar-action"  >(<%= link_to "Specialities", specialities_path, { :title => "Specialities" }    %>)</div>
-  <div id="user-bar-action"  >(<%= link_to "Places", places_path, { :title => "Places" }    %>)</div>
+  <div id="user-bar-action"  ><%= link_to "Users", users_path, { :title => "Users" }    %></div>
+  <div id="user-bar-action"  ><%= link_to "Examination Kinds", examination_kinds_path, { :title => "Examination Kinds" }    %></div>
+  <div id="user-bar-action"  ><%= link_to "Specialities", specialities_path, { :title => "Specialities" }    %></div>
+  <div id="user-bar-action"  ><%= link_to "Places", places_path, { :title => "Places" }    %></div>
   <% end -%>
 
   <% if current_user.has_role? 'patient' %>
-  <div id="user-bar-action"  >(<%= link_to "Visits Reservations", patient_visit_reservations_path(current_user), { :title => "Patient Visits Reservations" }    %>)</div>
+  <div id="user-bar-action"  ><%= link_to "Visits Reservations", patient_visit_reservations_path(current_user), { :title => "Patient Visits Reservations" }    %></div>
   <% end %>
 
   <% if current_user.has_role? 'doctor' %>
-
-  
-
+ 
   <% end %>
 
 
@@ -25,5 +23,6 @@
                                <%= link_to "Sign up", signup_path, { :title => "Create an account" } %></div>
 <% end -%>
 
-<div id="user-bar-action"  >(<%= link_to "Home", root_path, { :title => "Home" }    %>)</div>
+<div id="user-bar-action"  ><%= link_to "Home", root_path, { :title => "Home" }    %></div>
+<br />
 

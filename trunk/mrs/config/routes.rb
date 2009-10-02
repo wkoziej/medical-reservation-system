@@ -20,17 +20,16 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
   map.resource :speciality
   map.resource :admin
-  map.resources :doctors
+#  map.resources :doctors, :has_many => [ :worktimes, :absences ]
   map.resources :examination_kinds
   map.resources :specialities
-  map.resources :users
   map.resources :visit_reservations
   map.resources :worktimes
 
 
   map.resources :users, :member => { :suspend   => :put,
     :unsuspend => :put,
-    :purge     => :delete }, :has_many => [ :worktimes ]
+    :purge     => :delete }, :has_many => [ :worktimes, :absences ]
 
 
   map.resources :patients, :has_many => [ :visit_reservations ]
