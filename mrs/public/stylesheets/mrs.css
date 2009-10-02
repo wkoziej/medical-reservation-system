@@ -21,10 +21,62 @@ a:hover { color: #fff; background-color:#000; }
   background-color: red;
   display: table;
 }
+h1 { 
+     text-align: center
+ }
 
-#tableAvailabe, #infoAvailable, #worktimesTable { 
+thead { 
+        background-color: #AAAAFF;
+}
+
+tbody { 
+        background-color: #EEEEFF;
+ }
+
+#newRecordLink { 
+               width: 20%;  
                margin: 0 auto;
                text-align: center;                 
+               background-color: #EEEEFF;
+               border-style: solid;
+               border-style:outset;
+
+ }
+
+#user-bar-greeting { 
+               text-align: right;                 
+ }
+#user-bar-action { 
+               margin: 0 auto;
+               display:inline;
+               text-align: center;                 
+               background-color: #F0F0F0;
+               border-style: solid;
+               border-style:outset;
+               border-width:medium;
+ }
+
+.dictionaryTable { 
+               margin: 0 auto;
+               text-align: center;                 
+               background-color: #F0F0F0;
+               width: 70%   ;
+}
+
+#availableWorktimesTable { 
+               margin: 0 auto;
+               text-align: center;                 
+               background-color: #F0F0F0;
+               width: 80%   ;
+}
+
+form { 
+               padding: 3px;
+ }
+
+td { 
+               padding: 3px;
+               text-align: center;               
  }
 
 #tdAvailable, #tdWorktimes { 
