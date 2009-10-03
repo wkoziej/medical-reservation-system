@@ -1,0 +1,27 @@
+<h1>Absences of <%= @doctor.name %></h1>
+
+<div id="newRecordLink">
+<%= link_to 'New absence', new_user_absence_path(@doctor) %>
+</div>
+
+<table class="dictionaryTable">
+  <thead>
+  <tr>
+    <td> Since </td>
+    <td> Until </td>
+    <td> Couse </td>
+    <td> Actions </td>     
+  </tr>
+  </thead>
+  <tbody>
+<% for absence in @absences %>
+  <tr>
+    <td><%= absence.since %></td>
+    <td><%= absence.until %></td>
+    <td><%= absence.couse %></td>
+    <td><%= link_to 'Destroy', absence, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+

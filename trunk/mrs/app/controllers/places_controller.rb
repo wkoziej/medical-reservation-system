@@ -61,8 +61,6 @@ class PlacesController < ApplicationController
     end
   end
 
-  # DELETE /places/1
-  # DELETE /places/1.xml
   def destroy
     @place = Place.find(params[:id])
     @place.destroy

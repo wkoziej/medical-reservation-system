@@ -7,6 +7,7 @@
   <thead>
     <tr> 
       <td>When</td>
+      <td>Status</td>
       <td>Actions</td>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
 <% for visit in @reservations %>
   <tr>
     <td><%= visit.since %></td>
+    <td><%= visit.status %></td>
     <td><%= link_to 'Destroy', visit	, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
