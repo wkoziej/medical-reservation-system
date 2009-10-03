@@ -20,10 +20,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
   map.resource :speciality
   map.resource :admin
-#  map.resources :doctors, :has_many => [ :worktimes, :absences ]
   map.resources :examination_kinds
   map.resources :specialities
   map.resources :visit_reservations
+  map.resources :visits
   map.resources :worktimes
   map.resources :absences
 

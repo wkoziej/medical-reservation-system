@@ -84,6 +84,7 @@ class VisitReservationsController < ApplicationController
     @visit_reservation = VisitReservation.new(params[:visit_reservation])
     @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
     @visit_reservation.until = @visit_reservation.since + 15.minutes
+    @visit_reservation.status = VisitReservation::STATUS[:NEW]
     respond_to do |format|
       if @visit_reservation.save
         flash[:notice] = 'Visit_Reservation was successfully created.'
