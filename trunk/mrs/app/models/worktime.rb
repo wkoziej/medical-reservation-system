@@ -90,19 +90,25 @@ class Worktime < ActiveRecord::Base
     absences = Absence.absences_at_day(doctor.id, day)
     reservations = VisitReservation.reservations_at_day(doctor.id, day)    
 
-    logger.info reservations.class
+    logger.info " -          -- - - - -- -    - - -  - -  "
     # make array [[start, stop], ...]
     # from abcenses ...    
-    exclusions = absences.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-                                          a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
-                                        ] }
+    exclusions = absences.collect { |a| logger.info (a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ).to_s
+      logger.info (a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ).to_s
+      logger.info a.since.to_date 
+      logger.info a.until.to_date
+      logger.info day
+      [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
+        a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+      ] 
+    }
     logger.info exclusions.class
     # ... and from reservations
     exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ] }
     logger.info " ================ EXCLUSIONS ===== "
-    logger.info exclusions.to_s
-    #logger.info " ================ DAY, SINCE, UNTIL ===== "
-    #logger.info day.to_date.to_s + " " + self.since.hour.to_s + " " + self.until.hour.to_s + " " + self.repetition.to_s
+    logger.info exclusions.each {|e|  logger.info "[" + e[0].to_s + ", " + e[1].to_s + "]" }
+    logger.info " ================ DAY_MINUTES SINCE, UNTIL ===== "
+    logger.info day_minutes(self.since.to_time).to_s + ", " + day_minutes(self.until).to_s
     
     a = available_periods( day_minutes(self.since.to_time), day_minutes(self.until), exclusions)      
     logger.info "================ AVAILALBE ======"
@@ -169,7 +175,7 @@ class Worktime < ActiveRecord::Base
         end
       end
       # (*)
-      if start != stop
+      if start < stop
         a << [start, stop]
       end
       a
