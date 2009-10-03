@@ -29,6 +29,10 @@ class WorktimeTest < ActiveSupport::TestCase
     assert_equal [[12,13]], w.available_periods(12, 14, [[13,15]])
     assert_equal [[1,3]], w.available_periods(1, 3, [[5,8]])
     
+    assert_equal [], w.available_periods(810, 1110, [[0, 1440]] )
+
+    assert_equal [], w.available_periods(810, 1110, [[0, 1440], [0, 600],[810, 825],[975, 990],[1050, 1065]] )
+
   end
 
   test "worktime repetitions" do

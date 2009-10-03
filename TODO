@@ -2,17 +2,22 @@
 # Test of register/login/logof and access to site (if not authenticated then view another site)
 # Implement uses cases (see requirements.txt)
 # Do will_pagination in some models
-# User.doctors (conditions  ) or maybe better (simpler) Roles.doctors (conditions)
 # !!! SMS/mail remainders about visit
-# Validation of overlaping in worktimes
-# Subsets of minutes 0,15,30,45
-# Date validatetions/another helpers (2001-02-30!!)
+# Visit reservations
+  - check of overlaping in visit reservations
+  - changing statuses
+# Worktimes
+  - check of overlaping in worktimes
+# Absences
+ - check of everlaping absences???
+# Date time edits 
+ - Subsets of minutes 0,15,30,45
+ - Date validatetions/another helpers (2001-02-30!!)
 # Doctors have to have specialisation !?
   if haven't and 
    - if you don't choose speciality they are shown in the available_worktimes
    - if you choose speciality the available_worktimes are empty
 # >> NEXT days, PREV days in availabe_form + ajax form to choose place/speciality/doctor?
 # LAYOUT/CSS
-# Absences
-   
-   
+# ??? Back to only "since" and "until" kolumns in worktimes ???    
+# Have to cancel visit reservations when you adding absence or changing worktime and inform patients   

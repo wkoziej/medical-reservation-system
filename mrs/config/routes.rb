@@ -25,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :specialities
   map.resources :visit_reservations
   map.resources :worktimes
+  map.resources :absences
 
 
   map.resources :users, :member => { :suspend   => :put,
