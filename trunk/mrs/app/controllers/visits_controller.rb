@@ -1,7 +1,23 @@
 class VisitsController < ApplicationController
 
   def index
-    @visits = Visit.find(:all)
+    logger.info " ------ >>> " + params[:patient_id].to_s
+    conditions = {}
+    if params[:doctor_id]
+      @doctor = User.find_by_id (params[:doctor_id])
+      conditions = {:doctor_id => @doctor.id}
+    elsif current_user.has_role?('doctor')
+      @doctor = current_user
+      conditions = {:doctor_id => @doctor.id}
+    elsif params[:patient_id]      
+      @patient = User.find_by_id (params[:patient_id])
+      conditions = {:patient_id => @patient.id}
+    elsif current_user.has_role?('patient')
+      @patient = current_user
+      conditions = {:patient_id => @patient.id}
+    end
+    
+    @visits = Visit.find(:all, :conditions => conditions)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @visits }
@@ -41,6 +57,11 @@ class VisitsController < ApplicationController
       # Have to choose patient !!!
       error_handling("You have to choose patient or visit reservation")
     end
+
+    if not @visit.since
+      @visit.since = Date.today
+    end
+    
     respond_to do |format|
       if @visit.save
         flash[:notice] = 'Visit was successfully created.'
@@ -50,6 +71,14 @@ class VisitsController < ApplicationController
         format.html { render :action => "new" }
         format.xml  { render :xml => @visit.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  def show
+    @visit = Visit.find(params[:id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @visit }
     end
   end
 

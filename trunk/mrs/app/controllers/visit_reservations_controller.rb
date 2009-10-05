@@ -4,12 +4,33 @@ class VisitReservationsController < ApplicationController
 
 
   def index
-    if current_user.has_role? 'patient'
-      @patient = current_user 
-    else
-      @patient = params[:patient_id]
+
+    if params[:doctor_id]
+      @doctor = User.find_by_id (params[:doctor_id])
+    elsif current_user.has_role?('doctor')
+      @doctor = current_user
     end
-    @reservations = VisitReservation.find_all_by_patient_id (@patient.id) 
+    
+    if params[:patient_id]      
+      @patient = User.find_by_id (params[:patient_id])
+    elsif current_user.has_role?('patient')
+      @patient = current_user
+    end
+    
+    conditions = {}
+    if @doctor
+      conditions[:doctor_id] = @doctor.id
+    end
+    if @patient
+      conditions[:patient_id] = @patient.id
+    end
+
+    if @patient or @doctor 
+      @reservations = VisitReservation.find(:all, :conditions => conditions)    
+    else
+      @reservations = []
+    end
+
   end
 
   # Search form for visits
@@ -88,14 +109,12 @@ class VisitReservationsController < ApplicationController
     respond_to do |format|
       if @visit_reservation.save
         flash[:notice] = 'Visit_Reservation was successfully created.'
-        format.html { redirect_to patient_visit_reservations_path(@visit_reservation.doctor)  }
+        format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient)  }
         format.xml  { render :xml => @visit_reservation, :status => :created, :location => @visit_reservation }
       else
         # !!!!!!!!!!!!!!!!!!!!!!!!111
         # !!!!!!!!!!!!!!!!!!!!!!!!
         flash[:notice] = 'Problems with saving visit_reservation.'
-
-#        format.html { render :template => "visit_reservations/new" }
         format.html { redirect_to new_patient_visit_reservation_path(@patient, 
                                                                      :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date, :since_minute => params[:since_minutes], :until_minute => params[:until_minute], :aaaa=>111} ) ) }
         format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
@@ -107,7 +126,7 @@ class VisitReservationsController < ApplicationController
     @visit_reservation = VisitReservation.find_by_id(params[:id])
     @visit_reservation.destroy
     respond_to do |format|
-      format.html { redirect_to patient_visit_reservations_path(@visit_reservation.doctor) }
+      format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient) }
       format.xml  { head :ok }
     end
   end

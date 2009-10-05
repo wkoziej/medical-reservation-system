@@ -1,7 +1,15 @@
 <h1>Visit Reservations</h1>
+
+<% if @reservations and @reservations.count > 0 %>
+
+<% if @patient %>
+List of reservations made by <%= link_to_user(@patient) %> 
+<% end %>
+
 <div id="newRecordLink">
-<%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
+  <%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
 </div>
+
 
 <table class="dictionaryTable">
   <thead>
@@ -12,17 +20,23 @@
     </tr>
   </thead>
   <tbody>
-<% for visit in @reservations %>
-  <tr>
-    <td><%= visit.since %></td>
-    <td><%= visit.status %></td>
-    <td><%= link_to 'Destroy', visit	, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</tbody>
+    <% for visit in @reservations %>
+    <tr>
+      <td><%= visit.since %></td>
+      <td><%= visit.status %></td>
+      <td><%= link_to 'Destroy', visit	, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
+<% else %>
 
+<div id="newRecordLink">
+  <%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
+</div>
+
+<% end %>
 
 
 

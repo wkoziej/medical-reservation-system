@@ -5,8 +5,7 @@ class SpecialitiesController < ApplicationController
   # GET /specialities
   # GET /specialities.xml
   def index
-    @specialities = Speciality.find(:all)
-
+    @specialities = Speciality.paginate :page => params[:page], :order => 'created_at DESC'
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @specialities }
