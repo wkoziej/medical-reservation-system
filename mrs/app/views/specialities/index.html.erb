@@ -1,23 +1,27 @@
 <h1>Specialities</h1>
-<div id="newRecordLink">
-<%= link_to 'New speciality', new_speciality_path %>
-</div>
 
-<table class="dictionaryTable">
-  <thead>
-  <tr>
-    <td> Name </td>
-    <td colspan="3">Actions</td>
-  </tr>
-  </thead>
-  <tbody>
-<% for speciality in @specialities %>
-  <tr>
-    <td><%= speciality.name %></td>
-    <td><%= link_to 'Show', speciality %></td>
-    <td><%= link_to 'Edit', edit_speciality_path(speciality) %></td>
-    <td><%= link_to 'Destroy', speciality, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+<div class="dictionaryDiv">
+
+
+
+<span id="newRecordLink">
+<%= link_to 'Add speciality' + image_tag("32x32/add.png"), new_speciality_path %>
+</span>
+
+<%= collection_table(@specialities, :id => 'specialities', :class => 'dictionaryTable') do |t|
+      t.header :name
+      t.header :action, :class => 'actionClass' 
+      t.rows.alternate = :odd
+      t.rows.each do |row, speciality, index|
+        row.name     speciality.name
+        row.action   link_to(image_tag("32x32/edit.png"), edit_speciality_path(speciality)) + 
+                     link_to(image_tag("32x32/delete.png"), speciality, :confirm => 'Are you sure?', :method => :delete)
+      end     
+    end
+%>
+
+
+
+<%= will_paginate @specialities %>
+
+</div>
