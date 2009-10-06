@@ -1,0 +1,30 @@
+<h1>Visits</h1>
+
+<div id="newRecordLink">
+<%= link_to 'New visit', new_visit_path %>
+</div>
+
+<table class="dictionaryTable">
+  <thead>
+  <tr>  
+    <td> Doctor </td>
+    <td> Patient </td>
+    <td> Since </td>
+    <td> Until </td>
+    <td> Actions </td>
+  </tr>
+  </thead>
+  <tbody>
+
+  <% for visit in @visits %>
+  <tr>
+    <td><%= visit.doctor.name %></td>
+    <td><%= visit.patient.name %></td>
+    <td><%= visit.since %></td>
+    <td><%= visit.until %></td>
+    <td><%= link_to 'Show', visit %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
