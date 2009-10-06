@@ -1,0 +1,6 @@
+Doctor: <%= @visit.doctor.name %> <br />
+Patient: <%= @visit.patient.name %> <br />
+Duration <%= @visit.since %> - <%= @visit.until %> <br />
+Note: <%= @visit.note %> <br />
+
+<%= link_to 'Back', visits_path %>

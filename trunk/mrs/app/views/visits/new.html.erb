@@ -1,0 +1,30 @@
+<h1>Visit registering</h1>
+
+<div id="newVisit">
+<% form_for(@visit) do |f| %>
+  <%= f.error_messages %>
+
+  
+  <%= f.label :visit_reservation, 'Reservation' %>:
+  <%= 
+     collection_select(:visit, :visit_reservation_id, @visit_reservations, :id, :short_info, 
+     options = {:prompt => "== Choose visti reservations == "}, 
+  { :onChange => remote_function( :url => {:action => "visit_reservation_changed"}, :with => "visit_reservation_id='+this.value")} ) 
+  %>
+  
+  <%= 
+     collection_select(:visit, :patient_id, ApplicationHelper::users_in_role('patient'), :id, :name, 
+     options = {:prompt => "== Choose patient == "}, 
+  { :onChange => remote_function( :url => {:action => "patient_changed"}, :with => "patient_id='+this.value")} )  
+  %>
+
+<br />
+  <%= f.label :note, 'Note' %>
+  <%= f.text_area :note %><br />
+  <%= f.hidden_field :doctor_id %>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+</div>
+
