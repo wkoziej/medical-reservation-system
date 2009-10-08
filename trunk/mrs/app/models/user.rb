@@ -18,7 +18,13 @@ class User < ActiveRecord::Base
     (@_list.include?(role_in_question.to_s) )
   end
   # ---------------------------------------
+  def is_doctor?
+    has_role?('doctor') and not has_role?('admin') 
+  end
   
+  def is_patient?
+    has_role?('patient') and not has_role?('admin') 
+  end
   
   
   

@@ -1,24 +1,22 @@
 <h1>Examination kinds</h1>
-<div id="newRecordLink">
-<%= link_to 'New examination kind', new_examination_kind_path %>
+
+
+<div class="dictionaryDiv">
+
+<span id="newRecordLink">
+<%= link_to 'New examination kind' + image_tag(ApplicationHelper::ADD_IMG), new_examination_kind_path %>
+</span>
+
+<%= collection_table(@examination_kinds, :id => 'examination_kinds', :class => 'dictionaryTable') do |t|
+      t.header :name
+      t.header :action, :class => 'actionClass' 
+      t.rows.alternate = :odd
+      t.rows.each do |row, examination_kind, index|
+        row.name      examination_kind.name
+        row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_examination_kind_path(examination_kind)) + 
+                     link_to(image_tag(ApplicationHelper::DELETE_IMG), edit_examination_kind_path(examination_kind))  
+      end     
+    end
+%>
+
 </div>
-<table class="dictionaryTable">
-  <thead>
-  <tr>
-    <td>Name</td>
-    <td colspan="3">Actions</td>
-  </tr>
-  </thead>
-  <tbody>
-<% for examination_kind in @examination_kinds %>
-  <tr>
-    <td><%= examination_kind.name %></td>
-    <td><%= link_to 'Show', examination_kind %></td>
-    <td><%= link_to 'Edit', edit_examination_kind_path(examination_kind) %></td>
-    <td><%= link_to 'Destroy', examination_kind, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
-
-

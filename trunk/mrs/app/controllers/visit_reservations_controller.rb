@@ -7,13 +7,13 @@ class VisitReservationsController < ApplicationController
 
     if params[:doctor_id]
       @doctor = User.find_by_id (params[:doctor_id])
-    elsif current_user.has_role?('doctor')
+    elsif current_user.is_doctor?
       @doctor = current_user
     end
     
     if params[:patient_id]      
       @patient = User.find_by_id (params[:patient_id])
-    elsif current_user.has_role?('patient')
+    elsif current_user.is_patient?
       @patient = current_user
     end
     
@@ -61,7 +61,7 @@ class VisitReservationsController < ApplicationController
       start = Date.today.to_date
     end
     @days = [ start.to_date ]
-    for i in [1,2,3,4,5,6]     
+    for i in [1,2,3,4]     
       @days << start.to_date + i.day
     end
     respond_to do |format|
@@ -137,7 +137,9 @@ private
   end
 
   def format_hour_from_minutes(i)
-    (i / 60).to_s + ":" + (i % 60).to_s
+    t = Time.gm (2000, 1, 1, i / 60, i % 60, 0)
+    t.strftime("%H:%M")
+    #(i / 60).to_s + ":" + (i % 60).to_s
   end
 
 end

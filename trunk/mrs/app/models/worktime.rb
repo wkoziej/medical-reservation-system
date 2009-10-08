@@ -189,6 +189,9 @@ class Worktime < ActiveRecord::Base
   def format_day_minutes_range(minutes_range)
     s = minutes_range [0]
     e = minutes_range [1]
-    (s / 60).to_s + ":" + (s % 60).to_s + ".." + (e / 60).to_s + ":" + (e % 60).to_s
+    #  t = Time.gm(2000,1,1,20,15,1)       #=> Sat Jan 01 20:15:01 UTC 2000
+    t1 = Time.gm (2000, 1, 1, s / 60, s % 60, 0)
+    t2 = Time.gm (2000, 1, 1, e / 60, e % 60, 0)
+    t1.strftime("%H:%M") + ".." + t2.strftime("%H:%M")
   end
 end

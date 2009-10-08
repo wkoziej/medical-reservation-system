@@ -1,5 +1,12 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  DELETE_IMG = "32x32/delete.png"
+  EDIT_IMG = "32x32/edit.png"
+  ADD_IMG =  "32x32/add.png"
+  SEARCH_IMG =  "32x32/zoom.png"
+
+  TIME_FORMAT = "%H:%M"
+  DATETIME_FORMAT = "%Y-%m-%d " + TIME_FORMAT
 
   def doctors_with_speciality (speciality_id)
     User.find_by_sql ["select distinct u.* from users u, doctor_specialities ds where u.id = ds.doctor_id and ds.speciality_id = ?", speciality_id] 

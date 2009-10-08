@@ -1,25 +1,24 @@
 <h1>Places</h1>
-<div id="newRecordLink">
-<%= link_to 'New place', new_place_path %>
-</div>
 
-<table class="dictionaryTable">
-  <thead>
-  <tr>
-    <td> Name </td>
-    <td> Address </td>
-    <td colspan="3"> Actions </td>     
-  </tr>
-  </thead>
-  <tbody>
-<% for place in @places %>
-  <tr>
-    <td><%= place.name %></td>
-    <td><%= place.address %></td>
-    <td><%= link_to 'Show', place %></td>
-    <td><%= link_to 'Edit', edit_place_path(place) %></td>
-    <td><%= link_to 'Destroy', place, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+
+<div class="dictionaryDiv">
+
+<span id="newRecordLink">
+<%= link_to 'New place' + image_tag(ApplicationHelper::ADD_IMG), new_place_path %>
+</span>
+
+<%= collection_table(@places, :id => 'places', :class => 'dictionaryTable') do |t|
+      t.header :name
+      t.header :address
+      t.header :action, :class => 'actionClass' 
+      t.rows.alternate = :odd
+      t.rows.each do |row, place, index|
+        row.name      place.name
+        row.address      place.address
+        row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_place_path(place)) + 
+                     link_to(image_tag(ApplicationHelper::DELETE_IMG), edit_place_path(place))  
+      end     
+    end
+%>
+
+</div>

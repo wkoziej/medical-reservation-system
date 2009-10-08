@@ -1,15 +1,18 @@
 <div id="users">
 
 <div class="dictionaryDiv">
+
 <%= collection_table(users, :id => 'users', :class => 'dictionaryTable') do |t|
       t.header :login
       t.header :name
+      t.header :email
       t.header :action, :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, user, index|
         row.login     user.login
         row.name      user.name
-        row.action   link_to(image_tag("32x32/zoom.png"), user) + link_to(image_tag("32x32/edit.png"), edit_user_path(user)) 
+        row.email   user.email
+        row.action   link_to(image_tag("32x32/edit.png"), edit_user_path(user)) 
       end     
     end
 %>
