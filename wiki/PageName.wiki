@@ -1,0 +1,12 @@
+#summary Requirements
+
+= Introduction =
+
+This project depends on set of plugins
+
+  * http://github.com/technoweenie/restful-authentication/tree/master
+  * http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/trunk
+  * http://code.google.com/p/rolerequirement/
+  * http://github.com/mislav/will_paginate
+  * http://github.com/pluginaweek/table_helper
+ 
