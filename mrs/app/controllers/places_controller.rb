@@ -48,11 +48,10 @@ class PlacesController < ApplicationController
 
   def update
     @place = Place.find(params[:id])
-
     respond_to do |format|
       if @place.update_attributes(params[:place])
         flash[:notice] = 'Place was successfully updated.'
-        format.html { redirect_to(@place) }
+        format.html { redirect_to(places_url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

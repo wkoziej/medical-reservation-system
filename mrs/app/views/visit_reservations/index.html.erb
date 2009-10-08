@@ -1,44 +1,31 @@
 <h1>Visit Reservations</h1>
 
-<% if @reservations and @reservations.count > 0 %>
+
+
+<div class="dictionaryDiv">
 
 <% if @patient %>
-List of reservations made by <%= link_to_user(@patient) %> 
+List of reservations made by <%= @patient.name %> 
 <% end %>
 
-<div id="newRecordLink">
-  <%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
+<span id="newRecordLink">
+<%= link_to 'Make reservation' + image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient) %>
+</span>
+
+<%= collection_table(@reservations, :id => 'visit_reservations', :class => 'dictionaryTable') do |t|
+      t.header :when
+      t.header :status
+      t.header :action, :class => 'actionClass' 
+      t.rows.alternate = :odd
+      t.rows.each do |row, visit_reservation, index|
+        row.when      visit_reservation.since.strftime(ApplicationHelper::DATETIME_FORMAT) if visit_reservation.since
+        row.status      visit_reservation.status
+        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), visit_reservation, :confirm => 'Are you sure?', :method => :delete)  
+      end     
+    end
+%>
+
 </div>
-
-
-<table class="dictionaryTable">
-  <thead>
-    <tr> 
-      <td>When</td>
-      <td>Status</td>
-      <td>Actions</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% for visit in @reservations %>
-    <tr>
-      <td><%= visit.since %></td>
-      <td><%= visit.status %></td>
-      <td><%= link_to 'Destroy', visit	, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<% else %>
-
-<div id="newRecordLink">
-  <%= link_to "Make new visit reservation ", search_available_worktimes_path(@patient) %>
-</div>
-
-<% end %>
-
-
 
 
 

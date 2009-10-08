@@ -16,9 +16,7 @@ class ExaminationKindsController < ApplicationController
   # GET /examination_kinds/1.xml
   def show
     @examination_kind = ExaminationKind.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
       format.xml  { render :xml => @examination_kind }
     end
   end
@@ -64,7 +62,7 @@ class ExaminationKindsController < ApplicationController
     respond_to do |format|
       if @examination_kind.update_attributes(params[:examination_kind])
         flash[:notice] = 'ExaminationKind was successfully updated.'
-        format.html { redirect_to(@examination_kind) }
+        format.html { redirect_to(examination_kinds_url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

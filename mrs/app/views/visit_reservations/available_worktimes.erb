@@ -1,45 +1,44 @@
-<div id="infoAvailable">
-Available worktimes in <%= @place ? @place.name : " all places "%> <br />
-Specialists : [ <%= @speciality ? @speciality.name : " all specialities"  %> ] <br />
-Doctors : [ <%= @doctor ? @doctor.name : " not choosen " %> ] <br />
+<h1>Available worktimes</h1>
+<div class="dictionaryDiv">
+  <span>
+    Available worktimes in <%= @place ? @place.name : " all places "%> <br />
+    Specialists : [ <%= @speciality ? @speciality.name : " all specialities"  %> ] <br />
+    Doctors : [ <%= @doctor ? @doctor.name : " not choosen " %> ] <br />
+  </span>
+  
+  <span id="newRecordLink">
+    <%= link_to "Search for new visit", search_available_worktimes_path(@patient) %>
+  </span>
 
-<%= link_to "Search for new visit", search_available_worktimes_path(@patient) %>
-
+  <table class="dictionaryTable ui-collection" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+	<% for day in @days %>
+	<th style= <%= "width:" + (100/@days.count).to_s+ "%" %> > <%= day %> </th>
+	<% end %>
+      </tr>
+    </thead>   
+    <tr class="ui-collection-result">
+      <% for day in @days %>
+      <td> 
+	<!-- Worktimes for -->
+	<% for worktime in ApplicationHelper::available_worktimes(@place ? @place.id : nil, @speciality ? @speciality.id : nil, @doctor ? @doctor.id : nil, day) %>
+	<table class="dictionaryTable ui-collection" cellpadding="0" cellspacing="0"> 	  
+	  <% for w in worktime.not_reserved_hours(day) %>          
+          <tr class="ui-collection-result"><td>
+              <%= link_to worktime.doctor.name + " - " + worktime.format_day_minutes_range(w), 
+	          new_patient_visit_reservation_path(@patient, :params => {:doctor_id => worktime.doctor_id, 
+	      :date => day.to_date,
+	      :since_minute => w[0],
+	      :until_minute => w[1]}) %>
+	  </td></tr>  
+	  <% end %>
+	</table>
+	<% end %>
+      </td>
+      <% end %>      
+    </tr>
+  </table>
 </div>
 
-<table id="availableWorktimesTable">
-<thead>
-<tr>
-<% for day in @days %>
-<td id="tdAvailable"> <%= day %> </td>
-<% end %>
 
-</tr>
-</thead>
-
-<tr>
-
-<% for day in @days %>
-<td id="tdAvailable"> 
-<!-- Worktimes for -->
-  <% for worktime in ApplicationHelper::available_worktimes(@place ? @place.id : nil, @speciality ? @speciality.id : nil, @doctor ? @doctor.id : nil, day) %>
-    <table> 	  
-    <% for w in worktime.not_reserved_hours(day) %>          
-        <tr><td>
-        <%= link_to worktime.doctor.name + " - " + worktime.format_day_minutes_range(w), 
-	            new_patient_visit_reservation_path(@patient, :params => {:doctor_id => worktime.doctor_id, 
-		    						 	     :date => day.to_date,
-									     :since_minute => w[0],
-									     :until_minute => w[1]}) %>
-	</td></tr>  
-    <% end %>
-    </table>
-
-  <% end %>
-
-</td>
-<% end %>
-
-</tr>
-
-</table>

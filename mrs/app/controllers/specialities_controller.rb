@@ -16,9 +16,7 @@ class SpecialitiesController < ApplicationController
   # GET /specialities/1.xml
   def show
     @speciality = Speciality.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
       format.xml  { render :xml => @speciality }
     end
   end
@@ -27,7 +25,6 @@ class SpecialitiesController < ApplicationController
   # GET /specialities/new.xml
   def new
     @speciality = Speciality.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @speciality }
@@ -47,7 +44,7 @@ class SpecialitiesController < ApplicationController
     respond_to do |format|
       if @speciality.save
         flash[:notice] = 'Speciality was successfully created.'
-        format.html { redirect_to(@speciality) }
+        format.html { redirect_to(specialities_url) }
         format.xml  { render :xml => @speciality, :status => :created, :location => @speciality }
       else
         format.html { render :action => "new" }
@@ -64,7 +61,7 @@ class SpecialitiesController < ApplicationController
     respond_to do |format|
       if @speciality.update_attributes(params[:speciality])
         flash[:notice] = 'Speciality was successfully updated.'
-        format.html { redirect_to(@speciality) }
+        format.html { redirect_to(specialities_url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

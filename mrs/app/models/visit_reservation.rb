@@ -8,7 +8,7 @@ class VisitReservation < ActiveRecord::Base
   validates_presence_of :until, :since, :patient, :doctor, :status
   
   def short_info
-    patient.name + " " + since.to_s
+    patient.name + " " + since.strftime("%Y-%m-%d %H:%M")
   end
 
   def self.reservations_at_day (doctor_id, day)

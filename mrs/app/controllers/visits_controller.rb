@@ -51,6 +51,7 @@ class VisitsController < ApplicationController
     @visit = Visit.new(params[:visit])
     if @visit and @visit.visit_reservation
       @visit.patient_id = @visit.visit_reservation.patient_id
+      @visit.since = @visit.visit_reservation.since
     elsif @visit.patient_id == nil and params[:patient_id] != nil
       @visit.patient_id = params[:patient_id]
     else
@@ -58,14 +59,12 @@ class VisitsController < ApplicationController
       error_handling("You have to choose patient or visit reservation")
     end
 
-    if not @visit.since
-      @visit.since = Date.today
-    end
+    @visit.since = Date.today if @visit and not @visit.since
     
     respond_to do |format|
       if @visit.save
         flash[:notice] = 'Visit was successfully created.'
-        format.html { redirect_to(@visit) }
+        format.html { redirect_to(visits_path) }
         format.xml  { render :xml => @visit, :status => :created, :location => @visit }
       else
         format.html { render :action => "new" }
@@ -74,13 +73,23 @@ class VisitsController < ApplicationController
     end
   end
 
-  def show
+def destroy
     @visit = Visit.find(params[:id])
+    @visit.destroy
+
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @visit }
+      format.html { redirect_to(visits_url) }
+      format.xml  { head :ok }
     end
   end
+
+#  def show
+#    @visit = Visit.find(params[:id])
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.xml  { render :xml => @visit }
+#    end
+#  end
 
 
 end
