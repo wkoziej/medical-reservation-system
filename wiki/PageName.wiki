@@ -9,4 +9,7 @@ This project depends on set of plugins
   * http://code.google.com/p/rolerequirement/
   * http://github.com/mislav/will_paginate
   * http://github.com/pluginaweek/table_helper
- 
+
+= Instalation = 
+
+Read the proper manual of plugin. Install them into {{{ vendor/plugins }}}
