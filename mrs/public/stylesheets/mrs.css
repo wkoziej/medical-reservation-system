@@ -84,7 +84,7 @@ tbody {
                float: right;
  }
 
-.dictionaryTable, .dictionaryDiv, form, #userEdit  {
+.dictionaryTable, .dictionaryDiv, form, #userEdit, .flash  {
                margin: 0 auto;
                text-align: center;                 
 }

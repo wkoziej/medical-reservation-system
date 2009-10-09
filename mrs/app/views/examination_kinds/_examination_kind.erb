@@ -1,0 +1,8 @@
+<% form_for(examination_kind) do |f| %>
+  <%= f.error_messages %>
+  <%= f.label :name, 'Name' %>:
+  <%= f.text_field :name %><br />
+  <p>
+    <%= f.submit button  %>
+  </p>
+<% end %>

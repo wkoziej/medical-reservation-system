@@ -26,15 +26,7 @@ class VisitsController < ApplicationController
   end
 
   def new
-    if params[:doctor_id]
-      @doctor = User.find_by_id (params[:doctor_id])
-    elsif current_user.has_role?('doctor')
-      @doctor = current_user
-    else
-      ## TODO Error handling
-      error_handling ("Cannot register new visit if there is no doctor")
-    end
-    
+    find_doctor
     @visit = Visit.new
     @visit.doctor = @doctor    
 
@@ -73,23 +65,57 @@ class VisitsController < ApplicationController
     end
   end
 
-def destroy
-    @visit = Visit.find(params[:id])
-    @visit.destroy
+  def edit
+    find_doctor
+    @visit = Visit.find_by_id(params[:id])
+    @visit_reservations = VisitReservation.find_all_by_doctor_id_and_status (@doctor.id, VisitReservation::STATUS[:NEW])
+  end
 
+  def update
+    @visit = Visit.find(params[:id])
+    respond_to do |format|
+      if @visit.update_attributes(params[:visit])
+        flash[:notice] = 'Visit was successfully updated.'
+        format.html { redirect_to(visits_url) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @visit.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def destroy
+    @visit = Visit.find(params[:id])
+    if @visit.destroy
+        flash[:notice] = 'Visit was successfully deleted.'
+    end
     respond_to do |format|
       format.html { redirect_to(visits_url) }
       format.xml  { head :ok }
     end
   end
 
-#  def show
-#    @visit = Visit.find(params[:id])
-#    respond_to do |format|
-#      format.html # show.html.erb
-#      format.xml  { render :xml => @visit }
-#    end
-#  end
+  def show
+    @visit = Visit.find(params[:id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @visit }
+    end
+  end
 
+private
+
+  def find_doctor
+    if params[:doctor_id]
+      @doctor = User.find_by_id (params[:doctor_id])
+    elsif current_user.has_role?('doctor')
+      @doctor = current_user
+    else
+      ## TODO Error handling
+      error_handling ("Cannot register new visit if there is no doctor")
+    end   
+  end
 
 end

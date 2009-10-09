@@ -45,7 +45,7 @@ class ExaminationKindsController < ApplicationController
     respond_to do |format|
       if @examination_kind.save
         flash[:notice] = 'ExaminationKind was successfully created.'
-        format.html { redirect_to(@examination_kind) }
+        format.html { redirect_to(examination_kinds_url) }
         format.xml  { render :xml => @examination_kind, :status => :created, :location => @examination_kind }
       else
         format.html { render :action => "new" }
@@ -75,7 +75,9 @@ class ExaminationKindsController < ApplicationController
   # DELETE /examination_kinds/1.xml
   def destroy
     @examination_kind = ExaminationKind.find(params[:id])
-    @examination_kind.destroy
+    if @examination_kind.destroy
+      flash[:notice] = 'Examination kind was successfully deleted.'
+    end
 
     respond_to do |format|
       format.html { redirect_to(examination_kinds_url) }
