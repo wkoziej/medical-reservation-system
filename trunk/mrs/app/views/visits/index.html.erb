@@ -3,23 +3,26 @@
 
 <div class="dictionaryDiv">
 
+<%if current_user.has_role?('doctor') %>
 <span id="newRecordLink">
 <%= link_to 'New visit' + image_tag(ApplicationHelper::ADD_IMG), new_visit_path %>
 </span>
+<% end %>
 
 <%= collection_table(@visits, :id => 'visits', :class => 'dictionaryTable') do |t|
       t.header :doctor
       t.header :patient
       t.header :since
       t.header :until
-      t.header :action, :class => 'actionClass' 
+      t.header :action, :class => 'actionClass'
       t.rows.alternate = :odd
       t.rows.each do |row, visit, index|
         row.doctor    visit.doctor.name
         row.patient   visit.patient.name
         row.since     visit.since.strftime(ApplicationHelper::DATETIME_FORMAT) if visit.since
         row.until     visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if visit.until 
-        row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit))  + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => "Are you sure?" )  
+        row.action   current_user.is_patient? ?   link_to(image_tag(ApplicationHelper::DETAILS_IMG), visit) : link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => "Are you sure?" ) 
+
       end     
     end
 %>

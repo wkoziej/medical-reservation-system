@@ -37,7 +37,7 @@ class PlacesController < ApplicationController
     respond_to do |format|
       if @place.save
         flash[:notice] = 'Place was successfully created.'
-        format.html { redirect_to(@place) }
+        format.html { redirect_to(places_url) }
         format.xml  { render :xml => @place, :status => :created, :location => @place }
       else
         format.html { render :action => "new" }
@@ -62,8 +62,9 @@ class PlacesController < ApplicationController
 
   def destroy
     @place = Place.find(params[:id])
-    @place.destroy
-
+    if @place.destroy
+      flash[:notice] = 'Place was successfully deleted.'
+    end
     respond_to do |format|
       format.html { redirect_to(places_url) }
       format.xml  { head :ok }

@@ -16,7 +16,7 @@
         row.name      place.name
         row.address      place.address
         row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_place_path(place)) + 
-                     link_to(image_tag(ApplicationHelper::DELETE_IMG), edit_place_path(place))  
+                     link_to(image_tag(ApplicationHelper::DELETE_IMG), place, :method => :delete, :confirm => "Are you sure?")  
       end     
     end
 %>

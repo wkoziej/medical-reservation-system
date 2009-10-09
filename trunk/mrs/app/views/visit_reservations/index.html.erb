@@ -13,13 +13,17 @@ List of reservations made by <%= @patient.name %>
 </span>
 
 <%= collection_table(@reservations, :id => 'visit_reservations', :class => 'dictionaryTable') do |t|
+      t.header :doctor
       t.header :when
+      t.header :reservation_created_at  
       t.header :status
       t.header :action, :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, visit_reservation, index|
+        row.doctor    visit_reservation.doctor.name
         row.when      visit_reservation.since.strftime(ApplicationHelper::DATETIME_FORMAT) if visit_reservation.since
-        row.status      visit_reservation.status
+        row.reservation_created_at  visit_reservation.created_at.strftime(ApplicationHelper::DATETIME_FORMAT) 
+        row.status    visit_reservation.status
         row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), visit_reservation, :confirm => 'Are you sure?', :method => :delete)  
       end     
     end

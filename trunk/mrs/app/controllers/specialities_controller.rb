@@ -74,8 +74,9 @@ class SpecialitiesController < ApplicationController
   # DELETE /specialities/1.xml
   def destroy
     @speciality = Speciality.find(params[:id])
-    @speciality.destroy
-
+    if @speciality.destroy
+      flash[:notice] = 'Speciality was successfully deleted.'
+    end
     respond_to do |format|
       format.html { redirect_to(specialities_url) }
       format.xml  { head :ok }

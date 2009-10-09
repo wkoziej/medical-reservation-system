@@ -4,6 +4,7 @@ module ApplicationHelper
   EDIT_IMG = "32x32/edit.png"
   ADD_IMG =  "32x32/add.png"
   SEARCH_IMG =  "32x32/zoom.png"
+  DETAILS_IMG =  "32x32/full_page.png"
 
   TIME_FORMAT = "%H:%M"
   DATETIME_FORMAT = "%Y-%m-%d " + TIME_FORMAT

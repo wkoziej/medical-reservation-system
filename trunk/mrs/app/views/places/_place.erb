@@ -1,0 +1,15 @@
+
+<% form_for(place) do |f| %>
+  <%= f.error_messages %>
+
+  <%= f.label :name, 'Name' %>:
+  <%= f.text_field :name %><br />
+
+  <%= f.label :address, 'Address' %>:
+  <%= f.text_field :address %><br />
+
+  <p>
+    <%= f.submit button %>
+  </p>
+<% end %>
+

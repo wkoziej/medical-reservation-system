@@ -1,14 +1,3 @@
-<h1>New examination_kind</h1>
+<h1>New examination kind</h1>
 
-<% form_for(@examination_kind) do |f| %>
-  <%= f.error_messages %>
-
-  <%= f.label :name, 'Name' %>:
-  <%= f.text_field :name %><br />
-
-  <p>
-    <%= f.submit "Create" %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', examination_kinds_path %>
+<%= render :partial => "examination_kind", :locals => {:examination_kind => @examination_kind, :button => "Create" } %>
