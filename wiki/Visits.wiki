@@ -1,0 +1,25 @@
+#summary What we can do with visits.
+
+= Introduction =
+
+MRS allow you register/browse/modify visits of patients.
+
+= Details =
+
+Visit are registered by doctors. 
+
+There are two sources of visits:
+  # Visit reservation 
+  # Visit without reservation.
+
+Visit have status:
+  * Registered
+  * Accepted
+
+Through visit registration form doctors can:
+  * register medical referrals
+  * register medical examinations
+  
+
+
+
