@@ -16,13 +16,7 @@ class ExaminationKindsControllerTest < ActionController::TestCase
     assert_difference('ExaminationKind.count') do
       post :create, :examination_kind => { }
     end
-
-    assert_redirected_to examination_kind_path(assigns(:examination_kind))
-  end
-
-  test "should show examination_kind" do
-    get :show, :id => examination_kinds(:one).id
-    assert_response :success
+    assert_redirected_to examination_kinds_path
   end
 
   test "should get edit" do
@@ -32,7 +26,7 @@ class ExaminationKindsControllerTest < ActionController::TestCase
 
   test "should update examination_kind" do
     put :update, :id => examination_kinds(:one).id, :examination_kind => { }
-    assert_redirected_to examination_kind_path(assigns(:examination_kind))
+    assert_redirected_to examination_kinds_path
   end
 
   test "should destroy examination_kind" do

@@ -6,11 +6,6 @@ class WorktimeTest < ActiveSupport::TestCase
 
   fixtures :worktimes
 
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
-
   test "evaluation of exclutions (See Worktime.not_reserved_hours(day)) " do
     w = Worktime.new
 

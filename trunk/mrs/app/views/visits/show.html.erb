@@ -1,6 +1,10 @@
+<h1>Visit details </h1>
+
+<div class="dictionaryDiv">
+
 Doctor: <%= @visit.doctor.name %> <br />
 Patient: <%= @visit.patient.name %> <br />
-Duration <%= @visit.since %> - <%= @visit.until %> <br />
+Time: <%= @visit.since.strftime(ApplicationHelper::DATETIME_FORMAT) if @visit.since %><%= " - " + @visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if @visit.until  %> <br />
 Note: <%= @visit.note %> <br />
 
-<%= link_to 'Back', visits_path %>
+</div>

@@ -1,27 +1,27 @@
 <h1>Absences of <%= @doctor.name %></h1>
 
-<div id="newRecordLink">
-<%= link_to 'New absence', new_user_absence_path(@doctor) %>
+<div class="dictionaryDiv">
+
+<span id="newRecordLink">
+<%= link_to 'New absence' + image_tag(ApplicationHelper::ADD_IMG), new_user_absence_path(@doctor) %>
+</span>
+
+<%= collection_table(@absences, :id => 'absences', :class => 'dictionaryTable') do |t|
+      t.header :doctor
+      t.header :since
+      t.header :until
+      t.header :couse
+      t.header :action, :class => 'actionClass'
+      t.rows.alternate = :odd
+      t.rows.each do |row, absence, index|
+        row.doctor    absence.doctor.name
+        row.since     absence.since.strftime(ApplicationHelper::DATETIME_FORMAT) if absence.since
+        row.until     absence.until.strftime(ApplicationHelper::TIME_FORMAT)  if absence.until 
+        row.couse     absence.couse
+        row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_absence_path(absence)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), absence, :method=> :delete, :confirm => "Are you sure?" ) 
+
+      end     
+    end
+%>
+
 </div>
-
-<table class="dictionaryTable">
-  <thead>
-  <tr>
-    <td> Since </td>
-    <td> Until </td>
-    <td> Couse </td>
-    <td> Actions </td>     
-  </tr>
-  </thead>
-  <tbody>
-<% for absence in @absences %>
-  <tr>
-    <td><%= absence.since %></td>
-    <td><%= absence.until %></td>
-    <td><%= absence.couse %></td>
-    <td><%= link_to 'Destroy', absence, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
-

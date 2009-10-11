@@ -1,26 +1,3 @@
 <h1>New Absence</h1>
 
-
-<% form_for(@absence) do |f| %>
-
-  <%= f.error_messages %>
-
-
-  
-  <%= f.datetime_select :since %> <br />
-  <%= f.datetime_select :until %> <br />
-  <%= f.text_field :couse %> <br />
-
-  <%= f.hidden_field :doctor_id %>
-
-
-  <%= hidden_field_tag "until_minute", params[:until_minute] %>
-
-
-  <p>
-    <%= f.submit "Make reservation" %>
-  </p>
-
-
-<% end %>
-
+<%= render :partial => "absence", :locals => {:absence => @absence, :button => "Create absence"} %>

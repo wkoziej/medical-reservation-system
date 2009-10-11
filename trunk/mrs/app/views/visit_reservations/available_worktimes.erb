@@ -7,7 +7,7 @@
   </span>
   
   <span id="newRecordLink">
-    <%= link_to "Search for new visit", search_available_worktimes_path(@patient) %>
+    <%= link_to("Search for new visit"+image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient)) %>
   </span>
 
   <table class="dictionaryTable ui-collection" cellpadding="0" cellspacing="0">

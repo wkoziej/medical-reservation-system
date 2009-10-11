@@ -8,8 +8,6 @@ class Worktime < ActiveRecord::Base
   EVERY_MONTH_DAY = 3
   EVERY_DAY_OF_WEEK_IN_MONTH = 4
 
-#  DAYS_OF_WEEK = [["Mon", 0], ["Tue", 1], ["Wed", 2], ["Thu", 3], ["Fri", 4], ["Sat", 5], ["Sun", 0]]
-
   REPETITIONS  = [
                   ["No repetition", ONCE], 
                   ["Every week", EVERY_WEEK], 
@@ -18,10 +16,11 @@ class Worktime < ActiveRecord::Base
                   ["At this day of week (e.g monday) once in month", EVERY_DAY_OF_WEEK_IN_MONTH]
                  ]
 
+  include Period::Format
+
   def validate
     if since > self.until or start_date > end_date
         errors.add("since_or_until", "since has to be less then until") 
-#      errors.add("until", "until has to be greater then since") 
     end
 
     if since == self.until 
@@ -29,37 +28,10 @@ class Worktime < ActiveRecord::Base
       c = since.hour == self.until.hour and since.min > self.until.min
       if  b or c
         errors.add("since_or_until", "since has to be less then until") 
- #       errors.add("until", "until has to be greater then since") 
       end
     end
   end
-  
-  def validate_on_create # is only run the first time a new object is saved
-  end
-  
-  def validate_on_update  
-  end
     
-  def time_period_in_minutes
-    t = (self.until.hour - since.hour) * 60 + (self.until.min - since.min)
-    if t < 0 
-      t = (self.until.hour + 24 - since.hour) * 60 + (self.until.min + 60 - since.min)
-    end
-    t
-  end
-
-  def formated_time_period
-    t = time_period_in_minutes
-    (t / 60).to_s + ":" + (t % 60).to_s
-  end
-
-  def formate_since
-    t = since.hour.to_s + ":" + since.min.to_s
-  end
-
-  def formate_until
-    t = self.until.hour.to_s + ":" + self.until.min.to_s
-  end
 
   #  Example of evaluation:
   # 
@@ -87,14 +59,14 @@ class Worktime < ActiveRecord::Base
   def not_reserved_hours(day)
     return [] unless day_in_repetition?(day)
 
-    absences = Absence.absences_at_day(doctor.id, day)
-    reservations = VisitReservation.reservations_at_day(doctor.id, day)    
+    absences = Absence.new.absences_at_day(doctor.id, day)
+    reservations = VisitReservation.new.reservations_at_day(doctor.id, day)    
 
     logger.info " -          -- - - - -- -    - - -  - -  "
     # make array [[start, stop], ...]
     # from abcenses ...    
-    exclusions = absences.collect { |a| logger.info (a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ).to_s
-      logger.info (a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ).to_s
+    exclusions = absences.collect { |a| logger.info(a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ).to_s
+      logger.info(a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ).to_s
       logger.info a.since.to_date 
       logger.info a.until.to_date
       logger.info day
@@ -189,9 +161,8 @@ class Worktime < ActiveRecord::Base
   def format_day_minutes_range(minutes_range)
     s = minutes_range [0]
     e = minutes_range [1]
-    #  t = Time.gm(2000,1,1,20,15,1)       #=> Sat Jan 01 20:15:01 UTC 2000
-    t1 = Time.gm (2000, 1, 1, s / 60, s % 60, 0)
-    t2 = Time.gm (2000, 1, 1, e / 60, e % 60, 0)
+    t1 = Time.gm(2000, 1, 1, s / 60, s % 60, 0)
+    t2 = Time.gm(2000, 1, 1, e / 60, e % 60, 0)
     t1.strftime("%H:%M") + ".." + t2.strftime("%H:%M")
   end
 end

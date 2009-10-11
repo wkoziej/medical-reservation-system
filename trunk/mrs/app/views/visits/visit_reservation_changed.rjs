@@ -1,2 +1,13 @@
-alert "ASDF"
-page[:newVisit].reload
+reservation_id = params[:visit_reservation_id]
+
+if reservation_id and reservation_id.length > 0 
+   reservation = VisitReservation.find_by_id(reservation_id)
+end
+
+if reservation
+  visit_since = reservation.since
+  visit_until = reservation.until
+end
+
+page[:patient_select].reload :locals => {:visit_reservation_id => reservation_id }
+page[:visit_time_select].reload :locals => {:visit_since => visit_since, :visit_until => visit_until}
