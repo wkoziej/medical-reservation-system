@@ -6,7 +6,6 @@ one:
   start_date: 2009-09-25 14:39:02
   end_date: 2009-09-25 14:39:02
   place_id: 1
-  day_of_week: 1
   repetition: 1
   doctor_id: 1
 
@@ -16,6 +15,5 @@ two:
   start_date: 2009-09-25 14:39:02
   end_date: 2009-09-25 14:39:02
   place_id: 1
-  day_of_week: 1
   repetition: 1
   doctor_id: 1

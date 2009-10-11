@@ -3,7 +3,7 @@ class CreateVisitReservations < ActiveRecord::Migration
     create_table :visit_reservations do |t|
       t.datetime :since
       t.datetime :until
-      t.string :status,              :limit => 8,  :null => false
+      t.string   :status,              :limit => 8,  :null => false
       t.integer :patient_id,                       :null => false
       t.integer :doctor_id,                        :null => false
       t.timestamps

@@ -6,13 +6,13 @@ class VisitReservationsController < ApplicationController
   def index
 
     if params[:doctor_id]
-      @doctor = User.find_by_id (params[:doctor_id])
+      @doctor = User.find_by_id(params[:doctor_id])
     elsif current_user.is_doctor?
       @doctor = current_user
     end
     
     if params[:patient_id]      
-      @patient = User.find_by_id (params[:patient_id])
+      @patient = User.find_by_id(params[:patient_id])
     elsif current_user.is_patient?
       @patient = current_user
     end
@@ -76,7 +76,7 @@ class VisitReservationsController < ApplicationController
       @visit_reservation.doctor_id = params[:doctor_id]
     else
       # We have to show doctors
-      @doctors = ApplicationHelper::users_in_role ('doctor')
+      @doctors = ApplicationHelper::users_in_role('doctor')
     end
     if params[:date] 
       @visit_reservation.since = params[:date].to_date ###  + (params[:since_minute]).to_i.minutes
@@ -105,7 +105,6 @@ class VisitReservationsController < ApplicationController
     @visit_reservation = VisitReservation.new(params[:visit_reservation])
     @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
     @visit_reservation.until = @visit_reservation.since + 15.minutes
-    @visit_reservation.status = VisitReservation::STATUS[:NEW]
     respond_to do |format|
       if @visit_reservation.save
         flash[:notice] = 'Visit_Reservation was successfully created.'
@@ -114,7 +113,9 @@ class VisitReservationsController < ApplicationController
       else
         # !!!!!!!!!!!!!!!!!!!!!!!!111
         # !!!!!!!!!!!!!!!!!!!!!!!!
-        flash[:notice] = 'Problems with saving visit_reservation.'
+        str = ""
+        @visit_reservation.errors.each { |t,s| str += " " + t + " " + s }
+        flash[:notice] = 'Problems with saving visit_reservation.' + str
         format.html { redirect_to new_patient_visit_reservation_path(@patient, 
                                                                      :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date, :since_minute => params[:since_minutes], :until_minute => params[:until_minute], :aaaa=>111} ) ) }
         format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
@@ -131,15 +132,15 @@ class VisitReservationsController < ApplicationController
     end
   end
 
-private
+  private
+
   def extract_id(params, object)
     return params[object][:id] if params and params[object] and params[object][:id] and params[object][:id].length > 0
   end
 
   def format_hour_from_minutes(i)
-    t = Time.gm (2000, 1, 1, i / 60, i % 60, 0)
+    t = Time.gm(2000, 1, 1, i / 60, i % 60, 0)
     t.strftime("%H:%M")
-    #(i / 60).to_s + ":" + (i % 60).to_s
   end
 
 end

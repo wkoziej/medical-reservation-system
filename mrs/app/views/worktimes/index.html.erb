@@ -1,37 +1,32 @@
 <h1>Worktimes index</h1>
-<div id="newRecordLink">
-<%= link_to 'New worktime', new_user_worktime_path(@user), :method => :get %>
+
+
+<div class="dictionaryDiv">
+
+<span id="newRecordLink">
+<%= link_to 'New worktime' + image_tag(ApplicationHelper::ADD_IMG), new_user_worktime_path(@user) %>
+</span>
+
+<%= collection_table(@worktimes, :id => 'worktimes', :class => 'dictionaryTable') do |t|
+      t.header :period
+      t.header :hours
+      t.header :repetition
+      t.header :place
+      t.header :who
+      t.header :action, :class => 'actionClass' 
+      t.rows.alternate = :odd
+      t.rows.each do |row, worktime, index|
+        row.period      worktime.start_date.to_s + "  " + worktime.end_date.to_s
+        row.hours       worktime.formated_since + "  " + worktime.formated_until
+        row.repetition  worktime.repetition
+        row.place       worktime.place.name
+        row.who         worktime.doctor.name
+        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), worktime, :method => :delete, :confirm => "Are you sure?")  
+      end     
+    end
+%>
+
 </div>
-<table class="dictionaryTable">
-
-<thead>
-  <td id="tdWorktimes" colspan="2">Period</td>
-  <td id="tdWorktimes" colspan="2">Hours</td>
-  <td id="tdWorktimes">Repetition</td>
-  <td id="tdWorktimes">Place</td>
-  <td id="tdWorktimes">Who</td>
-  <td id="tdWorktimes">Action</td>
-</thead>
-<tbody>
-<% for worktime in @worktimes %>
-
-  <tr>
-
-    <td><%= worktime.start_date %></td>
-    <td><%= worktime.end_date %></td>
-
-    <td><%= worktime.formate_since %></td>
-    <td><%= worktime.formate_until %></td>
-
-    <td><%= worktime.repetition %></td>
-    <td><%= worktime.place.name %></td>
-    <td><%= worktime.doctor.login %></td>
-    <td><%= link_to 'Destroy', worktime	, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</tbody>
-</table>
-
 
 
 
