@@ -2,6 +2,8 @@
 <% form_for(visit) do |f| %>
   <%= f.error_messages %>
 
+<% if not edit %>
+
 <div id="visit_reservation_select">  
   <%= f.label :visit_reservation, 'Reservation' %>:
   <%= collection_select(:visit, :visit_reservation_id, visit_reservations, :id, :short_info, 
@@ -9,8 +11,21 @@
   { :onChange => remote_function( :url => {:action => "visit_reservation_changed"}, :with => "'visit_reservation_id='+this.value")} ) 
   %>
 </div>
-
 <%= render :partial => "patient_select", :locals => {} %>
+
+<% else %>
+
+  <% if visit.visit_reservation %>
+       Reservation: <%=visit.visit_reservation.since.strftime(ApplicationHelper::DATETIME_FORMAT) %> ..
+       		    <%=visit.visit_reservation.until.strftime(ApplicationHelper::TIME_FORMAT) %>
+  <% end %>
+  <br />
+  Patient <%= visit.patient.name %>
+  <%= f.hidden_field :visit_reservation_id %>
+  <%= f.hidden_field :patient_id %>
+<% end %>
+
+
 <%= render :partial => "visit_time_select", :locals => {:visit_since => Time.now, :visit_until => Time.now + 15.minutes} %>
 
 <br />

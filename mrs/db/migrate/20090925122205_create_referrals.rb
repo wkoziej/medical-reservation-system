@@ -10,6 +10,12 @@ class CreateReferrals < ActiveRecord::Migration
     add_index "referrals", "patient_id"
     add_index "referrals", "doctor_id"
     add_index "referrals", "visit_id"
+
+    add_foreign_key(:referrals, :users, :column => "doctor_id")
+    add_foreign_key(:referrals, :users, :column => "patient_id")
+    add_foreign_key(:referrals, :visits, :column => "visit_id")
+
+
   end
 
   def self.down

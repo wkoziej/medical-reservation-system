@@ -10,6 +10,9 @@ class CreateDoctorSpecialities < ActiveRecord::Migration
     add_index "doctor_specialities", "doctor_id"
     add_index "doctor_specialities", "speciality_id"
     add_index "doctor_specialities", ["speciality_id", "doctor_id"], :unique => true
+
+    add_foreign_key(:doctor_specialities, :users, :column => "doctor_id")
+    add_foreign_key(:doctor_specialities, :specialities, :column => "speciality_id")
   end
 
   def self.down

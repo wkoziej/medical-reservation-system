@@ -8,6 +8,7 @@ class CreateAbsences < ActiveRecord::Migration
       t.timestamps
     end
     add_index "absences", "doctor_id"
+    add_foreign_key(:absences, :users, :column => "doctor_id")
   end
 
   def self.down
