@@ -7,7 +7,7 @@ class VisitReservation < ActiveRecord::Base
 
   state :OPEN
   state :CANCELED
-  state :USED
+  state :CLOSED
   
   include Period::Util
 
@@ -32,12 +32,12 @@ class VisitReservation < ActiveRecord::Base
   end
 
   event :use do
-    transitions :to => :USED, :from => :OPEN
+    transitions :to => :CLOSED, :from => :OPEN
   end
 
   event :reset do   
-    transitions :to => :OPEN, :from => :USED, :guard => Proc.new {|o| o.since <= Date.today }
-    transitions :to => :CANCELED, :from => :USED, :guard => Proc.new {|o| o.since > Date.today }
+    transitions :to => :OPEN, :from => :CLOSED, :guard => Proc.new {|o| o.since <= Date.today }
+    transitions :to => :CANCELED, :from => :CLOSED, :guard => Proc.new {|o| o.since > Date.today }
   end
 
 end

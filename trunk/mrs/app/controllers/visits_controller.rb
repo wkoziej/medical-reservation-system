@@ -64,7 +64,7 @@ class VisitsController < ApplicationController
   def edit
     find_doctor
     @visit = Visit.find_by_id(params[:id])
-    @visit_reservations = VisitReservation.find_all_by_doctor_id_and_status(@doctor.id, VisitReservation::STATUS[:NEW])
+    @visit_reservations = VisitReservation.find_all_by_doctor_id_and_status(@doctor.id, :OPEN)
   end
 
   def update

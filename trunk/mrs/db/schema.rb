@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090925212958) do
+ActiveRecord::Schema.define(:version => 20091012165730) do
 
   create_table "absences", :force => true do |t|
     t.datetime "since"
@@ -92,14 +92,6 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
-  create_table "schedules", :force => true do |t|
-    t.datetime "since"
-    t.datetime "until"
-    t.integer  "doctor_id",  :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "specialities", :force => true do |t|
     t.text     "name"
     t.datetime "created_at"
@@ -130,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
   create_table "visit_reservations", :force => true do |t|
     t.datetime "since"
     t.datetime "until"
-    t.string   "status",     :limit => 1
+    t.string   "status",     :limit => 8, :null => false
     t.integer  "patient_id",              :null => false
     t.integer  "doctor_id",               :null => false
     t.datetime "created_at"
@@ -162,5 +154,32 @@ ActiveRecord::Schema.define(:version => 20090925212958) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_foreign_key "absences", "users", :name => "absences_doctor_id_fk", :column => "doctor_id"
+
+  add_foreign_key "doctor_specialities", "specialities", :name => "doctor_specialities_speciality_id_fk"
+  add_foreign_key "doctor_specialities", "users", :name => "doctor_specialities_doctor_id_fk", :column => "doctor_id"
+
+  add_foreign_key "examinations", "examination_kinds", :name => "examinations_examination_kind_id_fk"
+  add_foreign_key "examinations", "users", :name => "examinations_doctor_id_fk", :column => "doctor_id"
+  add_foreign_key "examinations", "users", :name => "examinations_patient_id_fk", :column => "patient_id"
+  add_foreign_key "examinations", "visits", :name => "examinations_visit_id_fk"
+
+  add_foreign_key "referral_examination_kinds", "examination_kinds", :name => "referral_examination_kinds_examination_kind_id_fk"
+  add_foreign_key "referral_examination_kinds", "referrals", :name => "referral_examination_kinds_referral_id_fk"
+
+  add_foreign_key "referrals", "users", :name => "referrals_doctor_id_fk", :column => "doctor_id"
+  add_foreign_key "referrals", "users", :name => "referrals_patient_id_fk", :column => "patient_id"
+  add_foreign_key "referrals", "visits", :name => "referrals_visit_id_fk"
+
+  add_foreign_key "visit_reservations", "users", :name => "visit_reservations_doctor_id_fk", :column => "doctor_id"
+  add_foreign_key "visit_reservations", "users", :name => "visit_reservations_patient_id_fk", :column => "patient_id"
+
+  add_foreign_key "visits", "users", :name => "visits_doctor_id_fk", :column => "doctor_id"
+  add_foreign_key "visits", "users", :name => "visits_patient_id_fk", :column => "patient_id"
+  add_foreign_key "visits", "visit_reservations", :name => "visits_visit_reservation_id_fk"
+
+  add_foreign_key "worktimes", "places", :name => "worktimes_place_id_fk"
+  add_foreign_key "worktimes", "users", :name => "worktimes_doctor_id_fk", :column => "doctor_id"
 
 end

@@ -8,9 +8,6 @@ class CreatePlaces < ActiveRecord::Migration
     
     add_index :places, :name, :unique => true
 
-    create_place("Lublin", "Batorego 11")
-    create_place("Krakow", "Sieczki 33")
-    create_place("Warszawa", "Szara 1/A")
   end
 
   def self.down
@@ -18,11 +15,5 @@ class CreatePlaces < ActiveRecord::Migration
   end
 
 private
-  def self.create_place(name, address)
-    place = Place.new
-    place.name = name
-    place.address = address
-    place.save
-  end
 
 end

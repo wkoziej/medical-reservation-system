@@ -6,10 +6,6 @@ class CreateSpecialities < ActiveRecord::Migration
     end
 
     add_index :specialities, :name, :unique => true
-    create_speciality ("Surgeon");
-    create_speciality ("Paedatrican");
-    create_speciality ("Dentist");
-    create_speciality ("Dermatologist");   
     
   end
 
@@ -18,10 +14,5 @@ class CreateSpecialities < ActiveRecord::Migration
   end
 
 private
-  def self.create_speciality (name)
-    speciality = Speciality.new
-    speciality.name = name
-    speciality.save
-  end
 
 end

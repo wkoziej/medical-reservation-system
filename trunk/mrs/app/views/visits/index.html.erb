@@ -14,6 +14,7 @@
       t.header :patient
       t.header :since
       t.header :until
+      t.header :note
       t.header :action, :class => 'actionClass'
       t.rows.alternate = :odd
       t.rows.each do |row, visit, index|
@@ -21,7 +22,9 @@
         row.patient   visit.patient.name
         row.since     visit.since.strftime(ApplicationHelper::DATETIME_FORMAT) if visit.since
         row.until     visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if visit.until 
-        row.action   current_user.is_patient? ?   link_to(image_tag(ApplicationHelper::DETAILS_IMG), visit) : link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => "Are you sure?" ) 
+        row.note      visit.note
+        row.action   link_to(image_tag(ApplicationHelper::DETAILS_IMG), visit) + 
+                     (current_user.is_patient? ? "" : link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => "Are you sure?" ) )
 
       end     
     end
