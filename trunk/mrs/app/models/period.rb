@@ -9,6 +9,11 @@ module Period
                                              { :day => day, :next_day => (day + 1.days) } .merge(parameters)
                                            ])      
     end
+
+    def self.day_minutes(date)
+      date.to_time.hour * 60 + date.to_time.min
+    end
+    
   end
 
   module Check
