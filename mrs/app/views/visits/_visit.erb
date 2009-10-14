@@ -26,7 +26,7 @@
 <% end %>
 
 
-<%= render :partial => "visit_time_select", :locals => {:visit_since => Time.now, :visit_until => Time.now + 15.minutes} %>
+<%= render :partial => "visit_time_select", :locals => {:visit_since => visit_since, :visit_minutes => visit_minutes} %>
 
 <br />
   <%= f.label :note, 'Note' %>

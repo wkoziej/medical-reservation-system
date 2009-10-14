@@ -1,3 +1,10 @@
 <h1>Visit editing</h1>
 
-<%= render :partial=> "visit", :locals => {:visit => @visit, :visit_reservations => @visit_reservations, :button => "Update", :edit => true} %>
+<%= render :partial=> "visit", 
+           :locals => {:visit => @visit, 
+                       :visit_reservations => @visit_reservations,
+                       :button => "Update", 
+                       :edit => true,
+                       :visit_since => @visit.since, 
+                       :visit_minutes => ((@visit.until - @visit.since) / 60).to_i 
+        } %>

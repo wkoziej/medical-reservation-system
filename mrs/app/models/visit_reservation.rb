@@ -24,7 +24,11 @@ class VisitReservation < ActiveRecord::Base
     if period_overlap?("patient_id = :patient_id", {:patient_id => self.patient_id})
       errors.add("visit_reservation_time", "Visit reservation time overlap")
     end
-
+    
+    # check absences and visits at this time for this doctor
+    if not Worktime.available?(self.since, self.until, self.doctor_id, nil, nil)
+      errors.add("worktime_not_available", "Not available worktime")
+    end    
   end
   
   def short_info

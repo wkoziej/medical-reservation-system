@@ -25,56 +25,25 @@ module ApplicationHelper
     Speciality.find_by_sql ["select distinct s.* from specialities s, doctor_specialities ds where s.id = ds.speciality_id and ds.doctor_id = ? ", doctor_id]    
   end
 
-  def available_specialities (doctor_id)
+  def available_specialities(doctor_id)
     Speciality.find_by_sql ["select distinct s.* from specialities s where s.id not in (select ds.speciality_id from doctor_specialities ds where ds.doctor_id = ? )", doctor_id]    
   end
 
-  def self.users_in_role (role_name)
+  def self.users_in_role(role_name)
     User.find_by_sql ["select distinct u.* from users u, roles r, roles_users ru where u.id = ru.user_id and r.id = ru.role_id and r.name = ?", role_name] 
   end
 
 
-  def self.users_in_role_with_id (role_id)
+  def self.users_in_role_with_id(role_id)
     User.find_by_sql ["select distinct u.* from users u, roles_users ru where u.id = ru.user_id and ru.role_id  = ?", role_id] 
   end
 
-  def users_in_role_in_place (role_name, place_id)
+  def users_in_role_in_place(role_name, place_id)
     User.find_by_sql ["select distinct u.* from users u, roles r, roles_users ru, doctor_specialities ds, worktimes w where u.id = ru.user_id and r.id = ru.role_id and ds.doctor_id = u.id and w.doctor_id = ds.doctor_id and r.name = ? and w.place_id = ? ", role_name, place_id]
   end
 
-  def self.available_worktimes (place_id, speciality_id, doctor_id, start_date)
-    query = "select * from worktimes w"
-    conditions = []
-    parameters = []
-    if place_id
-      conditions << "w.place_id = ?"
-      parameters << place_id
-    end
-    if speciality_id 
-      conditions <<  " w.doctor_id in (select u.id from users u, doctor_specialities ds where ds.doctor_id = u.id and ds.speciality_id = ?) "
-      parameters << speciality_id
-    end
-    if doctor_id
-      conditions <<  " w.doctor_id = ? "
-      parameters << doctor_id
-    end
-
-    if start_date 
-      conditions <<  " ? between w.start_date and w.end_date "
-      parameters << start_date
-    end
-    
-    if conditions.count > 0
-      query += " where " 
-      for c in conditions
-        query += c + " and "
-      end
-      query_with_params = [ query[0, query.length - 5] ]
-      query_with_params.concat parameters
-    else
-      query_with_params = [query]
-    end
-    worktimes = Worktime.find_by_sql query_with_params    
+  def self.available_worktimes(place_id, speciality_id, doctor_id, start_date)
+    Worktime.available_worktimes(place_id, speciality_id, doctor_id, start_date)
   end
  
 end

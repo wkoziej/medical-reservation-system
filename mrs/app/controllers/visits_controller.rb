@@ -39,14 +39,12 @@ class VisitsController < ApplicationController
 
 
   def create
-    @visit = Visit.new(params[:visit])
+    @visit = Visit.new(params[:visit])    
     if @visit and @visit.visit_reservation
       @visit.patient_id = @visit.visit_reservation.patient_id
       @visit.visit_reservation.use!
-    elsif @visit.patient_id == nil
-      # Have to choose patient !!!
-      error_handling("You have to choose patient or visit reservation")
     end
+    @visit.until =  @visit.since + params[:visit_minutes].to_i.minutes
     respond_to do |format|
       if @visit.save
         flash[:notice] = 'Visit was successfully created.'
@@ -69,6 +67,7 @@ class VisitsController < ApplicationController
 
   def update
     @visit = Visit.find(params[:id])
+    @visit.until =  @visit.since + params[:visit_minutes].to_i.minutes
     respond_to do |format|
       if @visit.update_attributes(params[:visit])
         flash[:notice] = 'Visit was successfully updated.'

@@ -17,6 +17,7 @@ class Worktime < ActiveRecord::Base
                  ]
 
   include Period::Format
+  include Period::Util
 
   def validate
     if since > self.until or start_date > end_date
@@ -61,31 +62,90 @@ class Worktime < ActiveRecord::Base
 
     absences = Absence.new.absences_at_day(doctor.id, day)
     reservations = VisitReservation.new.reservations_at_day(doctor.id, day)    
-
+    visits = Visit.new.visits_at_day(doctor.id, day)
+    
     logger.info " -          -- - - - -- -    - - -  - -  "
     # make array [[start, stop], ...]
     # from abcenses ...    
-    exclusions = absences.collect { |a| logger.info(a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ).to_s
-      logger.info(a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ).to_s
+    exclusions = absences.collect { |a| logger.info(a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ).to_s
+      logger.info(a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ).to_s
       logger.info a.since.to_date 
       logger.info a.until.to_date
       logger.info day
-      [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,
-        a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) 
+      [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ,
+        a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) 
       ] 
     }
     logger.info exclusions.class
     # ... and from reservations
-    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : day_minutes(a.until.to_time) ] }
+    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
+    # ... and from visits
+    exclusions.concat visits.collect { |a| [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
     logger.info " ================ EXCLUSIONS ===== "
     logger.info exclusions.each {|e|  logger.info "[" + e[0].to_s + ", " + e[1].to_s + "]" }
     logger.info " ================ DAY_MINUTES SINCE, UNTIL ===== "
-    logger.info day_minutes(self.since.to_time).to_s + ", " + day_minutes(self.until).to_s
+    logger.info Period::Util::day_minutes(self.since.to_time).to_s + ", " + Period::Util::day_minutes(self.until).to_s
     
-    a = available_periods( day_minutes(self.since.to_time), day_minutes(self.until), exclusions)      
+    a = available_periods( Period::Util::day_minutes(self.since.to_time), Period::Util::day_minutes(self.until), exclusions)      
     logger.info "================ AVAILALBE ======"
     logger.info a
     a
+  end
+
+  # Choose all worktimes for parameters
+  def self.available_worktimes(place_id, speciality_id, doctor_id, start_date)
+    query = "select * from worktimes w"
+    conditions = []
+    parameters = []
+    if place_id
+      conditions << "w.place_id = ?"
+      parameters << place_id
+    end
+    if speciality_id 
+      conditions <<  " w.doctor_id in (select u.id from users u, doctor_specialities ds where ds.doctor_id = u.id and ds.speciality_id = ?) "
+      parameters << speciality_id
+    end
+    if doctor_id
+      conditions <<  " w.doctor_id = ? "
+      parameters << doctor_id
+    end
+
+    if start_date 
+      conditions <<  " ? between w.start_date and w.end_date "
+      parameters << start_date
+    end
+    
+    if conditions.count > 0
+      query += " where " 
+      for c in conditions
+        query += c + " and "
+      end
+      query_with_params = [ query[0, query.length - 5] ]
+      query_with_params.concat parameters
+    else
+      query_with_params = [query]
+    end
+    worktimes = Worktime.find_by_sql query_with_params    
+  end
+
+  # Choose all worktimes and return not_reserver
+  def self.not_reserved_worktimes(day, doctor_id, place_id, speciality_id)
+    hours = []
+    for worktime in available_worktimes(place_id, speciality_id, doctor_id, day)
+      hours.concat worktime.not_reserved_hours(day)
+    end
+    hours
+  end
+
+  # check absences and visits at this time for this doctor
+  def self.available?(date_since, date_until, doctor_id, place_id, speciality_id)     
+    logger.info " ================ SELF.SINCE ===== " + Period::Util::day_minutes(date_since).to_s + "    " +  Period::Util::day_minutes(date_until).to_s
+    nr = Worktime.not_reserved_worktimes(date_since.to_date, doctor_id, place_id, speciality_id)
+    # eg. nr == [[1040, 2030], [3000,4300]]
+    ok = false
+    nr.each {|r| logger.info "--------------> " + r[0].to_s + "  " +  r[1].to_s }   
+    nr.each {|r| ok = true if r[0] <= Period::Util::day_minutes(date_since) and r[1] >= Period::Util::day_minutes(date_until) }
+    ok
   end
   
   # Return true if day is one of worktime repetition
@@ -154,9 +214,6 @@ class Worktime < ActiveRecord::Base
     end
   end
   
-  def day_minutes(date)
-    date.to_time.hour * 60 + date.to_time.min
-  end
 
   def format_day_minutes_range(minutes_range)
     s = minutes_range [0]
