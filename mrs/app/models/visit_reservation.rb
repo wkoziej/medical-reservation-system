@@ -13,8 +13,15 @@ class VisitReservation < ActiveRecord::Base
   include Period::Check
 
   validates_presence_of :until, :since, :patient, :doctor
+
   
   def validate
+
+    # Insert row into user_times to ensure resoure available for one
+    # process, see rescure section
+    user_time = UserTime.new({:user_id => self.doctor_id, :day => self.since.to_date})
+    user_time.save   
+    
     if not period_valid?
       errors.add("visit_reservation_time", "Visit reservation period not valid")
     end
@@ -28,7 +35,16 @@ class VisitReservation < ActiveRecord::Base
     # check absences and visits at this time for this doctor
     if not Worktime.available?(self.since, self.until, self.doctor_id, nil, nil)
       errors.add("worktime_not_available", "Not available worktime")
-    end    
+    end
+
+  rescue ActiveRecord::StatementInvalid => error
+    errors.add("resource_locked", "Resource not available (somebody is making same reservation?) ")    
+  end
+
+  # Release lock
+  def after_save
+    user_time = UserTime.find_by_user_id_and_day (self.doctor_id, self.since.to_date)
+    user_time.destroy
   end
   
   def short_info
