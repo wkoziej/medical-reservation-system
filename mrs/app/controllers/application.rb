@@ -4,15 +4,11 @@
 class ApplicationController < ActionController::Base
   layout "application"
 
+   
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
-
-
-  def will_paginate
-    true
-  end
 
   helper :all # include all helpers, all the time
 
