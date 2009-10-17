@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091012165730) do
+ActiveRecord::Schema.define(:version => 20091017201051) do
 
   create_table "absences", :force => true do |t|
     t.datetime "since"
@@ -100,6 +100,15 @@ ActiveRecord::Schema.define(:version => 20091012165730) do
 
   add_index "specialities", ["name"], :name => "index_specialities_on_name", :unique => true
 
+  create_table "user_times", :force => true do |t|
+    t.date     "day"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_times", ["day", "user_id"], :name => "index_user_times_on_day_and_user_id", :unique => true
+
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
@@ -171,6 +180,8 @@ ActiveRecord::Schema.define(:version => 20091012165730) do
   add_foreign_key "referrals", "users", :name => "referrals_doctor_id_fk", :column => "doctor_id"
   add_foreign_key "referrals", "users", :name => "referrals_patient_id_fk", :column => "patient_id"
   add_foreign_key "referrals", "visits", :name => "referrals_visit_id_fk"
+
+  add_foreign_key "user_times", "users", :name => "user_times_user_id_fk"
 
   add_foreign_key "visit_reservations", "users", :name => "visit_reservations_doctor_id_fk", :column => "doctor_id"
   add_foreign_key "visit_reservations", "users", :name => "visit_reservations_patient_id_fk", :column => "patient_id"

@@ -6,7 +6,59 @@ class WorktimeTest < ActiveSupport::TestCase
 
   fixtures :worktimes
 
+  test "arrays overlaping" do
+    w = Worktime.new
+    assert w.minutes_array_overlap?([[10, 20]], [[15, 30]])
+    assert (not w.minutes_array_overlap?([[10, 20]], [[20, 30]]))
+    assert (not w.minutes_array_overlap?([[10, 20]], [[21, 30]]))
+    assert (not w.minutes_array_overlap?([[10, 20]], [[21, 30], [31, 44]]))
+    assert (not w.minutes_array_overlap?([[10, 20], [50,55]], [[21, 30], [31, 44]]))
+    assert w.minutes_array_overlap?([[10, 20], [50,55]], [[21, 30], [31, 44], [50,51]])
+  end
+  
+  test "worktime minutes array creation" do
+    START_DATE = '1970-01-01'
+    START_TIME =  START_DATE.to_date  + 1.hours
+    END_TIME =  START_DATE.to_date + 2.hours + 10.minutes
+    
+    t1 = START_TIME.to_time
+    t2 = END_TIME.to_time
+
+    w = Worktime.new({:start_date => START_TIME.to_date, :end_date => (START_TIME.to_date + 1.week).to_date,
+                       :since => START_TIME, :until => END_TIME, :repetition => Worktime::EVERY_WEEK})
+    e1 = [t1.to_i / 60, t2.to_i / 60]
+    e2 = [(t1 + 1.week).to_i / 60, (t2 + 1.week).to_i/60]
+    assert_equal [ e1, e2 ], w.minutes_array
+
+
+    w = Worktime.new({:start_date => START_TIME.to_date, :end_date => (START_TIME.to_date + 2.week).to_date,
+                       :since => START_TIME, :until => END_TIME, :repetition => Worktime::EVERY_2_WEEKS})
+    e1 = [t1.to_i / 60, t2.to_i / 60]
+    e2 = [(t1 + 2.week).to_i / 60, (t2 + 2.week).to_i/60]
+    assert_equal [ e1, e2 ], w.minutes_array
+
+
+    w = Worktime.new({:start_date => START_TIME.to_date, :end_date => (START_TIME.to_date + 1.month).to_date,
+                       :since => START_TIME, :until => END_TIME, :repetition => Worktime::EVERY_MONTH_DAY})
+    e1 = [t1.to_i / 60, t2.to_i / 60]
+    e2 = [(t1 + 1.month).to_i / 60, (t2 + 1.month).to_i/60]
+    assert_equal [ e1, e2 ], w.minutes_array
+
+
+    w = Worktime.new({:start_date => START_TIME.to_date, :end_date => (START_TIME.to_date + 5.weeks).to_date,
+                       :since => START_TIME, :until => END_TIME, :repetition => Worktime::EVERY_DAY_OF_WEEK_IN_MONTH})
+    e1 = [t1.to_i / 60, t2.to_i / 60]
+    e2 = [(t1 + 5.weeks).to_i / 60, (t2 + 5.weeks).to_i/60]
+    assert_equal [ e1, e2 ], w.minutes_array
+
+
+
+
+    
+  end
+  
   test "evaluation of exclutions (See Worktime.not_reserved_hours(day)) " do
+
     w = Worktime.new
 
     start = 8
@@ -31,6 +83,8 @@ class WorktimeTest < ActiveSupport::TestCase
   end
 
   test "worktime repetitions" do
+
+    
     w = Worktime.new({:start_date => '2009-01-01', :end_date => '2010-01-01', :since => '2009-01-01 09:10', :until => '2010-01-01 09:50'})
     w.repetition = Worktime::ONCE
 

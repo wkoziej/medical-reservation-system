@@ -43,7 +43,7 @@ class VisitReservation < ActiveRecord::Base
 
   # Release lock
   def after_save
-    user_time = UserTime.find_by_user_id_and_day (self.doctor_id, self.since.to_date)
+    user_time = UserTime.find_by_user_id_and_day(self.doctor_id, self.since.to_date)
     user_time.destroy
   end
   

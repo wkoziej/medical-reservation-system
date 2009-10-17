@@ -1,6 +1,8 @@
 class Worktime < ActiveRecord::Base
   belongs_to :place
   belongs_to :doctor, :class_name => "User"
+
+  validates_presence_of :until, :since, :doctor, :start_date, :end_date, :repetition
   
   ONCE = 0
   EVERY_WEEK = 1
@@ -20,6 +22,7 @@ class Worktime < ActiveRecord::Base
   include Period::Util
 
   def validate
+    
     if since > self.until or start_date > end_date
         errors.add("since_or_until", "since has to be less then until") 
     end
@@ -31,8 +34,93 @@ class Worktime < ActiveRecord::Base
         errors.add("since_or_until", "since has to be less then until") 
       end
     end
+
+     worktimes = Worktime.find(:all, :conditions => ["end_date >= ? and id != ?", self.start_date, (self.id == nil ? -1 : self.id)], :lock => true)
+    # Check overlaping
+    m_array = self.minutes_array
+    for worktime in worktimes
+      t_array =  worktime.minutes_array
+      if minutes_array_overlap?(m_array, t_array)
+        errors.add("worktime", "Exists worktimes that overlaps with this worktime") 
+        break
+      end
+    end    
   end
-    
+
+  # Check if A1 and A2 has common parts
+  # A1, A2 - arrays of integers [[a1, a2], [b1, b2], ...] where a1 <
+  # a2, etc.
+  def minutes_array_overlap?(a1, a2)
+    for a in a1
+      for b in a2
+        if  (a[0] > b[0] and a[0] < b[1]) or
+            (a[1] > b[0] and a[1] < b[1]) or
+            (b[0] > a[0] and b[0] < a[1]) or
+            (b[1] > a[0] and b[1] < a[1])
+          return true
+        end
+      end
+    end
+    return false
+      #    a1.collect { |a| a2.collect { |b| if } }
+  end
+  
+  # Returns minutes array for worktime
+  # E.g.
+  # For worktime: 2001-01-01, 2001-01-08, 08:30 - 10:30,
+  # repetition=EVERY_WEEK returns
+  # [[minutes from 1970 to since, minutes from 1970 to until],
+  # [minutes from 1970 to since plus week, minutes from 1970 to until
+  # plus week]] 
+  def minutes_array
+    day = self.start_date 
+    minutes = []
+    wday = self.start_date.wday
+    week_in_month = self.start_date.mday / 7
+
+    while day.to_time.to_i <= end_date.to_time.to_i
+
+      t1 = (day + self.since.hour.hours) + self.since.min.minutes
+      t2 = (day + self.until.hour.hours) + self.until.min.minutes
+
+      minutes << [ t1.to_i / 60, t2.to_i / 60 ]
+      if self.repetition == Worktime::ONCE then
+        break
+      elsif self.repetition == Worktime::EVERY_WEEK 
+        day = day + 1.week
+      elsif self.repetition == Worktime::EVERY_2_WEEKS
+        day = day + 2.weeks
+      elsif self.repetition == Worktime::EVERY_MONTH_DAY        
+        if ( day + 1.month ).mday != day.mday
+          day = day + 2.months
+        else
+          day = day + 1.month
+        end
+      elsif self.repetition == Worktime::EVERY_DAY_OF_WEEK_IN_MONTH
+        # E.g. every second friday in month
+        nday = day + 4.weeks
+        
+        if nday.mday / 7 != week_in_month
+          nday = day + 5.weeks
+        end
+        
+        if nday.mday / 7 != week_in_month
+          nday = day + 3.weeks
+        end
+
+        if nday.mday / 7 != week_in_month
+          raise "cannot set up week"
+        end
+        
+        day = nday
+      else
+        raise "repetition not valid!"
+      end
+
+          
+    end
+    minutes
+  end
 
   #  Example of evaluation:
   # 
@@ -63,8 +151,7 @@ class Worktime < ActiveRecord::Base
     absences = Absence.new.absences_at_day(doctor.id, day)
     reservations = VisitReservation.new.reservations_at_day(doctor.id, day)    
     visits = Visit.new.visits_at_day(doctor.id, day)
-    
-    logger.info " -          -- - - - -- -    - - -  - -  "
+
     # make array [[start, stop], ...]
     # from abcenses ...    
     exclusions = absences.collect { |a| logger.info(a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ).to_s
@@ -76,20 +163,13 @@ class Worktime < ActiveRecord::Base
         a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) 
       ] 
     }
-    logger.info exclusions.class
     # ... and from reservations
-    exclusions.concat reservations.collect { |a| [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
+    exclusions.concat reservations.collect { |a|[ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time),
+                                                  a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
     # ... and from visits
-    exclusions.concat visits.collect { |a| [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time) ,a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
-    logger.info " ================ EXCLUSIONS ===== "
-    logger.info exclusions.each {|e|  logger.info "[" + e[0].to_s + ", " + e[1].to_s + "]" }
-    logger.info " ================ DAY_MINUTES SINCE, UNTIL ===== "
-    logger.info Period::Util::day_minutes(self.since.to_time).to_s + ", " + Period::Util::day_minutes(self.until).to_s
-    
-    a = available_periods( Period::Util::day_minutes(self.since.to_time), Period::Util::day_minutes(self.until), exclusions)      
-    logger.info "================ AVAILALBE ======"
-    logger.info a
-    a
+    exclusions.concat visits.collect { |a| [ a.since.to_date < day.to_date ? 0 : Period::Util::day_minutes(a.since.to_time),
+                                             a.until.to_date > day.to_date ? 24 * 60 : Period::Util::day_minutes(a.until.to_time) ] }
+    available_periods( Period::Util::day_minutes(self.since.to_time), Period::Util::day_minutes(self.until), exclusions)          
   end
 
   # Choose all worktimes for parameters
