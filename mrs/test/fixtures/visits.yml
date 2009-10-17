@@ -2,14 +2,14 @@
 
 one:
   since: 2009-09-25 14:08:55
-  until: 2009-09-25 14:08:55
+  until: 2009-09-25 14:11:55
   note: MyText
   patient_id: 1
   doctor_id: 1
 
 two:
-  since: 2009-09-25 14:08:55
-  until: 2009-09-25 14:08:55
+  since: 2009-09-25 14:22:55
+  until: 2009-09-25 14:33:55
   note: MyText
   patient_id: 1
   doctor_id: 1
