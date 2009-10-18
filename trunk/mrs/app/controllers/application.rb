@@ -2,6 +2,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  before_filter :set_locale
+  
   layout "application"
 
    
@@ -20,11 +22,23 @@ class ApplicationController < ActionController::Base
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password
+
+  def set_locale
+    logger.info "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
+    I18n.locale = extract_locale_from_accept_language_header
+    logger.info "* Locale set to '#{I18n.locale}'"
+  end
+  
   private
-    def is_admin
-       if current_user.type != 'Admin' then
-	  flash[:notice] = "You are not allowed to access this page...";
-	  redirect_to(login_url)
-       end
+  def extract_locale_from_accept_language_header
+    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  end
+  
+  private
+  def is_admin
+    if current_user.type != 'Admin' then
+      flash[:notice] = "You are not allowed to access this page...";
+      redirect_to(login_url)
     end
+  end
 end

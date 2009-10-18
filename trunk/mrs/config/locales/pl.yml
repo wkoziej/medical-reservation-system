@@ -1,0 +1,125 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+pl:
+  hello: "Witaj świecie"
+  MRS: "Rezerwacje Wizyt Lekarskich"
+  # views/layouts/_user_bar.html.erb
+  home: "Start"
+  users: "Użytkownicy"
+  logged_in_as: "Witaj {{user}}"
+  examination_kinds: "Rodzaje badań"
+  specialities: "Specjalności"
+  places: "Miejsca"
+  visits_reservations: "Rezerwacje wizyt"
+  visits: "Wizyty"
+  log_in: "Zaloguj"
+  log_out: "Wyloguj się"
+  create_an_account: "Zarejestruj się"
+  # views/absences/index.html.erb
+  absences_of: "Nieobecności użytkownika: {{user}}"
+  new_absence: "Dodaj nieobecność"
+  are_you_sure_: "Czy na pewno?"
+  doctor: "Doktor"
+  since: "Od"
+  until: "Do"
+  couse: "Powód"
+  action: "Akcja"
+  # views/absences/_absence.erb
+  # views/absences/edit.html.erb
+  modify: "Zmień"
+  absence_edit: "Edycja nieobecności"
+  # views/absences/new.html.erb
+  create_absence: "Stwórz nieobecność"
+
+
+
+
+  activerecord:
+    models:
+      absence: "Nieobecność"
+      absence_since: "Od"
+
+    errors:
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
+      messages:
+        inclusion: "nie jest dołączony do listy" 
+        exclusion: "jest zarezerwowany" 
+        invalid: "jest nieprawidłowy" 
+        confirmation: "nie posuje do potwierdzenia" 
+        accepted: "musi być zaakceptowany" 
+        empty: "nie może być pusty" 
+        blank: "nie może być pusty" 
+        too_long: "jest za długi (maksymalna liczba znaków: {{count}})" 
+        too_short: "jest za krótki (minimalna liczba znaków{{count}})" 
+        wrong_length: "ma złą długość (długość powinna wynosić: {{count}})" 
+        taken: "został zabrany" 
+        not_a_number: "nie jest liczbą" 
+        greater_than: "musi być większy niż {{count}}" 
+        greater_than_or_equal_to: "musi być większy lub równy {{count}}" 
+        equal_to: "musi się równać {{count}}" 
+        less_than: "musi być mniejszy niż {{count}}" 
+        less_than_or_equal_to: "musi być mniejszy lub równy {{count}}" 
+        odd: "musi być nieparzysty" 
+        even: "musi być parzysty" 
+        # Append your own errors here or at the model/attributes scope.
+
+      models:
+        # Overrides default messages
+        absence:
+          attributes:
+            since: 
+              absence_period_not_valid: "Nieprawidłowy przedział czasu"
+            until: 
+              absence_period_not_valid: "Nieprawidłowy przedział czasu"
+            couse: "Powód"
+
+      attributes:
+        # Overrides model and default messages.
+        absence: 
+#          absence_time: "Czas nieobeności"
+#          absence_period_not_valid: "Nieprawidłowy przedział czasu"
+#          absence_time_overlap: "Nieobecności nachodzą na siebie"
+#          since: "Od"
+#          couse: "Powód"            
+      template:
+        header: 
+          one: "Wystąpił błąd, który uniemożliwia zapistanie {{model}}" 
+          other: "Liczba błędów, które uniemożliwiają zapis  {{model}} wynosi: {{count}}" 
+        body: "Wystąpił problem z następującymi polami"
+        
+        
+  # Active support
+  date:
+    formats:
+    # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d" 
+      short: "%b %d" 
+      long: "%B %d, %Y" 
+
+    day_names: [Niedziela, Poniedziałek, Wtorek, Środa, Czwartek, Piątek, Sobota]
+    abbr_day_names: [Nie, Pon, Wt, Śr, Czw, Pt, Sob]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Styczeń, Luty, Marzec, Kwiecień, Maj, Czerwiec, Lipiec, Sierpień, Wrzesień, Październik, Listopad, Grudzień]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z" 
+      short: "%d %b %H:%M" 
+      long: "%B %d, %Y %H:%M" 
+    am: "am" 
+    pm: "pm" 
+
+  # Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "i" 
+
+        

@@ -1,27 +1,31 @@
-<div id="user-bar-action"  ><%= link_to "Home", root_path, { :title => "Home" }    %></div>
+<div id="user-bar-action"  >
+  <%= link_to t(:home), root_path, { :title => t(:home) }   %></div>
+
 <% if logged_in? -%>
-  <div id="user-bar-greeting">Logged in as <%= current_user.name  %></div>
-  <div id="user-bar-greeting"><%= link_to "Log out", logout_path, { :title => "Log out" }    %></div>
+  <div id="user-bar-greeting"><%= t(:logged_in_as, {:user =>
+  current_user.name}) %> <%= link_to t(:log_out), logout_path, {
+  :title => t(:log_out) }    %> </div>
+
 
   <% if current_user.has_role?("admin")%>
-  <div id="user-bar-action"  ><%= link_to "Users", users_path, { :title => "Users" }    %></div>
-  <div id="user-bar-action"  ><%= link_to "Examination Kinds", examination_kinds_path, { :title => "Examination Kinds" }    %></div>
-  <div id="user-bar-action"  ><%= link_to "Specialities", specialities_path, { :title => "Specialities" }    %></div>
-  <div id="user-bar-action"  ><%= link_to "Places", places_path, { :title => "Places" }    %></div>
+  <div id="user-bar-action"  ><%= link_to t(:users), users_path, { :title => t(:users) }    %></div>
+  <div id="user-bar-action"  ><%= link_to t(:examination_kinds), examination_kinds_path, { :title => t(:examination_kinds) }    %></div>
+  <div id="user-bar-action"  ><%= link_to t(:specialities), specialities_path, { :title => t(:specialities) }    %></div>
+  <div id="user-bar-action"  ><%= link_to t(:places), places_path, { :title => t(:places) }    %></div>
   <% end -%>
 
   <% if current_user.has_role? 'patient' %>
-  <div id="user-bar-action"  ><%= link_to "Visits Reservations", patient_visit_reservations_path(current_user), { :title => "Patient Visits Reservations" }    %></div>
+  <div id="user-bar-action"  ><%= link_to t(:visits_reservations), patient_visit_reservations_path(current_user), { :title => t(:visits_reservations) }    %></div>
   <% end %>
-
+  
   <% if current_user.has_role? 'doctor' or current_user.has_role? 'patient'%>
-  <div id="user-bar-action"  ><%= link_to "Visits", visits_path, { :title => "Visits" }    %></div> 
+  <div id="user-bar-action"  ><%= link_to t(:visits), visits_path, { :title => t(:visits) }    %></div> 
   <% end %>
 
 
 <% else -%>
-  <div id="user-bar-greeting"><%= link_to "Log in",  login_path,  { :title => "Log in" } %> </div>
-  <div id="user-bar-greeting"><%= link_to "Sign up", signup_path, { :title => "Create an account" } %>  </div>
+  <div id="user-bar-greeting"><%= link_to t(:log_in),  login_path,  { :title => t(:log_in) } %> </div>
+  <div id="user-bar-greeting"><%= link_to t(:create_an_account), signup_path, { :title => t(:create_an_account) } %>  </div>
 
 <% end -%>
 

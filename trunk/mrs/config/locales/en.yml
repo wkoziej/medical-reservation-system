@@ -3,3 +3,34 @@
 
 en:
   hello: "Hello world"
+  MRS:   "Medical Reservation System"
+  # views/layouts/_user_bar.html.erb
+  home: "Home"
+  users: "Users"
+  logged_in_as: "Hello {{user}}"
+  examination_kinds: "Examination Kinds"
+  specialities: "Specialities"
+  places: "Places"
+  visits_reservations: "Visits Reservations"
+  visits: "Visits"
+  log_in: "Log in"
+  log_out: "Log out"
+  create_an_account: "Create an account"
+  # views/absences/index.html.erb
+  absences_of: "Absences of {{user}}"
+  new_absence: "New absence"
+  are_you_sure_: "Are you sure?"
+  doctor: "Doctor"
+  since: "Since"
+  until: "Until"
+  couse: "Couse"
+  action: "Action"
+  # views/absences/edit.html.erb
+  modify: "Modify"
+  absence_edit: "Absence edit"
+  # views/absences/new.html.erb
+  create_absence: "Create absence"
+  # models/absence.rb
+  absence_time: "absence_time"
+  absence_period_not_valid: "Absence period not valid"
+  absence_time_overlap: "Absence time overlap"
