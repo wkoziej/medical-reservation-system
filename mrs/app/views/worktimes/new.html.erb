@@ -1,23 +1,23 @@
-<h1>New worktime</h1>
+<h1><%= t(:new_worktime) %></h1>
 <% form_for (@worktime) do |f| %>
 
   <%= f.error_messages %>
 
-  <%= f.label :since, 'Since' %>:
+  <%= f.label :since, t(:since) %>:
   <%= date_select ("worktime", "start_date") %>
   <br />
-  <%= f.label :until, 'Until' %>:
+  <%= f.label :until, t(:until) %>:
   <%= date_select ("worktime", "end_date") %>
   <br />
-  <%= f.label :since, 'Start at' %>:
+  <%= f.label :since, t(:start_at) %>:
   <%= time_select ("worktime", "since") %>
   <br />
-  <%= f.label :until, 'End at' %>:
+  <%= f.label :until, t(:end_at) %>:
   <%= time_select ("worktime", "until") %>
   <br />
   <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 
   <%= collection_select (:worktime, :place_id, @places, :id, :name) %>  
   <%= hidden_field_tag ('worktime[doctor_id]', @user.id)  %>
   <br />
-  <%= f.submit "Add worktime to schedule" %>
+  <%= f.submit t(:add_worktime_to_schedule) %>
 <% end %>

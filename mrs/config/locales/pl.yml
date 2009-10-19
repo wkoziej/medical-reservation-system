@@ -31,15 +31,64 @@ pl:
   absence_edit: "Edycja nieobecności"
   # views/absences/new.html.erb
   create_absence: "Stwórz nieobecność"
-
-
-
+  # views/users/_users.erb
+  login: "Identyfikator"
+  name: "Nazwa"
+  email: "Adres"
+  choose_role: "-- Wybierz rolę --"
+  # views/users/_available_specialities.erb
+  available_specialities: "Dostępne specjalności"
+  doctor_specialities: "Specjalności doktora"
+  # views/users/edit.html.erb
+  editing_user: "Zmiana użytkownika"
+  change_worktimes: "Zmień grafik"
+  modify_absences: "Modyfikuj nieobecności"
+  update: "Zatwierdź"
+  # views/users/new.html.erb
+  sign_up_as_a_new_user: "Zarejestruj się jako nowy użytkownik"
+  password: "Hasło"
+  confirm_password: "Potwierdź hasło"
+  sign_up: "Rejestracja"
+  # views/worktimes/index.html.erb
+  worktimes: "Grafik"
+  new_worktime: "Nowy grafik"
+  period: "Przedział czasu"
+  hours: "Godziny"
+  repetition: "Powtórzenia"
+  place: "Miejsce"
+  who: "Kto"
+  # views/worktimes/[new|edit].html.erb
+  worktimes_edit: "Edycja grafiku"
+  start_at: "Rozpocznij o"
+  end_at: "Zakończ o"
+  add_worktime_to_schedule: "Dodaj grafik do planu"
+  # controllers
+  successfully_created: "{{model}} został(a) pomyślnie utworzony(a) "
+  successfully_updated: "{{model}} został(a) pomyślnie poprawiony(a) "
+  successfully_deleted: "{{model}} został(a) pomyślnie skasowany(a)"
 
   activerecord:
     models:
       absence: "Nieobecność"
-      absence_since: "Od"
-
+      user: "Użytkownik"
+      worktime: "Grafik"
+    attributes:
+      absence:
+        couse: "Powód"
+        since: "Od"
+        until: "Do"
+      worktime:
+        since: "Od"
+        until: "Do"
+        start_date: "Data początku"
+        end_date: "Data końca"
+        worktime: "Grafik"
+        repetitions:
+          no_repetition: "Brak powtórzeń"
+          every_week: "Co tydzień"
+          every_two_weeks: "Co dwa tygodnie"
+          every_month_day: "Każdego dnia miesiąca (np.: 12-tego)"
+          every_day_of_week_in_month: "Każdego określonego dnia (np. drugi piątek) raz w miesiącu"
     errors:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
@@ -64,31 +113,27 @@ pl:
         odd: "musi być nieparzysty" 
         even: "musi być parzysty" 
         # Append your own errors here or at the model/attributes scope.
-
+        absence_period_not_valid: "Nieprawidłowy przedział czasu - porównaj z {{field}} "
+        absence_time_overlap: "Podana nieobecność pokrywa się z inną - patrz również :{{field}} "
+        since_has_to_be_less_then_until: "Początek musi być mniejszy niż koniec"
+        start_has_to_be_less_then_end: "Początek musi być mniejszy niż koniec"        
+        exists_worktimes_that_overlaps_with_this_worktime: "Istnieją grafiki, które nakładają się z aktualnym"
       models:
         # Overrides default messages
         absence:
           attributes:
-            since: 
-              absence_period_not_valid: "Nieprawidłowy przedział czasu"
-            until: 
-              absence_period_not_valid: "Nieprawidłowy przedział czasu"
+            since: "Od"
+            until: "Do"
             couse: "Powód"
-
       attributes:
         # Overrides model and default messages.
-        absence: 
-#          absence_time: "Czas nieobeności"
-#          absence_period_not_valid: "Nieprawidłowy przedział czasu"
-#          absence_time_overlap: "Nieobecności nachodzą na siebie"
-#          since: "Od"
-#          couse: "Powód"            
+        absence:           
+          couse: "Powód"
       template:
         header: 
           one: "Wystąpił błąd, który uniemożliwia zapistanie {{model}}" 
-          other: "Liczba błędów, które uniemożliwiają zapis  {{model}} wynosi: {{count}}" 
-        body: "Wystąpił problem z następującymi polami"
-        
+          other: "{{model}} - Liczba błędów, które uniemożliwiają zapis wynosi: {{count}}" 
+        body: "Wystąpił problem z następującymi polami"        
         
   # Active support
   date:
@@ -99,16 +144,13 @@ pl:
       default: "%Y-%m-%d" 
       short: "%b %d" 
       long: "%B %d, %Y" 
-
     day_names: [Niedziela, Poniedziałek, Wtorek, Środa, Czwartek, Piątek, Sobota]
     abbr_day_names: [Nie, Pon, Wt, Śr, Czw, Pt, Sob]
-
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Styczeń, Luty, Marzec, Kwiecień, Maj, Czerwiec, Lipiec, Sierpień, Wrzesień, Październik, Listopad, Grudzień]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
-
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z" 
