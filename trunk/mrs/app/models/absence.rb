@@ -8,11 +8,10 @@ class Absence < ActiveRecord::Base
   
   def validate
     if not period_valid?
-      errors.add(:since, :absence_period_not_valid)
-      errors.add(:until, :absence_period_not_valid)
+      add_period_error (:absence_period_not_valid)     
     end
     if period_overlap?("doctor_id = :doctor_id", {:doctor_id => self.doctor_id})
-      errors.add(t(:absence_time), t(:absence_time_overlap))
+      add_period_error (:absence_time_overlap)     
     end
   end
   

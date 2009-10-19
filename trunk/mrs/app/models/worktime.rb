@@ -2,7 +2,11 @@ class Worktime < ActiveRecord::Base
   belongs_to :place
   belongs_to :doctor, :class_name => "User"
 
-  validates_presence_of :until, :since, :doctor, :start_date, :end_date, :repetition
+  validates_presence_of :until, :since, :doctor, :start_date, :end_date, :repetition  
+  validates_numericality_of :since, :less_then => :until, :message => :since_has_to_be_less_then_until
+  validates_numericality_of :until, :greater_then => :since, :message => :since_has_to_be_less_then_until
+#  validates_numericality_of :start_date, :less_then => :end_date, :message => :start_has_to_be_less_then_end
+#  validates_numericality_of :end_date, :greater_then => :start_date, :message => :start_has_to_be_less_then_end
   
   ONCE = 0
   EVERY_WEEK = 1
@@ -11,37 +15,39 @@ class Worktime < ActiveRecord::Base
   EVERY_DAY_OF_WEEK_IN_MONTH = 4
 
   REPETITIONS  = [
-                  ["No repetition", ONCE], 
-                  ["Every week", EVERY_WEEK], 
-                  ["Every two weeks",EVERY_2_WEEKS], 
-                  ["At this day (e.g 12) once in month", EVERY_MONTH_DAY],
-                  ["At this day of week (e.g monday) once in month", EVERY_DAY_OF_WEEK_IN_MONTH]
+                  [(I18n.t :no_repetition,  :scope => [:activerecord, :attributes, :worktime, :repetitions]), ONCE], 
+                  [(I18n.t :every_week,     :scope => [:activerecord, :attributes, :worktime, :repetitions]), EVERY_WEEK], 
+                  [(I18n.t :every_two_weeks, :scope => [:activerecord, :attributes, :worktime, :repetitions]), EVERY_2_WEEKS], 
+                  [(I18n.t :every_month_day, :scope => [:activerecord, :attributes, :worktime, :repetitions]), EVERY_MONTH_DAY],
+                  [(I18n.t :every_day_of_week_in_month, :scope => [:activerecord, :attributes, :worktime, :repetitions]), EVERY_DAY_OF_WEEK_IN_MONTH]
                  ]
 
   include Period::Format
   include Period::Util
-
+  include Period::Check
+  
   def validate
     
-    if since > self.until or start_date > end_date
-        errors.add("since_or_until", "since has to be less then until") 
+    if start_date > end_date      
+      errors.add(:start_date, errors.generate_message(:start_date, :start_has_to_be_less_then_end,
+                                                      :field =>  self.class.human_attribute_name("end_date")))      
     end
 
     if since == self.until 
       b = since.hour > self.until.hour 
       c = since.hour == self.until.hour and since.min > self.until.min
-      if  b or c
-        errors.add("since_or_until", "since has to be less then until") 
+      if b or c
+        add_period_error (:since_has_to_be_less_then_until)
       end
     end
 
-     worktimes = Worktime.find(:all, :conditions => ["end_date >= ? and id != ?", self.start_date, (self.id == nil ? -1 : self.id)], :lock => true)
+    worktimes = Worktime.find(:all, :conditions => ["end_date >= ? and id != ?", self.start_date, (self.id == nil ? -1 : self.id)], :lock => true)
     # Check overlaping
     m_array = self.minutes_array
     for worktime in worktimes
       t_array =  worktime.minutes_array
       if minutes_array_overlap?(m_array, t_array)
-        errors.add("worktime", "Exists worktimes that overlaps with this worktime") 
+        errors.add("worktime", errors.generate_message(:worktime,:exists_worktimes_that_overlaps_with_this_worktime) ) 
         break
       end
     end    

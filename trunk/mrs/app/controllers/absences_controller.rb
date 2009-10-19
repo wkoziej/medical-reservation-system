@@ -19,7 +19,7 @@ class AbsencesController < ApplicationController
     @absence = Absence.new(params[:absence])
     respond_to do |format|
       if @absence.save
-        flash[:notice] = 'Absence was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @absence.class.human_name} )
         format.html { redirect_to user_absences_path(@absence.doctor_id) }
         format.xml  { render :xml => @absence, :status => :created, :location => @absence }
       else
@@ -38,7 +38,7 @@ class AbsencesController < ApplicationController
     @absence = Absence.find(params[:id])
     respond_to do |format|
       if @absence.update_attributes(params[:absence])
-        flash[:notice] = 'Absence was successfully updated.'
+        flash[:notice] = t(:successfully_updated, {:model => @absence.class.human_name} )
         format.html { redirect_to(user_absences_url(@absence.doctor)) }
         format.xml  { head :ok }
       else

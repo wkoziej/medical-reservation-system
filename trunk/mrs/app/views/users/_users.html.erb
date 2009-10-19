@@ -3,10 +3,10 @@
 <div class="dictionaryDiv">
 
 <%= collection_table(users, :id => 'users', :class => 'dictionaryTable') do |t|
-      t.header :login
-      t.header :name
-      t.header :email
-      t.header :action, :class => 'actionClass' 
+      t.header :login, t(:login)
+      t.header :name, t(:name)
+      t.header :email, t(:email)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, user, index|
         row.login     user.login

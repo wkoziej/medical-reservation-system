@@ -1,19 +1,19 @@
-<h1>Worktimes index</h1>
+<h1><%= t(:worktimes) %></h1>
 
 
 <div class="dictionaryDiv">
 
 <span id="newRecordLink">
-<%= link_to 'New worktime' + image_tag(ApplicationHelper::ADD_IMG), new_user_worktime_path(@user) %>
+<%= link_to t(:new_worktime) + image_tag(ApplicationHelper::ADD_IMG), new_user_worktime_path(@user) %>
 </span>
 
 <%= collection_table(@worktimes, :id => 'worktimes', :class => 'dictionaryTable') do |t|
-      t.header :period
-      t.header :hours
-      t.header :repetition
-      t.header :place
-      t.header :who
-      t.header :action, :class => 'actionClass' 
+      t.header :period, t(:period)
+      t.header :hours, t(:hours)
+      t.header :repetition, t(:repetition)
+      t.header :place, t(:place)
+      t.header :who, t(:who)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, worktime, index|
         row.period      worktime.start_date.to_s + "  " + worktime.end_date.to_s
@@ -21,7 +21,7 @@
         row.repetition  worktime.repetition
         row.place       worktime.place.name
         row.who         worktime.doctor.name
-        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), worktime, :method => :delete, :confirm => "Are you sure?")  
+        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), worktime, :method => :delete, :confirm => t(:are_you_sure_))  
       end     
     end
 %>

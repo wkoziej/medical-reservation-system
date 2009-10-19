@@ -1,4 +1,4 @@
-<h1>Editing user</h1>
+<h1> <%= t(:editing_user) %> </h1>
 
 <div id="userEdit">
 
@@ -7,25 +7,19 @@
     <%= render :partial => "doctor_specialities", :locals => { :doctor => @user } %>
     <%= render :partial => "available_specialities", :locals => { :doctor => @user } %>
 
-    <%= link_to 'Change worktimes ' + image_tag("32x32/clock.png") , user_worktimes_path (@user) %>
-    <%= link_to 'Modify absences ' + image_tag("32x32/delete_page.png") , user_absences_path (@user) %>
+    <%= link_to t(:change_worktimes) + image_tag("32x32/clock.png") , user_worktimes_path (@user) %>
+    <%= link_to t(:modify_absences) + image_tag("32x32/delete_page.png") , user_absences_path (@user) %>
     <%end%>
-
-
-    <%if @user.has_role? 'patient' and !@user.has_role? 'admin' %>
-      <%= link_to ' | visits reservations', patient_visit_reservations_path (@user) %></td>
-    <%end%>
-
 
 <% form_for(@user) do |f| %>
   <%= f.error_messages %>
-  
-  <%= f.label :name, 'Name' %>:
+  <%= f.label :name, t(:name) %>:
   <%= f.text_field :name %>
   <br />
-  <%= f.label :email, 'EMail' %>:
+  <%= f.label :email, t(:email) %>:
   <%= f.text_field :email %>
-  <%= f.submit "Update" %>
+  <br />
+  <%= f.submit t(:update) %>
 <% end %>
 
 </div>

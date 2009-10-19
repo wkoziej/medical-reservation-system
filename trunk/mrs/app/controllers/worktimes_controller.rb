@@ -27,7 +27,7 @@ class WorktimesController < ApplicationController
     @worktime = Worktime.find(params[:id])
     if @worktime.destroy
       respond_to do |format|
-        flash[:notice] = 'Worktime was successfully deleted.'
+        flash[:notice] = t(:successfully_deleted, {:model => @worktime.class.human_name})
         format.html { redirect_to user_worktimes_path(@worktime.doctor) }
         format.xml  { render :xml => @worktime, :status => :created, :location => @worktime }    
       end
@@ -38,7 +38,7 @@ class WorktimesController < ApplicationController
     @worktime = Worktime.new(params[:worktime])
     respond_to do |format|
       if @worktime.save
-        flash[:notice] = 'Worktime was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @worktime.class.human_name})
         format.html { redirect_to user_worktimes_path(@worktime.doctor)  }
         format.xml  { render :xml => @worktime, :status => :created, :location => @worktime }
       else
