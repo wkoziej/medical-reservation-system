@@ -27,6 +27,11 @@ class ApplicationController < ActionController::Base
     logger.info "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
     I18n.locale = extract_locale_from_accept_language_header
     logger.info "* Locale set to '#{I18n.locale}'"
+  
+    if params[:locale] != nil
+      I18n.locale = params[:locale] 
+    end
+    
   end
   
   private

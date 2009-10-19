@@ -3,10 +3,6 @@ class Worktime < ActiveRecord::Base
   belongs_to :doctor, :class_name => "User"
 
   validates_presence_of :until, :since, :doctor, :start_date, :end_date, :repetition  
-  validates_numericality_of :since, :less_then => :until, :message => :since_has_to_be_less_then_until
-  validates_numericality_of :until, :greater_then => :since, :message => :since_has_to_be_less_then_until
-#  validates_numericality_of :start_date, :less_then => :end_date, :message => :start_has_to_be_less_then_end
-#  validates_numericality_of :end_date, :greater_then => :start_date, :message => :start_has_to_be_less_then_end
   
   ONCE = 0
   EVERY_WEEK = 1
@@ -28,11 +24,14 @@ class Worktime < ActiveRecord::Base
   
   def validate
     
-    if start_date > end_date      
-      errors.add(:start_date, errors.generate_message(:start_date, :start_has_to_be_less_then_end,
-                                                      :field =>  self.class.human_attribute_name("end_date")))      
+    if start_date > end_date
+      add_period_error(:start_has_to_be_less_then_end, :start_date, :end_date)
     end
 
+    if since > self.until
+      add_period_error(:start_has_to_be_less_then_end)
+    end
+    
     if since == self.until 
       b = since.hour > self.until.hour 
       c = since.hour == self.until.hour and since.min > self.until.min
@@ -68,7 +67,6 @@ class Worktime < ActiveRecord::Base
       end
     end
     return false
-      #    a1.collect { |a| a2.collect { |b| if } }
   end
   
   # Returns minutes array for worktime

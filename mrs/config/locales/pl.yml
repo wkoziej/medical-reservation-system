@@ -59,8 +59,8 @@ pl:
   who: "Kto"
   # views/worktimes/[new|edit].html.erb
   worktimes_edit: "Edycja grafiku"
-  start_at: "Rozpocznij o"
-  end_at: "Zakończ o"
+  start_date: "Data początku"
+  end_date: "Data końca"
   add_worktime_to_schedule: "Dodaj grafik do planu"
   # controllers
   successfully_created: "{{model}} został(a) pomyślnie utworzony(a) "
