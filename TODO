@@ -2,11 +2,8 @@
 # Test of register/login/logof and access to site (if not authenticated then view another site)
 # Implement uses cases (see requirements.txt)
 # Date time edits 
- - Subsets of minutes 0,15,30,45
  - Date validatetions/another helpers (2001-02-30!!)
 # Doctors have to have specialisation !?
   if haven't and 
    - if you don't choose speciality they are shown in the available_worktimes
    - if you choose speciality the available_worktimes are empty
-# LAYOUT/CSS
-# ??? Back to only "since" and "until" columns in worktimes ???    
