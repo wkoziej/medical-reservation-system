@@ -3,16 +3,16 @@
 
   <%= f.error_messages %>
 
-  <%= f.label :since, t(:since) %>:
+  <%= f.label :start_date, t(:start_date) %>:
   <%= date_select ("worktime", "start_date") %>
   <br />
-  <%= f.label :until, t(:until) %>:
+  <%= f.label :end_date, t(:end_date) %>:
   <%= date_select ("worktime", "end_date") %>
   <br />
-  <%= f.label :since, t(:start_at) %>:
+  <%= f.label :since, t(:since) %>:
   <%= time_select ("worktime", "since") %>
   <br />
-  <%= f.label :until, t(:end_at) %>:
+  <%= f.label :until, t(:until) %>:
   <%= time_select ("worktime", "until") %>
   <br />
   <%= select("worktime", "repetition", Worktime::REPETITIONS) %> 

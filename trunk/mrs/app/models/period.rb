@@ -51,11 +51,11 @@ module Period
       self.since != nil and self.until != nil and self.since < self.until
     end
 
-    def add_period_error (error_code)
-      errors.add(:since, errors.generate_message(:since, error_code,
-                                                 :field =>  self.class.human_attribute_name("until")))
-      errors.add(:until, errors.generate_message(:until, error_code,
-                                                 :field =>  self.class.human_attribute_name("since")))
+    def add_period_error (error_code, start = :since, stop = :until)
+      errors.add(start, errors.generate_message(start, error_code,
+                                                 :field =>  self.class.human_attribute_name(stop.to_s)))
+      errors.add(stop, errors.generate_message(stop, error_code,
+                                               :field =>  self.class.human_attribute_name(start.to_s)))
     end
   end
   
