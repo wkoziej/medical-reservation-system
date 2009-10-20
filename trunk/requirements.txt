@@ -34,8 +34,6 @@
 ---+++ Registering medical examinations
    * changing/choosing visit/referral for examination 
 
-
-
 ---+ Future task
 
 
