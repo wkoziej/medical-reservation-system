@@ -36,7 +36,7 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       if @place.save
-        flash[:notice] = 'Place was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @place.class.human_name})
         format.html { redirect_to(places_url) }
         format.xml  { render :xml => @place, :status => :created, :location => @place }
       else
@@ -50,7 +50,7 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id])
     respond_to do |format|
       if @place.update_attributes(params[:place])
-        flash[:notice] = 'Place was successfully updated.'
+        flash[:notice] = t(:successfully_updated,  {:model => @place.class.human_name})
         format.html { redirect_to(places_url) }
         format.xml  { head :ok }
       else
@@ -63,7 +63,7 @@ class PlacesController < ApplicationController
   def destroy
     @place = Place.find(params[:id])
     if @place.destroy
-      flash[:notice] = 'Place was successfully deleted.'
+      flash[:notice] = t(:successfully_deleted, {:model => @place.class.human_name})
     end
     respond_to do |format|
       format.html { redirect_to(places_url) }

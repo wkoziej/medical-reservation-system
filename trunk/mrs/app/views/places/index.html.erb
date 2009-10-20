@@ -1,22 +1,22 @@
-<h1>Places</h1>
+<h1><%= t(:places) %></h1>
 
 
 <div class="dictionaryDiv">
 
 <span id="newRecordLink">
-<%= link_to 'New place' + image_tag(ApplicationHelper::ADD_IMG), new_place_path %>
+<%= link_to t(:new_place) + image_tag(ApplicationHelper::ADD_IMG), new_place_path %>
 </span>
 
 <%= collection_table(@places, :id => 'places', :class => 'dictionaryTable') do |t|
-      t.header :name
-      t.header :address
-      t.header :action, :class => 'actionClass' 
+      t.header :name, t(:name)
+      t.header :address, t(:address)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, place, index|
         row.name      place.name
         row.address      place.address
         row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_place_path(place)) + 
-                     link_to(image_tag(ApplicationHelper::DELETE_IMG), place, :method => :delete, :confirm => "Are you sure?")  
+                     link_to(image_tag(ApplicationHelper::DELETE_IMG), place, :method => :delete, :confirm => t(:are_you_sure_))  
       end     
     end
 %>

@@ -62,6 +62,54 @@ pl:
   start_date: "Data początku"
   end_date: "Data końca"
   add_worktime_to_schedule: "Dodaj grafik do planu"
+  # views/examination_kinds/index.html.erb
+  new_examination_kind: "Nowy rodzaj badania"
+  # views/examination_kinds/new.html.erb
+  create: "Stwórz"
+  # views/examination_kinds/edit.html.erb
+  update: "Popraw"
+  edit_examination_kind: "Edycja rodzaju badania"
+  # views/specialities/index.html.erb
+  add_speciality: "Dodaj specjalność"
+  # views/specialities/new.html.erb
+  new_speciality: "Nowa specjalność"
+  # views/specialities/edit.html.erb
+  edit_speciality: "Edycja specjalności"
+  # views/places/index.html.erb
+  new_place: "Nowa lokalizacja"
+  address: "Adres"
+  # views/places/edit.html.erb
+  edit_place: "Zmień lokalizację"
+  # views/visit_reservations/index.html.erb
+  visit_reservations: "Rezerwacje wizyt"
+  when: "Kiedy"
+  reservation_created_at: "Stworzono o"
+  status: "Status"
+  list_of_reservations_made_by: "Rezerwacje stworzone przez użytkownika {{patient}}"
+  # views/visit_reservations/new.html.erb
+  new_visit_reservation: "Zarezerwuj wizytę"
+  make_reservation: "Stwórz rezerwację"
+  # views/visit_reservations/
+  choose_doctor: "Wybierz lekarza"
+  no_of_doctors_with_speciality: "Liczba lekarzy ze specjalnością: '{{speciality}}' równa się {{doctors_count}} "
+  no_of_doctors_in_place: "Liczba lekarzy w lokalizacji {{place}} równa się {{doctors_count}}"
+  choose_place: "Wybierz miejsce"
+  show_not_reserved_worktimes: "Pokaż dostępne godziny pracy"
+  take_time_into_account: "Weź pod uwagę konkretną datę"
+  choose_speciality: "Wybierz specjalność"
+  number_of_kinds_of_specialists_in: "Liczba specjalistów w lokalizacji {{place}} równa się {{specialities_count}}"
+  available_worktimes: "Dostępne godziny pracy"
+  available_worktimes_places: 
+    one: "w lokalizacji {{place}}"
+    other: "we wszystkich lokalizacjach" 
+  available_worktimes_specialities:
+    one: "dla specjalności {{speciality}}"
+    other: "dla wszystkich specjalności" 
+  available_worktimes_doctors:
+    one: "dla lekarza {{doctor}}"
+    other: "dla wszystkich lekarzy" 
+  search_for_new_visit: "Formularz wyszukiwania"
+
   # controllers
   successfully_created: "{{model}} został(a) pomyślnie utworzony(a) "
   successfully_updated: "{{model}} został(a) pomyślnie poprawiony(a) "
@@ -72,6 +120,11 @@ pl:
       absence: "Nieobecność"
       user: "Użytkownik"
       worktime: "Grafik"
+      examination_kind: "Rodzaj badania"
+      speciality: "Specjalność"
+      place: "Lokalizacja"
+      visit_reservation: "Rezerwacja wizyty"
+      visit: "Wizyta"
     attributes:
       absence:
         couse: "Powód"
@@ -89,6 +142,9 @@ pl:
           every_two_weeks: "Co dwa tygodnie"
           every_month_day: "Każdego dnia miesiąca (np.: 12-tego)"
           every_day_of_week_in_month: "Każdego określonego dnia (np. drugi piątek) raz w miesiącu"
+      visit_reservation:
+        reservation_time: "Czas rezerwacji"
+        resource_locked: "Rezerwacja"
     errors:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
@@ -118,6 +174,11 @@ pl:
         since_has_to_be_less_then_until: "Początek musi być mniejszy niż koniec"
         start_has_to_be_less_then_end: "Początek musi być mniejszy niż koniec"        
         exists_worktimes_that_overlaps_with_this_worktime: "Istnieją grafiki, które nakładają się z aktualnym"
+        visit_reservation_time_overlap: "Czasy rezerwacji wizyt pokrywają się"
+        visit_reservation_period_not_valid: "Czas rezerwacji nie jest poprawny (np.: początek większy niż koniec)"
+        worktime_not_available_description: "Wybrana godzina jest niedostępna"
+        resource_locked_description: "Zasób nie jest dostępny - może ktoś tworzy podobną rezerwację"
+
       models:
         # Overrides default messages
         absence:

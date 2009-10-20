@@ -1,18 +1,17 @@
 <div id="doctor_select">
 
-
-      <%= collection_select(:doctor, :id, doctors, :id, :name, options = {:prompt => "== Choose doctor == "},
+      <%= collection_select(:doctor, :id, doctors, :id, :name, options = {:prompt => t(:choose_doctor)},
       {:onChange => remote_function( :url => {:action => "doctor_changed"}, :with => "'doctor_id='+this.value")}) %>
 
    <% if speciality  %>
-
-      No of doctors with speciality <%= speciality.name %> equals <%= doctors.count %>
+      
+      <%=  t(:no_of_doctors_with_speciality, {:speciality => speciality.name, :doctors_count => doctors.count}) %>
 
    <% end %>
 
    <% if place  %>
 
-      No of doctors in <%= place.name %> equals <%= doctors.count %>
+      <%=      t(:no_of_doctors_in_place, {:place => place.name, :doctors_count => doctors.count})  %>
 
    <% end %>
 

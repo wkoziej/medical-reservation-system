@@ -1,30 +1,30 @@
-<h1>Visit Reservations</h1>
+<h1><%= t(:visit_reservations) %> </h1>
 
 
 
 <div class="dictionaryDiv">
 
 <% if @patient %>
-List of reservations made by <%= @patient.name %> 
+<%= t(:list_of_reservations_made_by, {:patient => @patient.name} ) %> 
 <% end %>
 
 <span id="newRecordLink">
-<%= link_to 'Make reservation' + image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient) %>
+<%= link_to t(:make_reservation) + image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient) %>
 </span>
 
 <%= collection_table(@reservations, :id => 'visit_reservations', :class => 'dictionaryTable') do |t|
-      t.header :doctor
-      t.header :when
-      t.header :reservation_created_at  
-      t.header :status
-      t.header :action, :class => 'actionClass' 
+      t.header :doctor, t(:doctor)
+      t.header :when, t(:when)
+      t.header :reservation_created_at, t(:reservation_created_at)
+      t.header :status, t(:status)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, visit_reservation, index|
         row.doctor    visit_reservation.doctor.name
         row.when      visit_reservation.since.strftime(ApplicationHelper::DATETIME_FORMAT) if visit_reservation.since
         row.reservation_created_at  visit_reservation.created_at.strftime(ApplicationHelper::DATETIME_FORMAT) 
         row.status    visit_reservation.status
-        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), visit_reservation, :confirm => 'Are you sure?', :method => :delete)  
+        row.action   link_to(image_tag(ApplicationHelper::DELETE_IMG), visit_reservation, :confirm => t(:are_you_sure_), :method => :delete)  
       end     
     end
 %>

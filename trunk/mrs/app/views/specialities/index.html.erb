@@ -1,21 +1,21 @@
-<h1>Specialities</h1>
+<h1><%= t(:specialities) %></h1>
 
 <div class="dictionaryDiv">
 
 
 
 <span id="newRecordLink">
-<%= link_to 'Add speciality' + image_tag("32x32/add.png"), new_speciality_path %>
+<%= link_to t(:add_speciality) + image_tag("32x32/add.png"), new_speciality_path %>
 </span>
 
 <%= collection_table(@specialities, :id => 'specialities', :class => 'dictionaryTable') do |t|
-      t.header :name
-      t.header :action, :class => 'actionClass' 
+      t.header :name, t(:name)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, speciality, index|
         row.name     speciality.name
         row.action   link_to(image_tag("32x32/edit.png"), edit_speciality_path(speciality)) + 
-                     link_to(image_tag("32x32/delete.png"), speciality, :confirm => 'Are you sure?', :method => :delete)
+                     link_to(image_tag("32x32/delete.png"), speciality, :confirm => t(:are_you_sure_), :method => :delete)
       end     
     end
 %>

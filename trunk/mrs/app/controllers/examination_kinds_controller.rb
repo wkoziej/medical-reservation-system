@@ -44,7 +44,7 @@ class ExaminationKindsController < ApplicationController
 
     respond_to do |format|
       if @examination_kind.save
-        flash[:notice] = 'ExaminationKind was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @examination_kind.class.human_name} )
         format.html { redirect_to(examination_kinds_url) }
         format.xml  { render :xml => @examination_kind, :status => :created, :location => @examination_kind }
       else
@@ -61,7 +61,7 @@ class ExaminationKindsController < ApplicationController
 
     respond_to do |format|
       if @examination_kind.update_attributes(params[:examination_kind])
-        flash[:notice] = 'ExaminationKind was successfully updated.'
+        flash[:notice] = t(:successfully_updated, {:model => @examination_kind.class.human_name} )
         format.html { redirect_to(examination_kinds_url) }
         format.xml  { head :ok }
       else
@@ -76,7 +76,7 @@ class ExaminationKindsController < ApplicationController
   def destroy
     @examination_kind = ExaminationKind.find(params[:id])
     if @examination_kind.destroy
-      flash[:notice] = 'Examination kind was successfully deleted.'
+      flash[:notice] = t(:successfully_deleted, {:model => @examination_kind.class.human_name} )
     end
 
     respond_to do |format|

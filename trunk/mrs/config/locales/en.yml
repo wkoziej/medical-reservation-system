@@ -36,6 +36,22 @@ en:
   successfully_updated: "{{model}} was successfully updated"
   successfully_deleted: "{{model}} was successfully deleted"
 
+
+  #### MODELS see pl.yml
+  since_has_to_be_less_then_until: "Since has to be less then Until"
+  start_has_to_be_less_then_end: "Start has to be less then End"
+  exists_worktimes_that_overlaps_with_this_worktime: "Exists worktimes that overlaps with this worktime"
+
+  activerecord:
+    attributes:
+      worktime:
+        repetitions:
+          no_repetition: "No repetition"
+          every_week: "Every week"
+          every_two_weeks: "Every two weeks"
+          every_month_day: "At this day (e.g 12) once in month"
+          every_day_of_week_in_month: "At this day of week (e.g monday) once in month"
+
   # controllers/users_controller.rb
   thanks_for_signing_up: "Thanks for signing up!  We're sending you an email with your activation code."
   couldnt_set_up_that_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
@@ -74,19 +90,50 @@ en:
   start_date: "Start date"
   end_date: "End date"
   add_worktime_to_schedule: "Add worktime to schedule"
-
-  #### MODELS see pl.yml
-  since_has_to_be_less_then_until: "Since has to be less then Until"
-  start_has_to_be_less_then_end: "Start has to be less then End"
-  exists_worktimes_that_overlaps_with_this_worktime: "Exists worktimes that overlaps with this worktime"
-
-
-  activerecord:
-    attributes:
-      worktime:
-        repetitions:
-          no_repetition: "No repetition"
-          every_week: "Every week"
-          every_two_weeks: "Every two weeks"
-          every_month_day: "At this day (e.g 12) once in month"
-          every_day_of_week_in_month: "At this day of week (e.g monday) once in month"
+  # views/examination_kinds/index.html.erb
+  new_examination_kind: "New examination kind"
+  # views/examination_kinds/new.html.erb
+  create: "Create"
+  # views/examination_kinds/edit.html.erb
+  update: "Update"
+  edit_examination_kind: "Edit examination kind"
+  # views/specialities/index.html.erb
+  add_speciality: "Add speciality"
+  # views/specialities/new.html.erb
+  new_speciality: "New speciality"
+  # views/specialities/edit.html.erb
+  edit_speciality: "Editing speciality"
+  # views/places/index.html.erb
+  new_place: "New place"
+  address: "Address"
+  # views/places/edit.html.erb
+  edit_place: "Edit place"
+  # views/visit_reservations/index.html.erb
+  visit_reservations: "Visit reservations"
+  when: "When"
+  reservation_created_at: "Created At"
+  status: "Status"
+  list_of_reservations_made_by: "List of reservations made by {{patient}}"
+  # views/visit_reservations/new.html.erb
+  new_visit_reservation: "New visit reservation"
+  make_reservation: "Make reservation"
+  # views/visit_reservations/_doctor_select.html.erb
+  choose_doctor: "Choose doctor"
+  no_of_doctors_with_speciality: "No of doctors with speciality {{speciality}} equals {{doctors_count}} "
+  no_of_doctors_in_place: "No of doctors in place {{place}} equals {{doctors_count}}"
+  choose_place: "Choose place"
+  show_not_reserved_worktimes: "Show not reserved worktimes"
+  take_time_into_account: "Take time into account"
+  choose_speciality: "Choose speciality"
+  number_of_kinds_of_specialists_in: "Number of kinds of specialists in place {{place}} equals {{specialities_count}}"
+  available_worktimes: "Available worktimes"
+  available_worktimes_places: 
+    one: "in place {{place}}"
+    other: "in all places" 
+  available_worktimes_specialities:
+    one: "for speciality {{speciality}}"
+    other: "all specialities" 
+  available_worktimes_doctors:
+    one: "of doctor {{doctor}}"
+    other: "all doctors" 
+  search_for_new_visit: "Search for new visit"
