@@ -1,20 +1,20 @@
-<h1>Examination kinds</h1>
+<h1><%= t(:examination_kinds) %></h1>
 
 
 <div class="dictionaryDiv">
 
 <span id="newRecordLink">
-<%= link_to 'New examination kind' + image_tag(ApplicationHelper::ADD_IMG), new_examination_kind_path %>
+<%= link_to t(:new_examination_kind) + image_tag(ApplicationHelper::ADD_IMG), new_examination_kind_path %>
 </span>
 
 <%= collection_table(@examination_kinds, :id => 'examination_kinds', :class => 'dictionaryTable') do |t|
-      t.header :name
-      t.header :action, :class => 'actionClass' 
+      t.header :name, t(:name)
+      t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd
       t.rows.each do |row, examination_kind, index|
         row.name      examination_kind.name
         row.action   link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_examination_kind_path(examination_kind)) + 
-                     link_to(image_tag(ApplicationHelper::DELETE_IMG), examination_kind, :method => :delete, :confirm => "Are you sure?")  
+                     link_to(image_tag(ApplicationHelper::DELETE_IMG), examination_kind, :method => :delete, :confirm => t(:are_you_sure_))  
       end     
     end
 %>

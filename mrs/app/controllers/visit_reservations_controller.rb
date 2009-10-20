@@ -70,8 +70,48 @@ class VisitReservationsController < ApplicationController
   end
 
   def new
-    @visit_reservation = VisitReservation.new
-    @visit_reservation.patient_id = params[:patient_id] 
+    @visit_reservation = VisitReservation.new    
+    setup_visit_reservation(params)
+  end
+
+
+  def create
+    @visit_reservation = VisitReservation.new(params[:visit_reservation])
+    @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
+    @visit_reservation.until = @visit_reservation.since + 15.minutes    
+    respond_to do |format|
+      if @visit_reservation.save
+        flash[:notice] = t(:successfully_created, {:model => @visit_reservation.class.human_name})
+        format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient)  }
+        format.xml  { render :xml => @visit_reservation, :status => :created, :location => @visit_reservation }
+      else
+        setup_visit_reservation(params)
+        format.html {
+          render :action => "new", :locals => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date,
+                                                                                  :since_minute => params[:since_minute],
+                                                                                  :until_minute => params[:until_minute],
+                                                                                  :doctor_id => @visit_reservation.doctor_id,
+                                                                                  :since => @visit_reservation.since,
+                                                                                  :patient_id => @visit_reservation.patient_id} ) 
+        }
+        format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @visit_reservation = VisitReservation.find_by_id(params[:id])
+    @visit_reservation.destroy
+    respond_to do |format|
+      format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient) }
+      format.xml  { head :ok }
+    end
+  end
+
+  private
+
+  def setup_visit_reservation(params)
+    @visit_reservation.patient_id = params[:patient_id] if params[:patient_id] != nil
     if params[:doctor_id]
       @visit_reservation.doctor_id = params[:doctor_id]
     else
@@ -98,42 +138,10 @@ class VisitReservationsController < ApplicationController
       @hours << [format_hour_from_minutes(i), i]
       i = i + 15
     end
+
+    logger.info " A TUTAJ HOURS::: " + @hours.to_s
   end
-
-
-  def create
-    @visit_reservation = VisitReservation.new(params[:visit_reservation])
-    @visit_reservation.since = @visit_reservation.since + params[:since_minutes].to_i.minutes
-    @visit_reservation.until = @visit_reservation.since + 15.minutes    
-    respond_to do |format|
-      if @visit_reservation.save
-        flash[:notice] = 'Visit_Reservation was successfully created.'
-        format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient)  }
-        format.xml  { render :xml => @visit_reservation, :status => :created, :location => @visit_reservation }
-      else
-        # !!!!!!!!!!!!!!!!!!!!!!!!111
-        # !!!!!!!!!!!!!!!!!!!!!!!!
-        str = ""
-        @visit_reservation.errors.each { |t,s| str += " " + t + " " + s }
-        flash[:notice] = 'Problems with saving visit_reservation.' + str
-        format.html { redirect_to new_patient_visit_reservation_path(@patient, 
-                                                                     :params => params[:visit_reservation].merge( {:date => @visit_reservation.since.to_date, :since_minute => params[:since_minutes], :until_minute => params[:until_minute], :aaaa=>111} ) ) }
-        format.xml  { render :xml => @visit_reservation.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @visit_reservation = VisitReservation.find_by_id(params[:id])
-    @visit_reservation.destroy
-    respond_to do |format|
-      format.html { redirect_to patient_visit_reservations_path(@visit_reservation.patient) }
-      format.xml  { head :ok }
-    end
-  end
-
-  private
-
+  
   def extract_id(params, object)
     return params[object][:id] if params and params[object] and params[object][:id] and params[object][:id].length > 0
   end

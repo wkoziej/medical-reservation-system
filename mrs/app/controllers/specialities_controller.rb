@@ -43,7 +43,7 @@ class SpecialitiesController < ApplicationController
 
     respond_to do |format|
       if @speciality.save
-        flash[:notice] = 'Speciality was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @speciality.class.human_name} )
         format.html { redirect_to(specialities_url) }
         format.xml  { render :xml => @speciality, :status => :created, :location => @speciality }
       else
@@ -60,7 +60,7 @@ class SpecialitiesController < ApplicationController
 
     respond_to do |format|
       if @speciality.update_attributes(params[:speciality])
-        flash[:notice] = 'Speciality was successfully updated.'
+        flash[:notice] = t(:successfully_updated, {:model => @speciality.class.human_name} )
         format.html { redirect_to(specialities_url) }
         format.xml  { head :ok }
       else
@@ -75,7 +75,7 @@ class SpecialitiesController < ApplicationController
   def destroy
     @speciality = Speciality.find(params[:id])
     if @speciality.destroy
-      flash[:notice] = 'Speciality was successfully deleted.'
+      flash[:notice] = t(:successfully_deleted, {:model => @speciality.class.human_name} )
     end
     respond_to do |format|
       format.html { redirect_to(specialities_url) }

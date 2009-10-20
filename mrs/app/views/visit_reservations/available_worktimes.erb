@@ -1,13 +1,17 @@
-<h1>Available worktimes</h1>
+<h1><%=t(:available_worktimes)%></h1>
 <div class="dictionaryDiv">
   <span>
-    Available worktimes in <%= @place ? @place.name : " all places "%> <br />
-    Specialists : [ <%= @speciality ? @speciality.name : " all specialities"  %> ] <br />
-    Doctors : [ <%= @doctor ? @doctor.name : " not choosen " %> ] <br />
+    <%= t(:available_worktimes) %> <br />
+    <%= t(:available_worktimes_places, {:count => (@place ? 1 : 0), 
+                                        :place => (@place ? @place.name : "") }) %> <br />
+    <%= t(:available_worktimes_specialities, {:count => (@speciality ? 1 : 0), 
+                                        :speciality => (@speciality ? @speciality.name : "") }) %> <br />
+    <%= t(:available_worktimes_doctors, {:count => (@doctor ? 1 : 0), 
+                                        :doctor => (@doctor ? @doctor.name : "") }) %> <br />
   </span>
   
   <span id="newRecordLink">
-    <%= link_to("Search for new visit"+image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient)) %>
+    <%= link_to(t(:search_for_new_visit)+image_tag(ApplicationHelper::SEARCH_IMG), search_available_worktimes_path(@patient)) %>
   </span>
 
   <table class="dictionaryTable ui-collection" cellpadding="0" cellspacing="0">

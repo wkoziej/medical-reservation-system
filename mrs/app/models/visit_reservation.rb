@@ -22,23 +22,24 @@ class VisitReservation < ActiveRecord::Base
     user_time = UserTime.new({:user_id => self.doctor_id, :day => self.since.to_date})
     user_time.save   
     
-    if not period_valid?
-      errors.add("visit_reservation_time", "Visit reservation period not valid")
+    if not period_valid?      
+      add_period_error (:visit_reservation_period_not_valid)     
     end
+
     if period_overlap?("doctor_id = :doctor_id", {:doctor_id => self.doctor_id})
-      errors.add("visit_reservation_time", "Visit reservation time overlap")
-    end
-    if period_overlap?("patient_id = :patient_id", {:patient_id => self.patient_id})
-      errors.add("visit_reservation_time", "Visit reservation time overlap")
+      add_period_error (:visit_reservation_time_overlap)     
     end
     
+    if period_overlap?("patient_id = :patient_id", {:patient_id => self.patient_id})
+      add_period_error (:visit_reservation_time_overlap)     
+    end    
     # check absences and visits at this time for this doctor
     if not Worktime.available?(self.since, self.until, self.doctor_id, nil, nil)
-      errors.add("worktime_not_available", "Not available worktime")
+      errors.add(:reservation_time, errors.generate_message(:reservation_time, :worktime_not_available_description))
     end
 
   rescue ActiveRecord::StatementInvalid => error
-    errors.add("resource_locked", "Resource not available (somebody is making same reservation?) ")    
+    errors.add(:resource_locked, errors.generate_message(:resource_locked, :resource_locked_description))    
   end
 
   # Release lock

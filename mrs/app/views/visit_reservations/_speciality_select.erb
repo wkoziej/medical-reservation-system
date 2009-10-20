@@ -2,13 +2,12 @@
 
 
 
-   <%= collection_select(:speciality, :id, specialities, :id, :name, options ={:prompt => "== Choose speciality == "},
+   <%= collection_select(:speciality, :id, specialities, :id, :name, options ={:prompt => t(:choose_speciality)},
       { :onChange => remote_function( :url => {:action => "speciality_changed"}, :with => "'speciality_id='+this.value")} 
    ) %>
 
 <% if place %>
-
-   Number of kinds of specialists in <%= place.name %> equals <%= specialities.count %>
+   <%=   t(:number_of_kinds_of_specialists_in, {:place => place.name, :specialities_count=> specialities.count}) %>
 
 <% end %>
 

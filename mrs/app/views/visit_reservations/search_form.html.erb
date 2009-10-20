@@ -1,4 +1,4 @@
-<h1>Visit Reservations for <%= @patient.name %> </h1>
+<h1><%= t(:visit_reservations) %></h1>
 
 <!--
 We gives user posibility of choosing one or more of conditions
@@ -17,12 +17,14 @@ We gives user posibility of choosing one or more of conditions
 
 <br />
 
-<%= check_box_tag("take_time_into_account", value = "take", checked = false, options = {}) 
-%> Take time into account <%= observe_field("take_time_into_account", :url => { :action => :take_time_into_account_changed}, :with => 'value' )     %>
+<%= check_box_tag("take_time_into_account", value = "take", checked =
+    false, options = {}) %> 
+<%= t(:take_time_into_account) %>
+<%= observe_field("take_time_into_account", :url => { :action => :take_time_into_account_changed}, :with => 'value' )     %>
 <%= render :partial => "datetime_select", :locals => { :show => false } %>
 
 <br />
-<%= submit_tag ("Show not reserved worktimes") %>
+<%= submit_tag (t(:show_not_reserved_worktimes)) %>
 
 
 
