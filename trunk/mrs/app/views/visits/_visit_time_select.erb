@@ -1,4 +1,4 @@
 <div id="visit_time_select">
-  Visit start: <%= datetime_select("visit", "since", :default => visit_since) %> <br />
-  Visit time:  <%= select_tag("visit_minutes", options_for_select([15, 30, 45, 60], visit_minutes)) %>
+  <%= t(:visit_start) + datetime_select("visit", "since", :default => visit_since) %> <br />
+  <%= t(:visit_time)  + select_tag("visit_minutes", options_for_select([15, 30, 45, 60], visit_minutes)) %>
 </div>

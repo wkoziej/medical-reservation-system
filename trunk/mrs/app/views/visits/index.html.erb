@@ -1,21 +1,22 @@
-<h1>Visits</h1>
+<h1><%= t(:visits) %></h1>
 
 
 <div class="dictionaryDiv">
 
 <%if current_user.has_role?('doctor') %>
 <span id="newRecordLink">
-<%= link_to 'New visit' + image_tag(ApplicationHelper::ADD_IMG), new_visit_path %>
+<%= link_to t(:new_visit) + image_tag(ApplicationHelper::ADD_IMG), new_visit_path %>
 </span>
 <% end %>
 
 <%= collection_table(@visits, :id => 'visits', :class => 'dictionaryTable') do |t|
-      t.header :doctor
-      t.header :patient
-      t.header :since
-      t.header :until
-      t.header :note
-      t.header :action, :class => 'actionClass'
+      t.rows.empty_caption = I18n.t(:no_matches_found)
+      t.header :doctor, t(:doctor)
+      t.header :patient, t(:patient)
+      t.header :since, t(:since)
+      t.header :until, t(:until)
+      t.header :note, t(:note)
+      t.header :action, t(:action), :class => 'actionClass'
       t.rows.alternate = :odd
       t.rows.each do |row, visit, index|
         row.doctor    visit.doctor.name
@@ -24,7 +25,7 @@
         row.until     visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if visit.until 
         row.note      visit.note
         row.action   link_to(image_tag(ApplicationHelper::DETAILS_IMG), visit) + 
-                     (current_user.is_patient? ? "" : link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => "Are you sure?" ) )
+                     (current_user.is_patient? ? "" : link_to(image_tag(ApplicationHelper::EDIT_IMG), edit_visit_path(visit)) + link_to(image_tag(ApplicationHelper::DELETE_IMG), visit, :method=> :delete, :confirm => t(:are_you_sure_) ) )
 
       end     
     end

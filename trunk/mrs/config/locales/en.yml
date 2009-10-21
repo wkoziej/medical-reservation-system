@@ -36,6 +36,10 @@ en:
   successfully_updated: "{{model}} was successfully updated"
   successfully_deleted: "{{model}} was successfully deleted"
 
+  #constrollers/ session
+  logged_in_successfully: "Logged in successfully"
+  you_have_been_logged_out: "You have been logged out"
+  couldnt_log_you_in_as: "Couldnt_log_you_in_as {{login}}"
 
   #### MODELS see pl.yml
   since_has_to_be_less_then_until: "Since has to be less then Until"
@@ -137,3 +141,15 @@ en:
     one: "of doctor {{doctor}}"
     other: "all doctors" 
   search_for_new_visit: "Search for new visit"
+  # views/visits/
+  new_visit: "New visit"
+  choose_reservation: "Choose reservation"
+  choose_patient: "Choose patient"
+  note: "Note"
+  visit_start: "Visit start"
+  visit_time: "Visit time"
+  reservation: "Reservation"
+  patient: "Patient"
+  time_label: "Time label"  
+  visit_details: "Visit details"
+  no_matches_found: "No matches found"

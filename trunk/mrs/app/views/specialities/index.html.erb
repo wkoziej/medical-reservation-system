@@ -9,6 +9,7 @@
 </span>
 
 <%= collection_table(@specialities, :id => 'specialities', :class => 'dictionaryTable') do |t|
+      t.rows.empty_caption = I18n.t(:no_matches_found)
       t.header :name, t(:name)
       t.header :action, t(:action), :class => 'actionClass' 
       t.rows.alternate = :odd

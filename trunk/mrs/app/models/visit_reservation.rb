@@ -23,7 +23,7 @@ class VisitReservation < ActiveRecord::Base
     user_time.save   
     
     if not period_valid?      
-      add_period_error (:visit_reservation_period_not_valid)     
+      add_period_error (:visit_reservation_period_not_valid)      
     end
 
     if period_overlap?("doctor_id = :doctor_id", {:doctor_id => self.doctor_id})

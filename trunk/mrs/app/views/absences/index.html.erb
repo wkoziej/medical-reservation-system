@@ -7,6 +7,7 @@
 </span>
 
 <%= collection_table(@absences, :id => 'absences', :class => 'dictionaryTable') do |t|
+      t.rows.empty_caption = I18n.t(:no_matches_found)
       t.header :doctor, t(:doctor)
       t.header :since, t(:since)
       t.header :until, t(:until)

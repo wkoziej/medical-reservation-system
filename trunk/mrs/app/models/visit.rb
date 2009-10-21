@@ -11,20 +11,20 @@ class Visit < ActiveRecord::Base
 
   def validate 
     if not period_valid?
-      errors.add("visit_time", "Visit period not valid")
+      add_period_error (:visit_period_not_valid)     
     end
 
-    if period_overlap?("doctor_id = :doctor_id", {:doctor_id => self.doctor_id}) 
-      errors.add("visit_time", "There are visits wich overlap")
+    if period_overlap?("doctor_id = :doctor_id", {:doctor_id => self.doctor_id})
+      add_period_error (:visit_time_overlap)     
     end    
 
-    if period_overlap?("patient_id = :patient_id", {:patient_id => self.patient_id}) 
-      errors.add("visit_time", "There are visits wich overlap")
+    if period_overlap?("patient_id = :patient_id", {:patient_id => self.patient_id})
+      add_period_error (:visit_time_overlap)     
     end
     
     # check absences and visits at this time for this doctor
     if not Worktime.available?(self.since, self.until, self.doctor_id, nil, nil)
-      errors.add("worktime_not_available", "Not available worktime - no doctor at this time")
+      errors.add(:worktime, errors.generate_message(:worktime_not_available, :worktime_not_available_description))
     end
     
   end

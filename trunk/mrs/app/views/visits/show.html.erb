@@ -1,10 +1,10 @@
-<h1>Visit details </h1>
+<h1><%= t(:visit_details)%> </h1>
 
 <div class="dictionaryDiv">
 
-Doctor: <%= @visit.doctor.name %> <br />
-Patient: <%= @visit.patient.name %> <br />
-Time: <%= @visit.since.strftime(ApplicationHelper::DATETIME_FORMAT) if @visit.since %><%= " - " + @visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if @visit.until  %> <br />
-Note: <%= @visit.note %> <br />
+ <%= t(:doctor) + " " +@visit.doctor.name %> <br />
+ <%= t(:patient) + " " +@visit.patient.name %> <br />
+ <%= t(:time_label) %> <%=  @visit.since.strftime(ApplicationHelper::DATETIME_FORMAT) if @visit.since %><%= " - " + @visit.until.strftime(ApplicationHelper::TIME_FORMAT)  if @visit.until  %> <br />
+ <%= t(:note) + " " + @visit.note %> <br />
 
 </div>

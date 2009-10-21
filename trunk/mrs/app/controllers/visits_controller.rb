@@ -47,7 +47,7 @@ class VisitsController < ApplicationController
     @visit.until =  @visit.since + params[:visit_minutes].to_i.minutes
     respond_to do |format|
       if @visit.save
-        flash[:notice] = 'Visit was successfully created.'
+        flash[:notice] = t(:successfully_created, {:model => @visit.class.human_name} )
         format.html { redirect_to(visits_path) }
         format.xml  { render :xml => @visit, :status => :created, :location => @visit }
       else
@@ -70,7 +70,7 @@ class VisitsController < ApplicationController
     @visit.until =  @visit.since + params[:visit_minutes].to_i.minutes
     respond_to do |format|
       if @visit.update_attributes(params[:visit])
-        flash[:notice] = 'Visit was successfully updated.'
+        flash[:notice] = t(:successfully_updated, {:model => @visit.class.human_name} )
         format.html { redirect_to(visits_url) }
         format.xml  { head :ok }
       else
@@ -87,7 +87,7 @@ class VisitsController < ApplicationController
       @visit.visit_reservation.reset!
     end
     if @visit.destroy
-      flash[:notice] = 'Visit was successfully deleted.'
+      flash[:notice] = t(:successfully_deleted, {:model => @visit.class.human_name} )
     end
     respond_to do |format|
       format.html { redirect_to(visits_url) }
