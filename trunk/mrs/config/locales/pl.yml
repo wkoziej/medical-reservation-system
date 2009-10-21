@@ -34,6 +34,14 @@ pl:
   absence_edit: "Edycja nieobecności"
   # views/absences/new.html.erb
   create_absence: "Stwórz nieobecność"
+
+  # controllers/users_controller.rb
+  thanks_for_signing_up: "Dziękujemy za rejestrację. Wysłaliśmy email z kodem aktywacyjnym"
+  we_couldnt_set_up_that_account: "Nie udało się utworzyć konta. Spróbuj ponownie lub skontaktuj się z administratorem"
+  signup_complete: "Rejestracja zakończona. Proszę się zalogować"
+  activation_code_was_missing: "Brak kodu aktywacyjnego. Proszę wykorzystać link zawarty w liście"
+  couldnt_find_a_user_with_that_activation_code: "Nie możemy znaleźć użytkownika z takim kodem aktywacyjnym . Sprawdź pocztę."
+
   # views/users/_users.erb
   login: "Identyfikator"
   name: "Nazwa"
@@ -184,7 +192,7 @@ pl:
         too_long: "jest za długi (maksymalna liczba znaków: {{count}})" 
         too_short: "jest za krótki (minimalna liczba znaków{{count}})" 
         wrong_length: "ma złą długość (długość powinna wynosić: {{count}})" 
-        taken: "został zabrany" 
+        taken: "został już wykorzystany" 
         not_a_number: "nie jest liczbą" 
         greater_than: "musi być większy niż {{count}}" 
         greater_than_or_equal_to: "musi być większy lub równy {{count}}" 
