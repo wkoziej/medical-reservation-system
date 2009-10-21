@@ -1,9 +1,9 @@
 <div id="patient_select" >
   <% if not params[:visit_reservation_id] or params[:visit_reservation_id].length <= 0 %>
-  Patient: 
+  <%= t(:patient) %>
   <%= 
      collection_select(:visit, :patient_id, ApplicationHelper::users_in_role('patient'), :id, :name, 
-     options = {:prompt => "== Choose patient == "}, 
+     options = {:prompt => t(:choose_patient)}, 
   { :onChange => remote_function( :url => {:action => "patient_changed"}, :with => "patient_id='+this.value")} )  
   %>
   <% end %>

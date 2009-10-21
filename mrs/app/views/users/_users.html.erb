@@ -3,6 +3,7 @@
 <div class="dictionaryDiv">
 
 <%= collection_table(users, :id => 'users', :class => 'dictionaryTable') do |t|
+      t.rows.empty_caption = I18n.t(:no_matches_found)
       t.header :login, t(:login)
       t.header :name, t(:name)
       t.header :email, t(:email)

@@ -13,6 +13,7 @@
 </span>
 
 <%= collection_table(@reservations, :id => 'visit_reservations', :class => 'dictionaryTable') do |t|
+      t.rows.empty_caption = I18n.t(:no_matches_found)
       t.header :doctor, t(:doctor)
       t.header :when, t(:when)
       t.header :reservation_created_at, t(:reservation_created_at)

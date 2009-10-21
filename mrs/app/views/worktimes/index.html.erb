@@ -8,6 +8,7 @@
 </span>
 
 <%= collection_table(@worktimes, :id => 'worktimes', :class => 'dictionaryTable') do |t|
+      t.rows.empty_caption = I18n.t(:no_matches_found)
       t.header :period, t(:period)
       t.header :hours, t(:hours)
       t.header :repetition, t(:repetition)

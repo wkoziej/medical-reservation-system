@@ -2,6 +2,9 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 pl:
+  no_matches_found: "Brak wierszy"
+
+
   hello: "Witaj świecie"
   MRS: "Rezerwacje Wizyt Lekarskich"
   # views/layouts/_user_bar.html.erb
@@ -109,11 +112,27 @@ pl:
     one: "dla lekarza {{doctor}}"
     other: "dla wszystkich lekarzy" 
   search_for_new_visit: "Formularz wyszukiwania"
+  # views/visits/index.html.erb
+  new_visit: "Nowa wizyta"
+  choose_reservation: "Wybierz rezerwacje"
+  choose_patient: "Wybierz pacjenta"
+  note: "Notatka"
+  visit_start: "Sart wizyty"
+  visit_time: "Czas wizyty"
+  reservation: "Rezerwacja"
+  patient: "Pacjent"
+  time_label: "Czas"  
+  visit_details: "Szczegóły wizyty"
 
   # controllers
   successfully_created: "{{model}} został(a) pomyślnie utworzony(a) "
   successfully_updated: "{{model}} został(a) pomyślnie poprawiony(a) "
   successfully_deleted: "{{model}} został(a) pomyślnie skasowany(a)"
+
+  #constrollers/ session
+  logged_in_successfully: "Zalogowano pomyślnie"
+  you_have_been_logged_out: "Wylogowano"
+  couldnt_log_you_in_as: "Nie mogę zalogować użytkownika {{login}}"
 
   activerecord:
     models:
@@ -145,6 +164,12 @@ pl:
       visit_reservation:
         reservation_time: "Czas rezerwacji"
         resource_locked: "Rezerwacja"
+      visit:
+        patient: "Pacjent"
+        worktime: "Grafik"
+        since: "Od"
+        until: "Do"
+
     errors:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
@@ -178,18 +203,14 @@ pl:
         visit_reservation_period_not_valid: "Czas rezerwacji nie jest poprawny (np.: początek większy niż koniec)"
         worktime_not_available_description: "Wybrana godzina jest niedostępna"
         resource_locked_description: "Zasób nie jest dostępny - może ktoś tworzy podobną rezerwację"
-
+        visits_time_overlap: "Wizyty nachodzą na siebie"
+        worktime_not_available_description: "Godziny pracy lekarza nie pasują"
+        visit_period_not_valid: "Czasy wizyt pokrywają się"
       models:
         # Overrides default messages
-        absence:
-          attributes:
-            since: "Od"
-            until: "Do"
-            couse: "Powód"
+            
       attributes:
-        # Overrides model and default messages.
-        absence:           
-          couse: "Powód"
+
       template:
         header: 
           one: "Wystąpił błąd, który uniemożliwia zapistanie {{model}}" 
