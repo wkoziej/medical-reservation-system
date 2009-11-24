@@ -23,4 +23,8 @@ Read the proper manual of plugin. Install them into {{{ vendor/plugins }}}
 Create db user for test
 `createuser test_db -P`
 
-Configure app rake db:create
+Configure application `rake db:create` and `rake db:migrate`
+
+Run appliaction `./script/server`
+
+Test it in browser `http://localhost:3000/`
